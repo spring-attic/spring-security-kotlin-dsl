@@ -22,7 +22,6 @@ apply<io.spring.gradle.convention.SpringModulePlugin>()
 apply<io.spring.gradle.convention.RootProjectPlugin>()
 
 group = "org.springframework.security.dsl"
-version = "0.0.1.BUILD-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
 dependencyManagement {
