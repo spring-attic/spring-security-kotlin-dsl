@@ -32,7 +32,10 @@ dependencyManagement {
 	}
 
 	dependencies {
+		dependency("javax.servlet:javax.servlet-api:4.0.1")
 		dependency("junit:junit:4.12")
+		dependency("org.assertj:assertj-core:3.12.2")
+		dependency("org.mockito:mockito-core:3.0.0")
 	}
 }
 
@@ -44,7 +47,7 @@ dependencies {
 	compile("org.springframework:spring-expression")
 	compile("org.springframework:spring-web")
 	compile("org.springframework:spring-webmvc")
-	compile("javax.servlet:javax.servlet-api:4.0.1")
+	compile("javax.servlet:javax.servlet-api")
 	implementation("org.springframework.security:spring-security-config")
 	implementation("org.springframework.security:spring-security-core")
 	implementation("org.springframework.security:spring-security-web")
@@ -56,8 +59,8 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
 	testImplementation("junit:junit")
-	testImplementation("org.assertj:assertj-core:3.12.2")
-	testImplementation("org.mockito:mockito-core:3.0.0")
+	testImplementation("org.assertj:assertj-core")
+	testImplementation("org.mockito:mockito-core")
 	testImplementation("org.springframework.security:spring-security-test")
 	testImplementation("org.springframework:spring-test")
 

@@ -9,24 +9,24 @@ def SUCCESS = hudson.model.Result.SUCCESS.toString()
 currentBuild.result = SUCCESS
 
 try {
-	parallel check: {
-		stage('Check') {
-			node {
-				checkout scm
-				sh "git clean -dfx"
-				try {
-					withEnv(["JAVA_HOME=${ tool 'jdk8' }"]) {
-						sh "./gradlew clean check  --refresh-dependencies --no-daemon --stacktrace"
-					}
-				} catch(Exception e) {
-					currentBuild.result = 'FAILED: check'
-					throw e
-				} finally {
-					junit '**/build/test-results/*/*.xml'
-				}
-			}
-		}
-	}
+// 	parallel check: {
+// 		stage('Check') {
+// 			node {
+// 				checkout scm
+// 				sh "git clean -dfx"
+// 				try {
+// 					withEnv(["JAVA_HOME=${ tool 'jdk8' }"]) {
+// 						sh "./gradlew clean check  --refresh-dependencies --no-daemon --stacktrace"
+// 					}
+// 				} catch(Exception e) {
+// 					currentBuild.result = 'FAILED: check'
+// 					throw e
+// 				} finally {
+// 					junit '**/build/test-results/*/*.xml'
+// 				}
+// 			}
+// 		}
+// 	}
 
 	if(currentBuild.result == 'SUCCESS') {
 		parallel artifacts: {
