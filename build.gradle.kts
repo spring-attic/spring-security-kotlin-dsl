@@ -19,6 +19,7 @@ plugins {
 	kotlin("plugin.spring") version "1.3.50"
 }
 apply<io.spring.gradle.convention.SpringModulePlugin>()
+apply<io.spring.gradle.convention.RootProjectPlugin>()
 
 group = "org.springframework.security.dsl"
 version = "0.0.1.BUILD-SNAPSHOT"
