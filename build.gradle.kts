@@ -30,6 +30,10 @@ dependencyManagement {
 		mavenBom("org.springframework:spring-framework-bom:5.2.0.RELEASE")
 		mavenBom("org.springframework.security:spring-security-bom:5.2.0.RELEASE")
 	}
+
+	dependencies {
+		dependency("junit:junit:4.12")
+	}
 }
 
 dependencies {
@@ -51,7 +55,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
-	testImplementation("junit:junit:4.12")
+	testImplementation("junit:junit")
 	testImplementation("org.assertj:assertj-core:3.12.2")
 	testImplementation("org.mockito:mockito-core:3.0.0")
 	testImplementation("org.springframework.security:spring-security-test")
