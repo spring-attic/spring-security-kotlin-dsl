@@ -55,7 +55,7 @@ class HttpStrictTransportSecurityDslTests {
     }
 
     @EnableWebSecurity
-    open class HstsConfig : WebSecurityConfigurerAdapter() {
+    class HstsConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 headers {
@@ -78,7 +78,7 @@ class HttpStrictTransportSecurityDslTests {
     }
 
     @EnableWebSecurity
-    open class HstsPreloadConfig : WebSecurityConfigurerAdapter() {
+    class HstsPreloadConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 headers {
@@ -103,7 +103,7 @@ class HttpStrictTransportSecurityDslTests {
     }
 
     @EnableWebSecurity
-    open class HstsMaxAgeConfig : WebSecurityConfigurerAdapter() {
+    class HstsMaxAgeConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 headers {
@@ -128,7 +128,7 @@ class HttpStrictTransportSecurityDslTests {
     }
 
     @EnableWebSecurity
-    open class HstsCustomMatcherConfig : WebSecurityConfigurerAdapter() {
+    class HstsCustomMatcherConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 headers {

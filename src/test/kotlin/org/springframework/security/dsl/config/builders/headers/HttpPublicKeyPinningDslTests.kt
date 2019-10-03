@@ -55,7 +55,7 @@ class HttpPublicKeyPinningDslTests {
     }
 
     @EnableWebSecurity
-    open class HpkpNoPinConfig : WebSecurityConfigurerAdapter() {
+    class HpkpNoPinConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 headers {
@@ -103,7 +103,7 @@ class HttpPublicKeyPinningDslTests {
     }
 
     @EnableWebSecurity
-    open class HpkpMaxAgeConfig : WebSecurityConfigurerAdapter() {
+    class HpkpMaxAgeConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 headers {

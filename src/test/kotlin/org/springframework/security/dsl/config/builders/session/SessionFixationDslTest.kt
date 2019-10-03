@@ -68,7 +68,7 @@ class SessionFixationDslTest {
     }
 
     @EnableWebSecurity
-    open class NewSessionConfig : WebSecurityConfigurerAdapter() {
+    class NewSessionConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 sessionManagement {
@@ -101,7 +101,7 @@ class SessionFixationDslTest {
     }
 
     @EnableWebSecurity
-    open class MigrateSessionConfig : WebSecurityConfigurerAdapter() {
+    class MigrateSessionConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 sessionManagement {
@@ -134,7 +134,7 @@ class SessionFixationDslTest {
     }
 
     @EnableWebSecurity
-    open class ChangeSessionIdConfig : WebSecurityConfigurerAdapter() {
+    class ChangeSessionIdConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 sessionManagement {
@@ -167,7 +167,7 @@ class SessionFixationDslTest {
     }
 
     @EnableWebSecurity
-    open class NoneConfig : WebSecurityConfigurerAdapter() {
+    class NoneConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 sessionManagement {
@@ -181,9 +181,9 @@ class SessionFixationDslTest {
     }
 
     @Configuration
-    open class UserDetailsConfig {
+    class UserDetailsConfig {
         @Bean
-        open fun userDetailsService(): UserDetailsService {
+        fun userDetailsService(): UserDetailsService {
             val userDetails = User.withDefaultPasswordEncoder()
                     .username("user")
                     .password("password")

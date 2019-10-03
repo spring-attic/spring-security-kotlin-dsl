@@ -54,7 +54,7 @@ class FrameOptionsDslTests {
     }
 
     @EnableWebSecurity
-    open class FrameOptionsConfig : WebSecurityConfigurerAdapter() {
+    class FrameOptionsConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 headers {
@@ -77,7 +77,7 @@ class FrameOptionsDslTests {
     }
 
     @EnableWebSecurity
-    open class FrameOptionsDenyConfig : WebSecurityConfigurerAdapter() {
+    class FrameOptionsDenyConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 headers {
@@ -102,7 +102,7 @@ class FrameOptionsDslTests {
     }
 
     @EnableWebSecurity
-    open class FrameOptionsSameOriginConfig : WebSecurityConfigurerAdapter() {
+    class FrameOptionsSameOriginConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 headers {
@@ -127,7 +127,7 @@ class FrameOptionsDslTests {
     }
 
     @EnableWebSecurity
-    open class FrameOptionsSameOriginAndDenyConfig : WebSecurityConfigurerAdapter() {
+    class FrameOptionsSameOriginAndDenyConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 headers {
