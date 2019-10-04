@@ -1,0 +1,39 @@
+= Spring Security Kotlin DSL
+
+== Code of Conduct
+This project adheres to the Contributor Covenant link:CODE_OF_CONDUCT.adoc[code of conduct].
+By participating, you  are expected to uphold this code. Please report unacceptable behavior to spring-code-of-conduct@pivotal.io.
+
+== Dependencies
+Spring Cloud Kotlin DSL is an additional dependency you can add to your Spring project.
+It is an extension to Spring Security, and does not replace it.
+
+```
+implementation("org.springframework.security.dsl:spring-security-kotlin-dsl:0.0.1.BUILD-SNAPSHOT")
+
+implementation("org.springframework.boot:spring-boot-starter-web")
+implementation("org.springframework.boot:spring-boot-starter-security")
+```
+
+== Sample Configuration
+This is a sample configuration, that enables form login for all endpoints and uses the login page `"/log-in"`.
+
+```
+@Configuration
+class SecurityConfig: WebSecurityConfigurerAdapter() {
+    override fun configure(http: HttpSecurity?) {
+        http {
+            authorizeRequests {
+                authorize(anyRequest, authenticated)
+            }
+            formLogin {
+                loginPage = "/log-in"
+            }
+        }
+    }
+}
+```
+
+== License
+Spring Security is Open Source software released under the
+https://www.apache.org/licenses/LICENSE-2.0.html[Apache 2.0 license].
