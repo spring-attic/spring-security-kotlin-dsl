@@ -16,7 +16,6 @@
 
 package org.springframework.security.dsl.config.builders.headers
 
-import com.google.common.net.HttpHeaders
 import org.junit.Rule
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -25,6 +24,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.dsl.config.builders.invoke
 import org.springframework.security.dsl.test.SpringTestRule
+import org.springframework.security.web.server.header.XXssProtectionServerHttpHeadersWriter
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 
@@ -48,7 +48,7 @@ class XssProtectionConfigDslTests {
         this.mockMvc.get("/") {
             secure = true
         }.andExpect {
-            header { string(HttpHeaders.X_XSS_PROTECTION, "1; mode=block") }
+            header { string(XXssProtectionServerHttpHeadersWriter.X_XSS_PROTECTION, "1; mode=block") }
         }
     }
 
@@ -71,7 +71,7 @@ class XssProtectionConfigDslTests {
         this.mockMvc.get("/") {
             secure = true
         }.andExpect {
-            header { string(HttpHeaders.X_XSS_PROTECTION, "1") }
+            header { string(XXssProtectionServerHttpHeadersWriter.X_XSS_PROTECTION, "1") }
         }
     }
 
@@ -96,7 +96,7 @@ class XssProtectionConfigDslTests {
         this.mockMvc.get("/") {
             secure = true
         }.andExpect {
-            header { string(HttpHeaders.X_XSS_PROTECTION, "0") }
+            header { string(XXssProtectionServerHttpHeadersWriter.X_XSS_PROTECTION, "0") }
         }
     }
 

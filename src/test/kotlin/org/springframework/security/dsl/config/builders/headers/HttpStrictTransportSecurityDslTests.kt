@@ -16,7 +16,6 @@
 
 package org.springframework.security.dsl.config.builders.headers
 
-import com.google.common.net.HttpHeaders
 import org.assertj.core.api.Assertions
 import org.junit.Rule
 import org.junit.Test
@@ -26,6 +25,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.dsl.config.builders.invoke
 import org.springframework.security.dsl.test.SpringTestRule
+import org.springframework.security.web.server.header.StrictTransportSecurityServerHttpHeadersWriter
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
@@ -50,7 +50,7 @@ class HttpStrictTransportSecurityDslTests {
         this.mockMvc.get("/") {
             secure = true
         }.andExpect {
-            header { string(HttpHeaders.STRICT_TRANSPORT_SECURITY, "max-age=31536000 ; includeSubDomains") }
+            header { string(StrictTransportSecurityServerHttpHeadersWriter.STRICT_TRANSPORT_SECURITY, "max-age=31536000 ; includeSubDomains") }
         }
     }
 
@@ -73,7 +73,7 @@ class HttpStrictTransportSecurityDslTests {
         this.mockMvc.get("/") {
             secure = true
         }.andExpect {
-            header { string(HttpHeaders.STRICT_TRANSPORT_SECURITY, "max-age=31536000 ; includeSubDomains ; preload") }
+            header { string(StrictTransportSecurityServerHttpHeadersWriter.STRICT_TRANSPORT_SECURITY, "max-age=31536000 ; includeSubDomains ; preload") }
         }
     }
 
@@ -98,7 +98,7 @@ class HttpStrictTransportSecurityDslTests {
         this.mockMvc.get("/") {
             secure = true
         }.andExpect {
-            header { string(HttpHeaders.STRICT_TRANSPORT_SECURITY, "max-age=1 ; includeSubDomains") }
+            header { string(StrictTransportSecurityServerHttpHeadersWriter.STRICT_TRANSPORT_SECURITY, "max-age=1 ; includeSubDomains") }
         }
     }
 

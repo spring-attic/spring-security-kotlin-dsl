@@ -16,7 +16,6 @@
 
 package org.springframework.security.dsl.config.builders.headers
 
-import com.google.common.net.HttpHeaders
 import org.junit.Rule
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -25,6 +24,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.dsl.config.builders.invoke
 import org.springframework.security.dsl.test.SpringTestRule
+import org.springframework.security.web.server.header.ContentTypeOptionsServerHttpHeadersWriter
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 
@@ -47,7 +47,7 @@ class ContentTypeOptionsDslTests {
 
         this.mockMvc.get("/")
                 .andExpect {
-                    header { string(HttpHeaders.X_CONTENT_TYPE_OPTIONS, "nosniff") }
+                    header { string(ContentTypeOptionsServerHttpHeadersWriter.X_CONTENT_OPTIONS, "nosniff") }
                 }
     }
 

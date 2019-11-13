@@ -16,7 +16,6 @@
 
 package org.springframework.security.dsl.config.builders.headers
 
-import com.google.common.net.HttpHeaders
 import org.junit.Rule
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -26,6 +25,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.dsl.config.builders.invoke
 import org.springframework.security.dsl.test.SpringTestRule
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter
+import org.springframework.security.web.server.header.XFrameOptionsServerHttpHeadersWriter
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 
@@ -49,7 +49,7 @@ class FrameOptionsDslTests {
         this.mockMvc.get("/") {
             secure = true
         }.andExpect {
-            header { string(HttpHeaders.X_FRAME_OPTIONS, XFrameOptionsHeaderWriter.XFrameOptionsMode.DENY.name) }
+            header { string(XFrameOptionsServerHttpHeadersWriter.X_FRAME_OPTIONS, XFrameOptionsHeaderWriter.XFrameOptionsMode.DENY.name) }
         }
     }
 
@@ -72,7 +72,7 @@ class FrameOptionsDslTests {
         this.mockMvc.get("/") {
             secure = true
         }.andExpect {
-            header { string(HttpHeaders.X_FRAME_OPTIONS, XFrameOptionsHeaderWriter.XFrameOptionsMode.DENY.name) }
+            header { string(XFrameOptionsServerHttpHeadersWriter.X_FRAME_OPTIONS, XFrameOptionsHeaderWriter.XFrameOptionsMode.DENY.name) }
         }
     }
 
@@ -97,7 +97,7 @@ class FrameOptionsDslTests {
         this.mockMvc.get("/") {
             secure = true
         }.andExpect {
-            header { string(HttpHeaders.X_FRAME_OPTIONS, XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN.name) }
+            header { string(XFrameOptionsServerHttpHeadersWriter.X_FRAME_OPTIONS, XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN.name) }
         }
     }
 
@@ -122,7 +122,7 @@ class FrameOptionsDslTests {
         this.mockMvc.get("/") {
             secure = true
         }.andExpect {
-            header { string(HttpHeaders.X_FRAME_OPTIONS, XFrameOptionsHeaderWriter.XFrameOptionsMode.DENY.name) }
+            header { string(XFrameOptionsServerHttpHeadersWriter.X_FRAME_OPTIONS, XFrameOptionsHeaderWriter.XFrameOptionsMode.DENY.name) }
         }
     }
 

@@ -16,15 +16,19 @@
 
 package org.springframework.security.dsl.config.builders
 
-import com.google.common.net.HttpHeaders
 import org.junit.Rule
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpHeaders
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import  org.springframework.security.dsl.test.SpringTestRule
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter
+import org.springframework.security.web.server.header.ContentTypeOptionsServerHttpHeadersWriter
+import org.springframework.security.web.server.header.StrictTransportSecurityServerHttpHeadersWriter
+import org.springframework.security.web.server.header.XFrameOptionsServerHttpHeadersWriter
+import org.springframework.security.web.server.header.XXssProtectionServerHttpHeadersWriter
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 
@@ -48,14 +52,13 @@ class HeadersDslTests {
         this.mockMvc.get("/") {
             secure = true
         }.andExpect {
-            header { string(HttpHeaders.X_CONTENT_TYPE_OPTIONS, "nosniff") }
-            header { string(HttpHeaders.X_CONTENT_TYPE_OPTIONS, "nosniff") }
-            header { string(HttpHeaders.X_FRAME_OPTIONS, XFrameOptionsHeaderWriter.XFrameOptionsMode.DENY.name) }
-            header { string(HttpHeaders.STRICT_TRANSPORT_SECURITY, "max-age=31536000 ; includeSubDomains") }
+            header { string(ContentTypeOptionsServerHttpHeadersWriter.X_CONTENT_OPTIONS, "nosniff") }
+            header { string(XFrameOptionsServerHttpHeadersWriter.X_FRAME_OPTIONS, XFrameOptionsHeaderWriter.XFrameOptionsMode.DENY.name) }
+            header { string(StrictTransportSecurityServerHttpHeadersWriter.STRICT_TRANSPORT_SECURITY, "max-age=31536000 ; includeSubDomains") }
             header { string(HttpHeaders.CACHE_CONTROL, "no-cache, no-store, max-age=0, must-revalidate") }
             header { string(HttpHeaders.EXPIRES, "0") }
             header { string(HttpHeaders.PRAGMA, "no-cache") }
-            header { string(HttpHeaders.X_XSS_PROTECTION, "1; mode=block") }
+            header { string(XXssProtectionServerHttpHeadersWriter.X_XSS_PROTECTION, "1; mode=block") }
         }
     }
 
