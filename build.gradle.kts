@@ -46,6 +46,7 @@ dependencies {
 	compile("org.springframework:spring-expression")
 	compile("org.springframework:spring-web")
 	compile("org.springframework:spring-webmvc")
+	compile("org.springframework:spring-webflux")
 	compile("javax.servlet:javax.servlet-api")
 	implementation("org.springframework.security:spring-security-config")
 	implementation("org.springframework.security:spring-security-core")
