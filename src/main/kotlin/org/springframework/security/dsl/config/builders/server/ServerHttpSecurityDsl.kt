@@ -1,6 +1,5 @@
 package org.springframework.security.dsl.config.builders.server
 
-import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.web.server.ServerHttpSecurity
 import org.springframework.security.web.server.SecurityWebFilterChain
 import org.springframework.web.server.ServerWebExchange
@@ -69,6 +68,34 @@ class ServerHttpSecurityDsl(private val http: ServerHttpSecurity, private val in
     fun authorizeExchange(authorizeExchangeConfiguration: AuthorizeExchangeDsl.() -> Unit) {
         val authorizeExchangeCustomizer = AuthorizeExchangeDsl().apply(authorizeExchangeConfiguration).get()
         this.http.authorizeExchange(authorizeExchangeCustomizer)
+    }
+
+    /**
+     * Enables HTTP basic authentication.
+     *
+     * Example:
+     *
+     * ```
+     * @EnableWebFluxSecurity
+     * class SecurityConfig {
+     *
+     *  @Bean
+     *  fun springWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
+     *      return http {
+     *          httpBasic {
+     *          }
+     *       }
+     *   }
+     * }
+     * ```
+     *
+     * @param httpBasicConfiguration custom configuration to be applied to the
+     * HTTP basic authentication
+     * @see [ServerHttpBasicDsl]
+     */
+    fun httpBasic(httpBasicConfiguration: ServerHttpBasicDsl.() -> Unit) {
+        val httpBasicCustomizer = ServerHttpBasicDsl().apply(httpBasicConfiguration).get()
+        this.http.httpBasic(httpBasicCustomizer)
     }
 
     /**
