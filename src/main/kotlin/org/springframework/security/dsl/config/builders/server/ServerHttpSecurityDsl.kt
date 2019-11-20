@@ -82,8 +82,7 @@ class ServerHttpSecurityDsl(private val http: ServerHttpSecurity, private val in
      *  @Bean
      *  fun springWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
      *      return http {
-     *          httpBasic {
-     *          }
+     *          httpBasic { }
      *       }
      *   }
      * }
@@ -96,6 +95,32 @@ class ServerHttpSecurityDsl(private val http: ServerHttpSecurity, private val in
     fun httpBasic(httpBasicConfiguration: ServerHttpBasicDsl.() -> Unit) {
         val httpBasicCustomizer = ServerHttpBasicDsl().apply(httpBasicConfiguration).get()
         this.http.httpBasic(httpBasicCustomizer)
+    }
+
+    /**
+     * Enables CSRF protection.
+     *
+     * Example:
+     *
+     * ```
+     * @EnableWebFluxSecurity
+     * class SecurityConfig {
+     *
+     *  @Bean
+     *  fun springWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
+     *      return http {
+     *          csrf { }
+     *       }
+     *   }
+     * }
+     * ```
+     *
+     * @param csrfConfiguration custom configuration to apply to the CSRF protection
+     * @see [ServerCsrfDsl]
+     */
+    fun csrf(csrfConfiguration: ServerCsrfDsl.() -> Unit) {
+        val csrfCustomizer = ServerCsrfDsl().apply(csrfConfiguration).get()
+        this.http.csrf(csrfCustomizer)
     }
 
     /**

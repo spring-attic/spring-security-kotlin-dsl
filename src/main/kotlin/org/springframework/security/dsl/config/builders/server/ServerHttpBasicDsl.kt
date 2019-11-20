@@ -16,7 +16,7 @@ import org.springframework.security.web.server.context.ServerSecurityContextRepo
  * @author Eleftheria Stein
  * @property authenticationManager the [ReactiveAuthenticationManager] used to
  * authenticate.
- * @property securityContextRepository The [ServerSecurityContextRepository] used to save
+ * @property securityContextRepository the [ServerSecurityContextRepository] used to save
  * the [Authentication]. For the [SecurityContext] to be loaded on subsequent requests the
  * [ReactorContextWebFilter] must be configured to be able to load the value (they are not
  * implicitly linked).
