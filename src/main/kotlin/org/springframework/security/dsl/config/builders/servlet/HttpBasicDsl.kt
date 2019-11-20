@@ -40,11 +40,23 @@ class HttpBasicDsl {
     var authenticationEntryPoint: AuthenticationEntryPoint? = null
     var authenticationDetailsSource: AuthenticationDetailsSource<HttpServletRequest, *>? = null
 
+    private var disabled = false
+
+    /**
+     * Disables HTTP basic authentication
+     */
+    fun disable() {
+        disabled = true
+    }
+
     internal fun get(): (HttpBasicConfigurer<HttpSecurity>) -> Unit {
         return { httpBasic ->
             realmName?.also { httpBasic.realmName(realmName) }
             authenticationEntryPoint?.also { httpBasic.authenticationEntryPoint(authenticationEntryPoint) }
             authenticationDetailsSource?.also { httpBasic.authenticationDetailsSource(authenticationDetailsSource) }
+            if (disabled) {
+                httpBasic.disable()
+            }
         }
     }
 }
