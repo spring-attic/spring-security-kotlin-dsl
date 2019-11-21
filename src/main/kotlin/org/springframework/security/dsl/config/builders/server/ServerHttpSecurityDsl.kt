@@ -2,6 +2,7 @@ package org.springframework.security.dsl.config.builders.server
 
 import org.springframework.security.config.web.server.ServerHttpSecurity
 import org.springframework.security.web.server.SecurityWebFilterChain
+import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatcher
 import org.springframework.web.server.ServerWebExchange
 
 /**
@@ -39,6 +40,35 @@ operator fun ServerHttpSecurity.invoke(httpConfiguration: ServerHttpSecurityDsl.
  * @param init the configurations to apply to the provided [ServerHttpSecurity]
  */
 class ServerHttpSecurityDsl(private val http: ServerHttpSecurity, private val init: ServerHttpSecurityDsl.() -> Unit) {
+
+    /**
+     * Allows configuring the [ServerHttpSecurity] to only be invoked when matching the
+     * provided [ServerWebExchangeMatcher].
+     *
+     * Example:
+     *
+     * ```
+     * @EnableWebFluxSecurity
+     * class SecurityConfig {
+     *
+     *  @Bean
+     *  fun springWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
+     *      return http {
+     *          securityMatcher(PathPatternParserServerWebExchangeMatcher("/api/&ast;&ast;"))
+     *          formLogin {
+     *              loginPage = "/log-in"
+     *          }
+     *       }
+     *   }
+     * }
+     * ```
+     *
+     * @param securityMatcher a [ServerWebExchangeMatcher] used to determine whether this
+     * configuration should be invoked.
+     */
+    fun securityMatcher(securityMatcher: ServerWebExchangeMatcher) {
+        this.http.securityMatcher(securityMatcher)
+    }
 
     /**
      * Enables form based authentication.

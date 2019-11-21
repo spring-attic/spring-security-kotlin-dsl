@@ -147,11 +147,11 @@ internal class AuthorizeExchangeDslTests {
     class HasRoleConfig {
         @Bean
         fun springWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
-            http.httpBasic()
             return http {
                 authorizeExchange {
                     authorize(anyExchange, hasRole("ADMIN"))
                 }
+                httpBasic { }
             }
         }
 

@@ -15,6 +15,7 @@ import org.springframework.security.web.server.header.ContentTypeOptionsServerHt
 import org.springframework.security.web.server.header.StrictTransportSecurityServerHttpHeadersWriter
 import org.springframework.security.web.server.header.XFrameOptionsServerHttpHeadersWriter
 import org.springframework.security.web.server.header.XXssProtectionServerHttpHeadersWriter
+import org.springframework.security.web.server.util.matcher.PathPatternParserServerWebExchangeMatcher
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.web.reactive.config.EnableWebFlux
 
@@ -36,6 +37,40 @@ class ServerHttpSecurityDslTests {
                 .bindToApplicationContext(context)
                 .configureClient()
                 .build()
+    }
+
+    @Test
+    fun `request when it does not match the security matcher then the security rules do not apply`() {
+        this.spring.register(PatternMatcherConfig::class.java).autowire()
+
+        this.client.get()
+                .uri("/")
+                .exchange()
+                .expectStatus().isNotFound
+    }
+
+    @Test
+    fun `request when it matches the security matcher then the security rules apply`() {
+        this.spring.register(PatternMatcherConfig::class.java).autowire()
+
+        this.client.get()
+                .uri("/api")
+                .exchange()
+                .expectStatus().isUnauthorized
+    }
+
+    @EnableWebFluxSecurity
+    @EnableWebFlux
+    class PatternMatcherConfig {
+        @Bean
+        fun springWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
+            return http {
+                securityMatcher(PathPatternParserServerWebExchangeMatcher("/api/**"))
+                authorizeExchange {
+                    authorize(anyExchange, authenticated)
+                }
+            }
+        }
     }
 
     @Test
