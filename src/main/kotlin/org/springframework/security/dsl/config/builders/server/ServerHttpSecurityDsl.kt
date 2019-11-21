@@ -41,6 +41,35 @@ operator fun ServerHttpSecurity.invoke(httpConfiguration: ServerHttpSecurityDsl.
 class ServerHttpSecurityDsl(private val http: ServerHttpSecurity, private val init: ServerHttpSecurityDsl.() -> Unit) {
 
     /**
+     * Enables form based authentication.
+     *
+     * Example:
+     *
+     * ```
+     * @EnableWebFluxSecurity
+     * class SecurityConfig {
+     *
+     *  @Bean
+     *  fun springWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
+     *      return http {
+     *          formLogin {
+     *              loginPage = "/log-in"
+     *          }
+     *       }
+     *   }
+     * }
+     * ```
+     *
+     * @param formLoginConfiguration custom configuration to apply to the form based
+     * authentication
+     * @see [ServerFormLoginDsl]
+     */
+    fun formLogin(formLoginConfiguration: ServerFormLoginDsl.() -> Unit) {
+        val formLoginCustomizer = ServerFormLoginDsl().apply(formLoginConfiguration).get()
+        this.http.formLogin(formLoginCustomizer)
+    }
+
+    /**
      * Allows restricting access based upon the [ServerWebExchange]
      *
      * Example:

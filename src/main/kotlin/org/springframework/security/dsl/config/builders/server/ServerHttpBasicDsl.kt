@@ -14,8 +14,7 @@ import org.springframework.security.web.server.context.ServerSecurityContextRepo
  * Kotlin code.
  *
  * @author Eleftheria Stein
- * @property authenticationManager the [ReactiveAuthenticationManager] used to
- * authenticate.
+ * @property authenticationManager the [ReactiveAuthenticationManager] used to authenticate.
  * @property securityContextRepository the [ServerSecurityContextRepository] used to save
  * the [Authentication]. For the [SecurityContext] to be loaded on subsequent requests the
  * [ReactorContextWebFilter] must be configured to be able to load the value (they are not
@@ -24,7 +23,6 @@ import org.springframework.security.web.server.context.ServerSecurityContextRepo
  * populated on [BasicAuthenticationFilter] in the event that authentication fails.
  */
 class ServerHttpBasicDsl {
-
     var authenticationManager: ReactiveAuthenticationManager? = null
     var securityContextRepository: ServerSecurityContextRepository? = null
     var authenticationEntryPoint: ServerAuthenticationEntryPoint? = null

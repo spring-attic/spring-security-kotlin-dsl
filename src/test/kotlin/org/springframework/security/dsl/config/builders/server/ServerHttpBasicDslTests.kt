@@ -92,7 +92,7 @@ internal class ServerHttpBasicDslTests {
     @Test
     fun `http basic when custom authentication manager then manager used`() {
         given<Mono<Authentication>>(CustomAuthenticationManagerConfig.AUTHENTICATION_MANAGER.authenticate(any()))
-                .willReturn(Mono.just<Authentication>(TestingAuthenticationToken("rob", "rob", "ROLE_USER", "ROLE_ADMIN")))
+                .willReturn(Mono.just<Authentication>(TestingAuthenticationToken("user", "password", "ROLE_USER")))
 
         this.spring.register(CustomAuthenticationManagerConfig::class.java).autowire()
 
@@ -109,7 +109,7 @@ internal class ServerHttpBasicDslTests {
     @EnableWebFlux
     class CustomAuthenticationManagerConfig {
         companion object {
-            var AUTHENTICATION_MANAGER: ReactiveAuthenticationManager = Mockito.mock(ReactiveAuthenticationManager::class.java)
+            var AUTHENTICATION_MANAGER: ReactiveAuthenticationManager = mock(ReactiveAuthenticationManager::class.java)
         }
 
         @Bean

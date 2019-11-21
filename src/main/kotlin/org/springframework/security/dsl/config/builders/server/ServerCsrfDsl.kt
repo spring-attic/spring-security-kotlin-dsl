@@ -16,7 +16,6 @@ import org.springframework.security.web.server.util.matcher.ServerWebExchangeMat
  * is enabled.
  */
 class ServerCsrfDsl {
-
     var accessDeniedHandler: ServerAccessDeniedHandler? = null
     var csrfTokenRepository: ServerCsrfTokenRepository? = null
     var requireCsrfProtectionMatcher: ServerWebExchangeMatcher? = null
