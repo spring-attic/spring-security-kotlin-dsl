@@ -1,6 +1,7 @@
 package org.springframework.security.dsl.config.builders.server
 
 import org.springframework.security.config.web.server.ServerHttpSecurity
+import org.springframework.security.dsl.config.builders.servlet.AnonymousDsl
 import org.springframework.security.web.server.SecurityWebFilterChain
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatcher
 import org.springframework.web.server.ServerWebExchange
@@ -180,6 +181,34 @@ class ServerHttpSecurityDsl(private val http: ServerHttpSecurity, private val in
     fun csrf(csrfConfiguration: ServerCsrfDsl.() -> Unit) {
         val csrfCustomizer = ServerCsrfDsl().apply(csrfConfiguration).get()
         this.http.csrf(csrfCustomizer)
+    }
+
+    /**
+     * Enables and configures anonymous authentication.
+     *
+     * Example:
+     *
+     * ```
+     * @EnableWebFluxSecurity
+     * class SecurityConfig {
+     *
+     *  @Bean
+     *  fun springWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
+     *      return http {
+     *          anonymous {
+     *              authorities = listOf(SimpleGrantedAuthority("ROLE_ANON"))
+     *          }
+     *       }
+     *   }
+     * }
+     * ```
+     *
+     * @param anonymousConfiguration custom configuration to apply to anonymous authentication
+     * @see [AnonymousDsl]
+     */
+    fun anonymous(anonymousConfiguration: ServerAnonymousDsl.() -> Unit) {
+        val anonymousCustomizer = ServerAnonymousDsl().apply(anonymousConfiguration).get()
+        this.http.anonymous(anonymousCustomizer)
     }
 
     /**
