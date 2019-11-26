@@ -84,7 +84,7 @@ class ServerHttpSecurityDslTests {
     }
 
     @Test
-    fun `when default security configured then default headers are in the response`() {
+    fun `request when default security configured then default headers are in the response`() {
         this.spring.register(DefaultSecurityConfig::class.java).autowire()
 
         this.client.get()

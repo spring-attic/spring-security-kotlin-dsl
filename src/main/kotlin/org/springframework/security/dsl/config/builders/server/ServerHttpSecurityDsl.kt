@@ -158,6 +158,40 @@ class ServerHttpSecurityDsl(private val http: ServerHttpSecurity, private val in
     }
 
     /**
+     * Allows configuring response headers.
+     *
+     * Example:
+     *
+     * ```
+     * @EnableWebFluxSecurity
+     * class SecurityConfig {
+     *
+     *  @Bean
+     *  fun springWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
+     *      return http {
+     *          headers {
+     *              referrerPolicy {
+     *                  policy = ReferrerPolicy.SAME_ORIGIN
+     *              }
+     *              frameOptions {
+     *                  mode = Mode.DENY
+     *              }
+     *          }
+     *       }
+     *   }
+     * }
+     * ```
+     *
+     * @param headersConfiguration custom configuration to be applied to the
+     * response headers
+     * @see [ServerHeadersDsl]
+     */
+    fun headers(headersConfiguration: ServerHeadersDsl.() -> Unit) {
+        val headersCustomizer = ServerHeadersDsl().apply(headersConfiguration).get()
+        this.http.headers(headersCustomizer)
+    }
+
+    /**
      * Enables CSRF protection.
      *
      * Example:

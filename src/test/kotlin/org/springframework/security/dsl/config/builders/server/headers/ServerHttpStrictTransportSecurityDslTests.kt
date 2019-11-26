@@ -1,0 +1,160 @@
+package org.springframework.security.dsl.config.builders.server.headers
+
+import org.junit.Rule
+import org.junit.Test
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.ApplicationContext
+import org.springframework.context.annotation.Bean
+import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
+import org.springframework.security.config.web.server.ServerHttpSecurity
+import org.springframework.security.dsl.config.builders.server.invoke
+import org.springframework.security.dsl.config.builders.test.SpringTestRule
+import org.springframework.security.web.server.SecurityWebFilterChain
+import org.springframework.security.web.server.header.StrictTransportSecurityServerHttpHeadersWriter
+import org.springframework.test.web.reactive.server.WebTestClient
+import org.springframework.web.reactive.config.EnableWebFlux
+import java.time.Duration
+
+/**
+ * Tests for [ServerReferrerPolicyDsl]
+ *
+ * @author Eleftheria Stein
+ */
+internal class ServerHttpStrictTransportSecurityDslTests {
+    @Rule
+    @JvmField
+    val spring = SpringTestRule()
+
+    private lateinit var client: WebTestClient
+
+    @Autowired
+    fun setup(context: ApplicationContext) {
+        this.client = WebTestClient
+                .bindToApplicationContext(context)
+                .configureClient()
+                .build()
+    }
+
+    @Test
+    fun `request when hsts configured then hsts header in response`() {
+        this.spring.register(HstsConfig::class.java).autowire()
+
+        this.client.get()
+                .uri("https://example.com")
+                .exchange()
+                .expectHeader().valueEquals(StrictTransportSecurityServerHttpHeadersWriter.STRICT_TRANSPORT_SECURITY, "max-age=31536000 ; includeSubDomains")
+    }
+
+    @EnableWebFluxSecurity
+    @EnableWebFlux
+    class HstsConfig {
+        @Bean
+        fun springWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
+            return http {
+                headers {
+                    hsts { }
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `request when hsts disabled then no hsts header in response`() {
+        this.spring.register(HstsDisabledConfig::class.java).autowire()
+
+        this.client.get()
+                .uri("https://example.com")
+                .exchange()
+                .expectHeader().doesNotExist(StrictTransportSecurityServerHttpHeadersWriter.STRICT_TRANSPORT_SECURITY)
+    }
+
+    @EnableWebFluxSecurity
+    @EnableWebFlux
+    class HstsDisabledConfig {
+        @Bean
+        fun springWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
+            return http {
+                headers {
+                    hsts {
+                        disable()
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `request when max age set then max age in response header`() {
+        this.spring.register(MaxAgeConfig::class.java).autowire()
+
+        this.client.get()
+                .uri("https://example.com")
+                .exchange()
+                .expectHeader().valueEquals(StrictTransportSecurityServerHttpHeadersWriter.STRICT_TRANSPORT_SECURITY, "max-age=1 ; includeSubDomains")
+    }
+
+    @EnableWebFluxSecurity
+    @EnableWebFlux
+    class MaxAgeConfig {
+        @Bean
+        fun springWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
+            return http {
+                headers {
+                    hsts {
+                        maxAge = Duration.ofSeconds(1)
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `request when includeSubdomains false then includeSubdomains not in response header`() {
+        this.spring.register(IncludeSubdomainsConfig::class.java).autowire()
+
+        this.client.get()
+                .uri("https://example.com")
+                .exchange()
+                .expectHeader().valueEquals(StrictTransportSecurityServerHttpHeadersWriter.STRICT_TRANSPORT_SECURITY, "max-age=31536000")
+    }
+
+    @EnableWebFluxSecurity
+    @EnableWebFlux
+    class IncludeSubdomainsConfig {
+        @Bean
+        fun springWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
+            return http {
+                headers {
+                    hsts {
+                        includeSubdomains = false
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `request when preload true then preload included in response header`() {
+        this.spring.register(PreloadConfig::class.java).autowire()
+
+        this.client.get()
+                .uri("https://example.com")
+                .exchange()
+                .expectHeader().valueEquals(StrictTransportSecurityServerHttpHeadersWriter.STRICT_TRANSPORT_SECURITY, "max-age=31536000 ; includeSubDomains ; preload")
+    }
+
+    @EnableWebFluxSecurity
+    @EnableWebFlux
+    class PreloadConfig {
+        @Bean
+        fun springWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
+            return http {
+                headers {
+                    hsts {
+                        preload = true
+                    }
+                }
+            }
+        }
+    }
+}

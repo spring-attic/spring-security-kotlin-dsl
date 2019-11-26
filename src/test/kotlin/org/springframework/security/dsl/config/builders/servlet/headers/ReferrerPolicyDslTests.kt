@@ -20,10 +20,10 @@ import org.junit.Rule
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import org.springframework.security.dsl.config.builders.servlet.invoke
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import  org.springframework.security.dsl.config.builders.test.SpringTestRule
+import org.springframework.security.dsl.config.builders.servlet.invoke
+import org.springframework.security.dsl.config.builders.test.SpringTestRule
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
@@ -45,11 +45,10 @@ class ReferrerPolicyDslTests {
     fun headersWhenReferrerPolicyConfiguredThenHeaderInResponse() {
         this.spring.register(ReferrerPolicyConfig::class.java).autowire()
 
-        this.mockMvc.get("/") {
-            secure = true
-        }.andExpect {
-            header { string("Referrer-Policy", ReferrerPolicyHeaderWriter.ReferrerPolicy.NO_REFERRER.policy) }
-        }
+        this.mockMvc.get("/")
+                .andExpect {
+                    header { string("Referrer-Policy", ReferrerPolicyHeaderWriter.ReferrerPolicy.NO_REFERRER.policy) }
+                }
     }
 
     @EnableWebSecurity
@@ -68,11 +67,10 @@ class ReferrerPolicyDslTests {
     fun headersWhenReferrerPolicyConfiguredWithCustomPolicyThenCustomPolicyInHeader() {
         this.spring.register(ReferrerPolicyCustomPolicyConfig::class.java).autowire()
 
-        this.mockMvc.get("/") {
-            secure = true
-        }.andExpect {
-            header { string("Referrer-Policy", ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN.policy) }
-        }
+        this.mockMvc.get("/")
+                .andExpect {
+                    header { string("Referrer-Policy", ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN.policy) }
+                }
     }
 
     @EnableWebSecurity

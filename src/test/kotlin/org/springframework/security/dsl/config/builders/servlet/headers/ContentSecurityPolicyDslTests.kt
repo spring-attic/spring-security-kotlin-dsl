@@ -33,7 +33,7 @@ import org.springframework.test.web.servlet.get
  *
  * @author Eleftheria Stein
  */
-class ContentSecurityPolicyDslTest {
+class ContentSecurityPolicyDslTests {
     @Rule
     @JvmField
     var spring = SpringTestRule()
@@ -66,7 +66,7 @@ class ContentSecurityPolicyDslTest {
 
     @Test
     fun headersWhenContentSecurityPolicyConfiguredWithCustomPolicyDirectivesThenCustomDirectivesInHeader() {
-        this.spring.register(HpkpNoPinConfig::class.java).autowire()
+        this.spring.register(CustomPolicyDirectivesConfig::class.java).autowire()
 
         this.mockMvc.get("/") {
             secure = true
@@ -76,7 +76,7 @@ class ContentSecurityPolicyDslTest {
     }
 
     @EnableWebSecurity
-    class HpkpNoPinConfig : WebSecurityConfigurerAdapter() {
+    class CustomPolicyDirectivesConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 headers {

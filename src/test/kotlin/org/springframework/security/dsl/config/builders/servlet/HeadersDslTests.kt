@@ -75,11 +75,10 @@ class HeadersDslTests {
     fun headersWhenFeaturePolicyConfiguredThenHeaderInResponse() {
         this.spring.register(FeaturePolicyConfig::class.java).autowire()
 
-        this.mockMvc.get("/") {
-            secure = true
-        }.andExpect {
-            header { string("Feature-Policy", "geolocation 'self'") }
-        }
+        this.mockMvc.get("/")
+                .andExpect {
+                    header { string("Feature-Policy", "geolocation 'self'") }
+                }
     }
 
     @EnableWebSecurity
