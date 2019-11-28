@@ -18,6 +18,7 @@ package org.springframework.security.dsl.config.builders.servlet.headers
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer
+import org.springframework.security.dsl.config.builders.util.delegates.CallbackDelegates
 
 /**
  * A Kotlin DSL to configure the [HttpSecurity] X-Frame-Options header using
@@ -29,22 +30,13 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
  * application.
  * @property deny deny framing any content from this application.
  */
-class FrameOptionsDsl {
-    var sameOrigin: Boolean? = null
-    var deny: Boolean? = null
+class FrameOptionsDsl(
+        private val frameOptionsConfig: HeadersConfigurer<HttpSecurity>.FrameOptionsConfig
+) {
+    var sameOrigin by CallbackDelegates.callOnSet(frameOptionsConfig::sameOrigin)
+    var deny by CallbackDelegates.callOnSet(frameOptionsConfig::deny)
 
-    internal fun get(): (HeadersConfigurer<HttpSecurity>.FrameOptionsConfig) -> Unit {
-        return { frameOptions ->
-            sameOrigin?.also {
-                if (sameOrigin!!) {
-                    frameOptions.sameOrigin()
-                }
-            }
-            deny?.also {
-                if (deny!!) {
-                    frameOptions.deny()
-                }
-            }
-        }
+    fun disable() {
+        frameOptionsConfig.disable()
     }
 }

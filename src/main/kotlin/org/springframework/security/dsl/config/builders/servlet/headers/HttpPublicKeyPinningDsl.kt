@@ -18,6 +18,7 @@ package org.springframework.security.dsl.config.builders.servlet.headers
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer
+import org.springframework.security.dsl.config.builders.util.delegates.CallbackDelegates
 
 /**
  * A Kotlin DSL to configure the [HttpSecurity] HTTP Public Key Pinning header using
@@ -34,30 +35,16 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
  * the server.
  * @property reportUri the URI to which the browser should report pin validation failures.
  */
-class HttpPublicKeyPinningDsl {
-    var pins: Map<String, String>? = null
-    var maxAgeInSeconds: Long? = null
-    var includeSubDomains: Boolean? = null
-    var reportOnly: Boolean? = null
-    var reportUri: String? = null
+class HttpPublicKeyPinningDsl(
+        private val hpkpConfig: HeadersConfigurer<HttpSecurity>.HpkpConfig
+) {
+    var pins: Map<String, String>? by CallbackDelegates.callOnSet(hpkpConfig::withPins)
+    var maxAgeInSeconds by CallbackDelegates.callOnSet(hpkpConfig::maxAgeInSeconds)
+    var includeSubDomains by CallbackDelegates.callOnSet(hpkpConfig::includeSubDomains)
+    var reportOnly by CallbackDelegates.callOnSet(hpkpConfig::reportOnly)
+    var reportUri by CallbackDelegates.callOnSet<String>(hpkpConfig::reportUri)
 
-    internal fun get(): (HeadersConfigurer<HttpSecurity>.HpkpConfig) -> Unit {
-        return { hpkp ->
-            pins?.also {
-                hpkp.withPins(pins)
-            }
-            maxAgeInSeconds?.also {
-                hpkp.maxAgeInSeconds(maxAgeInSeconds!!)
-            }
-            includeSubDomains?.also {
-                hpkp.includeSubDomains(includeSubDomains!!)
-            }
-            reportOnly?.also {
-                hpkp.reportOnly(reportOnly!!)
-            }
-            reportUri?.also {
-                hpkp.reportUri(reportUri)
-            }
-        }
+    fun disable() {
+        hpkpConfig.disable()
     }
 }

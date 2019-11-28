@@ -18,6 +18,7 @@ package org.springframework.security.dsl.config.builders.servlet.headers
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer
+import org.springframework.security.dsl.config.builders.util.delegates.CallbackDelegates
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter
 
 /**
@@ -28,14 +29,8 @@ import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWrite
  * @since 5.2
  * @property policy the policy to be used in the response header.
  */
-class ReferrerPolicyDsl {
-    var policy: ReferrerPolicyHeaderWriter.ReferrerPolicy? = null
-
-    internal fun get(): (HeadersConfigurer<HttpSecurity>.ReferrerPolicyConfig) -> Unit {
-        return { referrerPolicy ->
-            policy?.also {
-                referrerPolicy.policy(policy)
-            }
-        }
-    }
+class ReferrerPolicyDsl(
+        private val referrerPolicyConfig: HeadersConfigurer<HttpSecurity>.ReferrerPolicyConfig
+) {
+    var policy by CallbackDelegates.callOnSet(referrerPolicyConfig::policy)
 }

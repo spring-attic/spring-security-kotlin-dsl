@@ -19,6 +19,7 @@ package org.springframework.security.dsl.config.builders.servlet
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer
 import org.springframework.security.dsl.config.builders.servlet.headers.*
+import org.springframework.security.dsl.config.builders.util.delegates.CallbackDelegates
 import org.springframework.security.web.header.writers.*
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter
 
@@ -29,18 +30,11 @@ import org.springframework.security.web.header.writers.frameoptions.XFrameOption
  * @since 5.2
  * @property defaultsDisabled whether all of the default headers should be included in the response
  */
-class HeadersDsl {
-    private var contentTypeOptions: ((HeadersConfigurer<HttpSecurity>.ContentTypeOptionsConfig) -> Unit)? = null
-    private var xssProtection: ((HeadersConfigurer<HttpSecurity>.XXssConfig) -> Unit)? = null
-    private var cacheControl: ((HeadersConfigurer<HttpSecurity>.CacheControlConfig) -> Unit)? = null
-    private var hsts: ((HeadersConfigurer<HttpSecurity>.HstsConfig) -> Unit)? = null
-    private var frameOptions: ((HeadersConfigurer<HttpSecurity>.FrameOptionsConfig) -> Unit)? = null
-    private var hpkp: ((HeadersConfigurer<HttpSecurity>.HpkpConfig) -> Unit)? = null
-    private var contentSecurityPolicy: ((HeadersConfigurer<HttpSecurity>.ContentSecurityPolicyConfig) -> Unit)? = null
-    private var referrerPolicy: ((HeadersConfigurer<HttpSecurity>.ReferrerPolicyConfig) -> Unit)? = null
-    private var featurePolicyDirectives: String? = null
+class HeadersDsl(
+        private val headersConfigurer: HeadersConfigurer<HttpSecurity>
+) {
 
-    var defaultsDisabled: Boolean? = null
+    var defaultsDisabled by CallbackDelegates.callOnSet(headersConfigurer::defaultsDisabled)
 
     /**
      * Configures the [XContentTypeOptionsHeaderWriter] which inserts the <a href=
@@ -50,7 +44,7 @@ class HeadersDsl {
      * @param contentTypeOptionsConfig the customization to apply to the header
      */
     fun contentTypeOptions(contentTypeOptionsConfig: ContentTypeOptionsDsl.() -> Unit) {
-        this.contentTypeOptions = ContentTypeOptionsDsl().apply(contentTypeOptionsConfig).get()
+        ContentTypeOptionsDsl(headersConfigurer.contentTypeOptions()).apply(contentTypeOptionsConfig)
     }
 
     /**
@@ -65,7 +59,7 @@ class HeadersDsl {
      * @param xssProtectionConfig the customization to apply to the header
      */
     fun xssProtection(xssProtectionConfig: XssProtectionConfigDsl.() -> Unit) {
-        this.xssProtection = XssProtectionConfigDsl().apply(xssProtectionConfig).get()
+        XssProtectionConfigDsl(headersConfigurer.xssProtection()).apply(xssProtectionConfig)
     }
 
     /**
@@ -80,7 +74,7 @@ class HeadersDsl {
      * @param cacheControlConfig the customization to apply to the header
      */
     fun cacheControl(cacheControlConfig: CacheControlDsl.() -> Unit) {
-        this.cacheControl = CacheControlDsl().apply(cacheControlConfig).get()
+        CacheControlDsl(headersConfigurer.cacheControl()).apply(cacheControlConfig)
     }
 
     /**
@@ -91,7 +85,7 @@ class HeadersDsl {
      * @param hstsConfig the customization to apply to the header
      */
     fun httpStrictTransportSecurity(hstsConfig: HttpStrictTransportSecurityDsl.() -> Unit) {
-        this.hsts = HttpStrictTransportSecurityDsl().apply(hstsConfig).get()
+        HttpStrictTransportSecurityDsl(headersConfigurer.httpStrictTransportSecurity()).apply(hstsConfig)
     }
 
     /**
@@ -101,7 +95,7 @@ class HeadersDsl {
      * @param frameOptionsConfig the customization to apply to the header
      */
     fun frameOptions(frameOptionsConfig: FrameOptionsDsl.() -> Unit) {
-        this.frameOptions = FrameOptionsDsl().apply(frameOptionsConfig).get()
+        FrameOptionsDsl(headersConfigurer.frameOptions()).apply(frameOptionsConfig)
     }
 
     /**
@@ -111,7 +105,7 @@ class HeadersDsl {
      * @param hpkpConfig the customization to apply to the header
      */
     fun httpPublicKeyPinning(hpkpConfig: HttpPublicKeyPinningDsl.() -> Unit) {
-        this.hpkp = HttpPublicKeyPinningDsl().apply(hpkpConfig).get()
+        HttpPublicKeyPinningDsl(headersConfigurer.httpPublicKeyPinning()).apply(hpkpConfig)
     }
 
     /**
@@ -125,7 +119,7 @@ class HeadersDsl {
      * @param contentSecurityPolicyConfig the customization to apply to the header
      */
     fun contentSecurityPolicy(contentSecurityPolicyConfig: ContentSecurityPolicyDsl.() -> Unit) {
-        this.contentSecurityPolicy = ContentSecurityPolicyDsl().apply(contentSecurityPolicyConfig).get()
+        headersConfigurer.contentSecurityPolicy { ContentSecurityPolicyDsl(it).apply(contentSecurityPolicyConfig) }
     }
 
     /**
@@ -142,7 +136,7 @@ class HeadersDsl {
      * @param referrerPolicyConfig the customization to apply to the header
      */
     fun referrerPolicy(referrerPolicyConfig: ReferrerPolicyDsl.() -> Unit) {
-        this.referrerPolicy = ReferrerPolicyDsl().apply(referrerPolicyConfig).get()
+        ReferrerPolicyDsl(headersConfigurer.referrerPolicy()).apply(referrerPolicyConfig)
     }
 
     /**
@@ -157,43 +151,6 @@ class HeadersDsl {
      * @param policyDirectives policyDirectives the security policy directive(s)
      */
     fun featurePolicy(policyDirectives: String) {
-        this.featurePolicyDirectives = policyDirectives
-    }
-
-    internal fun get(): (HeadersConfigurer<HttpSecurity>) -> Unit {
-        return { headers ->
-            defaultsDisabled?.also {
-                if (defaultsDisabled!!) {
-                    headers.defaultsDisabled()
-                }
-            }
-            contentTypeOptions?.also {
-                headers.contentTypeOptions(contentTypeOptions)
-            }
-            xssProtection?.also {
-                headers.xssProtection(xssProtection)
-            }
-            cacheControl?.also {
-                headers.cacheControl(cacheControl)
-            }
-            hsts?.also {
-                headers.httpStrictTransportSecurity(hsts)
-            }
-            frameOptions?.also {
-                headers.frameOptions(frameOptions)
-            }
-            hpkp?.also {
-                headers.httpPublicKeyPinning(hpkp)
-            }
-            contentSecurityPolicy?.also {
-                headers.contentSecurityPolicy(contentSecurityPolicy)
-            }
-            referrerPolicy?.also {
-                headers.referrerPolicy(referrerPolicy)
-            }
-            featurePolicyDirectives?.also {
-                headers.featurePolicy(featurePolicyDirectives)
-            }
-        }
+        headersConfigurer.featurePolicy(policyDirectives)
     }
 }

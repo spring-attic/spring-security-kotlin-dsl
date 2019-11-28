@@ -246,8 +246,7 @@ class HttpSecurityDsl(private val http: HttpSecurity, private val init: HttpSecu
      * @see [HeadersDsl]
      */
     fun headers(headersConfiguration: HeadersDsl.() -> Unit) {
-        val headersCustomizer = HeadersDsl().apply(headersConfiguration).get()
-        this.http.headers(headersCustomizer)
+        HeadersDsl(http.headers()).apply(headersConfiguration)
     }
 
     /**

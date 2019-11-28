@@ -62,4 +62,27 @@ class ContentTypeOptionsDslTests {
             }
         }
     }
+
+    @Test
+    fun `headers when content type options disabled then no content type options header in response`() {
+        this.spring.register(ContentTypeOptionsDisabledConfig::class.java).autowire()
+
+        this.mockMvc.get("/")
+                .andExpect {
+                    header { doesNotExist(ContentTypeOptionsServerHttpHeadersWriter.X_CONTENT_OPTIONS) }
+                }
+    }
+
+    @EnableWebSecurity
+    class ContentTypeOptionsDisabledConfig : WebSecurityConfigurerAdapter() {
+        override fun configure(http: HttpSecurity) {
+            http {
+                headers {
+                    contentTypeOptions {
+                        disable()
+                    }
+                }
+            }
+        }
+    }
 }

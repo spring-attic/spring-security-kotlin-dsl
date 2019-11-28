@@ -23,6 +23,7 @@ import org.springframework.http.HttpHeaders
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+import org.springframework.security.dsl.config.builders.server.headers.ServerCacheControlDslTests
 import org.springframework.security.dsl.config.builders.servlet.invoke
 import org.springframework.security.dsl.config.builders.test.SpringTestRule
 import org.springframework.test.web.servlet.MockMvc
@@ -42,8 +43,8 @@ class CacheControlDslTests {
     lateinit var mockMvc: MockMvc
 
     @Test
-    fun headersWhenCacheControlConfiguredThenHeadersInResponse() {
-        this.spring.register(CacheControlConfig::class.java).autowire()
+    fun `when cache control configured then headers in response`() {
+        this.spring.register(CacheControlDefaultsDisabledConfig::class.java).autowire()
 
         this.mockMvc.get("/")
                 .andExpect {
@@ -54,12 +55,37 @@ class CacheControlDslTests {
     }
 
     @EnableWebSecurity
-    class CacheControlConfig : WebSecurityConfigurerAdapter() {
+    class CacheControlDefaultsDisabledConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 headers {
                     defaultsDisabled = true
                     cacheControl { }
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `when cache control disabled then missing headers in response`() {
+        this.spring.register(CacheControlDisabledConfig::class.java).autowire()
+
+        this.mockMvc.get("/")
+                .andExpect {
+                    header { doesNotExist(HttpHeaders.CACHE_CONTROL) }
+                    header { doesNotExist(HttpHeaders.EXPIRES) }
+                    header { doesNotExist(HttpHeaders.PRAGMA) }
+                }
+    }
+
+    @EnableWebSecurity
+    class CacheControlDisabledConfig : WebSecurityConfigurerAdapter() {
+        override fun configure(http: HttpSecurity) {
+            http {
+                headers {
+                    cacheControl {
+                        disable()
+                    }
                 }
             }
         }

@@ -140,4 +140,28 @@ class FrameOptionsDslTests {
             }
         }
     }
+
+    @Test
+    fun `headers when frame options disabled then no frame option header in response`() {
+        this.spring.register(FrameOptionsDisabledConfig::class.java).autowire()
+
+        this.mockMvc.get("/") {
+            secure = true
+        }.andExpect {
+            header { doesNotExist(XFrameOptionsServerHttpHeadersWriter.X_FRAME_OPTIONS) }
+        }
+    }
+
+    @EnableWebSecurity
+    class FrameOptionsDisabledConfig : WebSecurityConfigurerAdapter() {
+        override fun configure(http: HttpSecurity) {
+            http {
+                headers {
+                    frameOptions {
+                        disable()
+                    }
+                }
+            }
+        }
+    }
 }

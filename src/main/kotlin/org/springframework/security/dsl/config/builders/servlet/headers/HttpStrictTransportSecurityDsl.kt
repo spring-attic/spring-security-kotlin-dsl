@@ -18,6 +18,7 @@ package org.springframework.security.dsl.config.builders.servlet.headers
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer
+import org.springframework.security.dsl.config.builders.util.delegates.CallbackDelegates
 import org.springframework.security.web.util.matcher.RequestMatcher
 
 /**
@@ -34,18 +35,15 @@ import org.springframework.security.web.util.matcher.RequestMatcher
  * @property includeSubDomains if true, subdomains should be considered HSTS Hosts too.
  * @property preload if true, preload will be included in HSTS Header.
  */
-class HttpStrictTransportSecurityDsl {
-    var maxAgeInSeconds: Long? = null
-    var requestMatcher: RequestMatcher? = null
-    var includeSubDomains: Boolean? = null
-    var preload: Boolean? = null
+class HttpStrictTransportSecurityDsl(
+        private val hstsConfig: HeadersConfigurer<HttpSecurity>.HstsConfig
+) {
+    var maxAgeInSeconds by CallbackDelegates.callOnSet(hstsConfig::maxAgeInSeconds)
+    var requestMatcher by CallbackDelegates.callOnSet<RequestMatcher>(hstsConfig::requestMatcher)
+    var includeSubDomains by CallbackDelegates.callOnSet(hstsConfig::includeSubDomains)
+    var preload by CallbackDelegates.callOnSet(hstsConfig::preload)
 
-    internal fun get(): (HeadersConfigurer<HttpSecurity>.HstsConfig) -> Unit {
-        return { hsts ->
-            maxAgeInSeconds?.also { hsts.maxAgeInSeconds(maxAgeInSeconds!!) }
-            requestMatcher?.also { hsts.requestMatcher(requestMatcher) }
-            includeSubDomains?.also { hsts.includeSubDomains(includeSubDomains!!) }
-            preload?.also { hsts.preload(preload!!) }
-        }
+    fun disable() {
+        hstsConfig.disable()
     }
 }

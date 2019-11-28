@@ -113,4 +113,28 @@ class XssProtectionConfigDslTests {
             }
         }
     }
+
+    @Test
+    fun `headers when XssProtection disabled via method then no X-Xss-Protection header in response`() {
+        this.spring.register(XssProtectionDisabledViaMethodConfig::class.java).autowire()
+
+        this.mockMvc.get("/") {
+            secure = true
+        }.andExpect {
+            header { doesNotExist(XXssProtectionServerHttpHeadersWriter.X_XSS_PROTECTION) }
+        }
+    }
+
+    @EnableWebSecurity
+    class XssProtectionDisabledViaMethodConfig : WebSecurityConfigurerAdapter() {
+        override fun configure(http: HttpSecurity) {
+            http {
+                headers {
+                    xssProtection {
+                        disable()
+                    }
+                }
+            }
+        }
+    }
 }

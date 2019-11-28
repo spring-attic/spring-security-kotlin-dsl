@@ -14,24 +14,26 @@
  * limitations under the License.
  */
 
-package org.springframework.security.dsl.config.builders.servlet.headers
+package org.springframework.security.dsl.config.builders.util.delegates
 
-import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer
+import kotlin.properties.Delegates
 
 /**
- * A Kotlin DSL to configure [HttpSecurity] X-Content-Type-Options header using idiomatic
- * Kotlin code.
+ * Observing delegate functions to trigger a callback function when the observed property is changed.
  *
- * @author Eleftheria Stein
+ * @author Daniel Stoll
  * @since 5.2
  */
-class ContentTypeOptionsDsl(
-        private val contentTypeOptionsConfig: HeadersConfigurer<HttpSecurity>.ContentTypeOptionsConfig
-) {
+class CallbackDelegates {
+    companion object {
 
-    fun disable() {
-        contentTypeOptionsConfig.disable()
+        fun callOnSet(method: () -> Any?) = Delegates.observable(false) {
+            _, _, new -> if (new) method.invoke()
+        }
+
+        fun <T> callOnSet(method: (T) -> Any?) = Delegates.observable<T?>(null) {
+            _, _, new: T? -> new?.let { method.invoke(new) }
+        }
+
     }
-
 }

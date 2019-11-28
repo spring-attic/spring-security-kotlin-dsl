@@ -26,8 +26,11 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
  * @author Eleftheria Stein
  * @since 5.2
  */
-class CacheControlDsl {
-    internal fun get(): (HeadersConfigurer<HttpSecurity>.CacheControlConfig) -> Unit {
-        return { }
+class CacheControlDsl(
+        private val cacheControlConfig: HeadersConfigurer<HttpSecurity>.CacheControlConfig
+) {
+
+    fun disable() {
+        cacheControlConfig.disable()
     }
 }

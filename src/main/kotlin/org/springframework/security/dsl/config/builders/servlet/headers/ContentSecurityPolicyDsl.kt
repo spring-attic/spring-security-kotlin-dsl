@@ -18,6 +18,7 @@ package org.springframework.security.dsl.config.builders.servlet.headers
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer
+import org.springframework.security.dsl.config.builders.util.delegates.CallbackDelegates
 
 /**
  * A Kotlin DSL to configure the [HttpSecurity] Content-Security-Policy header using
@@ -28,20 +29,11 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
  * @property policyDirectives the security policy directive(s) to be used in the response header.
  * @property reportOnly includes the Content-Security-Policy-Report-Only header in the response.
  */
-class ContentSecurityPolicyDsl {
-    var policyDirectives: String? = null
-    var reportOnly: Boolean? = null
+class ContentSecurityPolicyDsl(
+        private val contentSecurityPolicyConfig: HeadersConfigurer<HttpSecurity>.ContentSecurityPolicyConfig
+) {
 
-    internal fun get(): (HeadersConfigurer<HttpSecurity>.ContentSecurityPolicyConfig) -> Unit {
-        return { contentSecurityPolicy ->
-            policyDirectives?.also {
-                contentSecurityPolicy.policyDirectives(policyDirectives)
-            }
-            reportOnly?.also {
-                if (reportOnly!!) {
-                    contentSecurityPolicy.reportOnly()
-                }
-            }
-        }
-    }
+    var policyDirectives by CallbackDelegates.callOnSet(contentSecurityPolicyConfig::policyDirectives)
+    var reportOnly by CallbackDelegates.callOnSet(contentSecurityPolicyConfig::reportOnly)
+
 }

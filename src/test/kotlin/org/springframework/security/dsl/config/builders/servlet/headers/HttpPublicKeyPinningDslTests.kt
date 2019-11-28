@@ -197,4 +197,28 @@ class HttpPublicKeyPinningDslTests {
             }
         }
     }
+
+    @Test
+    fun `headers when hpkp disabled then no hpkp header in response`() {
+        this.spring.register(HpkpDisabledConfig::class.java).autowire()
+
+        this.mockMvc.get("/") {
+            secure = true
+        }.andExpect {
+            header { doesNotExist(HPKP_RO_HEADER_NAME) }
+        }
+    }
+
+    @EnableWebSecurity
+    class HpkpDisabledConfig : WebSecurityConfigurerAdapter() {
+        override fun configure(http: HttpSecurity) {
+            http {
+                headers {
+                    httpPublicKeyPinning {
+                        disable()
+                    }
+                }
+            }
+        }
+    }
 }

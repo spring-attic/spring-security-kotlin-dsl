@@ -140,4 +140,28 @@ class HttpStrictTransportSecurityDslTests {
             }
         }
     }
+
+    @Test
+    fun `headers when hsts disabled then no hsts header in response`() {
+        this.spring.register(HstsDisabledConfig::class.java).autowire()
+
+        this.mockMvc.get("/") {
+            secure = true
+        }.andExpect {
+            header { doesNotExist(StrictTransportSecurityServerHttpHeadersWriter.STRICT_TRANSPORT_SECURITY) }
+        }
+    }
+
+    @EnableWebSecurity
+    class HstsDisabledConfig : WebSecurityConfigurerAdapter() {
+        override fun configure(http: HttpSecurity) {
+            http {
+                headers {
+                    httpStrictTransportSecurity {
+                        disable()
+                    }
+                }
+            }
+        }
+    }
 }
