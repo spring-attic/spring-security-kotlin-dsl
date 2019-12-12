@@ -218,6 +218,34 @@ class ServerHttpSecurityDsl(private val http: ServerHttpSecurity, private val in
     }
 
     /**
+     * Provides logout support.
+     *
+     * Example:
+     *
+     * ```
+     * @EnableWebFluxSecurity
+     * class SecurityConfig {
+     *
+     *  @Bean
+     *  fun springWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
+     *      return http {
+     *          logout {
+     *              logoutUrl = "/sign-out"
+     *          }
+     *       }
+     *   }
+     * }
+     * ```
+     *
+     * @param logoutConfiguration custom configuration to apply to logout
+     * @see [ServerLogoutDsl]
+     */
+    fun logout(logoutConfiguration: ServerLogoutDsl.() -> Unit) {
+        val logoutCustomizer = ServerLogoutDsl().apply(logoutConfiguration).get()
+        this.http.logout(logoutCustomizer)
+    }
+
+    /**
      * Enables and configures anonymous authentication.
      *
      * Example:
