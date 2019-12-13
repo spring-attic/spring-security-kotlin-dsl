@@ -192,6 +192,35 @@ class ServerHttpSecurityDsl(private val http: ServerHttpSecurity, private val in
     }
 
     /**
+     * Allows configuring exception handling.
+     *
+     * Example:
+     *
+     * ```
+     * @EnableWebFluxSecurity
+     * class SecurityConfig {
+     *
+     *  @Bean
+     *  fun springWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
+     *      return http {
+     *          exceptionHandling {
+     *              authenticationEntryPoint = RedirectServerAuthenticationEntryPoint("/auth")
+     *          }
+     *       }
+     *   }
+     * }
+     * ```
+     *
+     * @param exceptionHandlingConfiguration custom configuration to apply to
+     * exception handling
+     * @see [ServerExceptionHandlingDsl]
+     */
+    fun exceptionHandling(exceptionHandlingConfiguration: ServerExceptionHandlingDsl.() -> Unit) {
+        val exceptionHandlingCustomizer = ServerExceptionHandlingDsl().apply(exceptionHandlingConfiguration).get()
+        this.http.exceptionHandling(exceptionHandlingCustomizer)
+    }
+
+    /**
      * Enables CSRF protection.
      *
      * Example:
