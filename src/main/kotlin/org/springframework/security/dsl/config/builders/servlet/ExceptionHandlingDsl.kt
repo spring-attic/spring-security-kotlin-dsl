@@ -24,8 +24,8 @@ import org.springframework.security.web.util.matcher.RequestMatcher
 import java.util.*
 
 /**
- * A Kotlin DSL to configure [HttpSecurity] X509 based pre authentication
- * using idiomatic Kotlin code.
+ * A Kotlin DSL to configure [HttpSecurity] exception handling using idiomatic Kotlin
+ * code.
  *
  * @author Eleftheria Stein
  * @since 5.2
