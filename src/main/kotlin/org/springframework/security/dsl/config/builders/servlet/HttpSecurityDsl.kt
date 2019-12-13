@@ -348,7 +348,7 @@ class HttpSecurityDsl(private val http: HttpSecurity, private val init: HttpSecu
      *
      *  override fun configure(http: HttpSecurity) {
      *      http {
-     *          requiresSecure {
+     *          requiresChannel {
      *              secure("/public", requiresInsecure)
      *              secure(anyRequest, requiresSecure)
      *          }
