@@ -27,7 +27,7 @@ java.sourceCompatibility = JavaVersion.VERSION_1_8
 dependencyManagement {
 	imports {
 		mavenBom("org.springframework:spring-framework-bom:5.2.0.RELEASE")
-		mavenBom("org.springframework.security:spring-security-bom:5.2.0.RELEASE")
+		mavenBom("org.springframework.security:spring-security-bom:5.3.0.BUILD-SNAPSHOT")
 	}
 
 	dependencies {
