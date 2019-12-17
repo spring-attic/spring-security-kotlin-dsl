@@ -192,6 +192,37 @@ class ServerHttpSecurityDsl(private val http: ServerHttpSecurity, private val in
     }
 
     /**
+     * Allows configuring HTTPS redirection rules.
+     *
+     * Example:
+     *
+     * ```
+     * @EnableWebFluxSecurity
+     * class SecurityConfig {
+     *
+     *  @Bean
+     *  fun springWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
+     *      return http {
+     *          redirectToHttps {
+     *              httpsRedirectWhen {
+     *                  it.request.headers.containsKey("X-Requires-Https")
+     *              }
+     *          }
+     *      }
+     *   }
+     * }
+     * ```
+     *
+     * @param httpsRedirectConfiguration custom configuration for the HTTPS redirect
+     * rules.
+     * @see [ServerHttpsRedirectDsl]
+     */
+    fun redirectToHttps(httpsRedirectConfiguration: ServerHttpsRedirectDsl.() -> Unit) {
+        val httpsRedirectCustomizer = ServerHttpsRedirectDsl().apply(httpsRedirectConfiguration).get()
+        this.http.redirectToHttps(httpsRedirectCustomizer)
+    }
+
+    /**
      * Allows configuring exception handling.
      *
      * Example:
