@@ -192,6 +192,35 @@ class ServerHttpSecurityDsl(private val http: ServerHttpSecurity, private val in
     }
 
     /**
+     * Allows configuring CORS.
+     *
+     * Example:
+     *
+     * ```
+     * @EnableWebFluxSecurity
+     * class SecurityConfig {
+     *
+     *  @Bean
+     *  fun springWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
+     *      return http {
+     *          cors {
+     *              configurationSource = customConfigurationSource
+     *          }
+     *       }
+     *   }
+     * }
+     * ```
+     *
+     * @param corsConfiguration custom configuration to be applied to the
+     * CORS headers
+     * @see [ServerCorsDsl]
+     */
+    fun cors(corsConfiguration: ServerCorsDsl.() -> Unit) {
+        val corsCustomizer = ServerCorsDsl().apply(corsConfiguration).get()
+        this.http.cors(corsCustomizer)
+    }
+
+    /**
      * Allows configuring HTTPS redirection rules.
      *
      * Example:
