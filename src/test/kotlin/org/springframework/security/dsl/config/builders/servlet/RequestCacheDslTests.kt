@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import  org.springframework.security.dsl.config.builders.test.SpringTestRule
+import org.springframework.security.dsl.config.builders.test.SpringTestRule
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin
 import org.springframework.security.web.savedrequest.NullRequestCache
 import org.springframework.test.web.servlet.MockMvc
@@ -43,7 +43,7 @@ class RequestCacheDslTests {
     lateinit var mockMvc: MockMvc
 
     @Test
-    fun getWhenRequestCacheEnabledThenRedirectedToCachedPage() {
+    fun `GET when request cache enabled then redirected to cached page`() {
         this.spring.register(RequestCacheConfig::class.java).autowire()
 
         this.mockMvc.get("/test")
@@ -55,7 +55,7 @@ class RequestCacheDslTests {
     }
 
     @EnableWebSecurity
-    class RequestCacheConfig : WebSecurityConfigurerAdapter() {
+    open class RequestCacheConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 requestCache { }
@@ -65,7 +65,7 @@ class RequestCacheDslTests {
     }
 
     @Test
-    fun getWhenCustomRequestCacheThenCustomRequestCacheUsed() {
+    fun `GET when custom request cache then custom request cache used`() {
         this.spring.register(CustomRequestCacheConfig::class.java).autowire()
 
         this.mockMvc.get("/test")
@@ -77,7 +77,7 @@ class RequestCacheDslTests {
     }
 
     @EnableWebSecurity
-    class CustomRequestCacheConfig : WebSecurityConfigurerAdapter() {
+    open class CustomRequestCacheConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 requestCache {

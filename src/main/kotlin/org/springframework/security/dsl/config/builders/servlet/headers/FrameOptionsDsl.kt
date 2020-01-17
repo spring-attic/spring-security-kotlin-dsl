@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
  * idiomatic Kotlin code.
  *
  * @author Eleftheria Stein
- * @since 5.2
+ * @since 5.3
  * @property sameOrigin allow any request that comes from the same origin to frame this
  * application.
  * @property deny deny framing any content from this application.
@@ -32,6 +32,15 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
 class FrameOptionsDsl {
     var sameOrigin: Boolean? = null
     var deny: Boolean? = null
+
+    private var disabled = false
+
+    /**
+     * Disable the X-Frame-Options header.
+     */
+    fun disable() {
+        disabled = true
+    }
 
     internal fun get(): (HeadersConfigurer<HttpSecurity>.FrameOptionsConfig) -> Unit {
         return { frameOptions ->
@@ -44,6 +53,9 @@ class FrameOptionsDsl {
                 if (deny!!) {
                     frameOptions.deny()
                 }
+            }
+            if (disabled) {
+                frameOptions.disable()
             }
         }
     }

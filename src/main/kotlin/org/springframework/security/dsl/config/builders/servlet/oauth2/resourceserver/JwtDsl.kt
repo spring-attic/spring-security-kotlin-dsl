@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ import org.springframework.security.oauth2.jwt.JwtDecoder
  * A Kotlin DSL to configure JWT Resource Server Support using idiomatic Kotlin code.
  *
  * @author Eleftheria Stein
- * @since 5.2
+ * @since 5.3
  * @property jwtAuthenticationConverter the [Converter] to use for converting a [Jwt] into
  * an [AbstractAuthenticationToken].
  * @property jwtDecoder the [JwtDecoder] to use.

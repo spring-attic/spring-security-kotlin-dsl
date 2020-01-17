@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ class ContentTypeOptionsDslTests {
     lateinit var mockMvc: MockMvc
 
     @Test
-    fun headersWhenContentTypeOptionsConfiguredThenHeaderInResponse() {
+    fun `headers when content type options configured then X-Content-Type-Options header in response`() {
         this.spring.register(ContentTypeOptionsConfig::class.java).autowire()
 
         this.mockMvc.get("/")
@@ -52,12 +52,35 @@ class ContentTypeOptionsDslTests {
     }
 
     @EnableWebSecurity
-    class ContentTypeOptionsConfig : WebSecurityConfigurerAdapter() {
+    open class ContentTypeOptionsConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 headers {
                     defaultsDisabled = true
                     contentTypeOptions { }
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `headers when content type options disabled then X-Content-Type-Options header not in response`() {
+        this.spring.register(ContentTypeOptionsDisabledConfig::class.java).autowire()
+
+        this.mockMvc.get("/")
+                .andExpect {
+                    header { doesNotExist(ContentTypeOptionsServerHttpHeadersWriter.X_CONTENT_OPTIONS) }
+                }
+    }
+
+    @EnableWebSecurity
+    open class ContentTypeOptionsDisabledConfig : WebSecurityConfigurerAdapter() {
+        override fun configure(http: HttpSecurity) {
+            http {
+                headers {
+                    contentTypeOptions {
+                        disable()
+                    }
                 }
             }
         }

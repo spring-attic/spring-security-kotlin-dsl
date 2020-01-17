@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import org.springframework.security.access.AccessDeniedException
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import  org.springframework.security.dsl.config.builders.test.SpringTestRule
+import org.springframework.security.dsl.config.builders.test.SpringTestRule
 import org.springframework.security.core.userdetails.User.withUsername
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user
 import org.springframework.security.web.access.AccessDeniedHandlerImpl
@@ -47,7 +47,7 @@ class ExceptionHandlingDslTests {
     lateinit var mockMvc: MockMvc
 
     @Test
-    fun requestWhenExceptionHandlingEnabledThenReturnsForbidden() {
+    fun `request when exception handling enabled then returns forbidden`() {
         this.spring.register(ExceptionHandlingConfig::class.java).autowire()
 
         this.mockMvc.get("/")
@@ -58,7 +58,7 @@ class ExceptionHandlingDslTests {
 
     @EnableWebSecurity
     @EnableWebMvc
-    class ExceptionHandlingConfig : WebSecurityConfigurerAdapter() {
+    open class ExceptionHandlingConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 authorizeRequests {
@@ -70,14 +70,14 @@ class ExceptionHandlingDslTests {
     }
 
     @Test(expected = AccessDeniedException::class)
-    fun requestWhenExceptionHandlingDisabledThenThrowsException() {
+    fun `request when exception handling disabled then throws exception`() {
         this.spring.register(ExceptionHandlingDisabledConfig::class.java).autowire()
 
         this.mockMvc.get("/")
     }
 
     @EnableWebSecurity
-    class ExceptionHandlingDisabledConfig : WebSecurityConfigurerAdapter() {
+    open class ExceptionHandlingDisabledConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 authorizeRequests {
@@ -91,7 +91,7 @@ class ExceptionHandlingDslTests {
     }
 
     @Test
-    fun exceptionHandlingWhenCustomAccessDeniedPageThenRedirectsToCustomPage() {
+    fun `exception handling when custom access denied page then redirects to custom page`() {
         this.spring.register(AccessDeniedPageConfig::class.java).autowire()
 
         this.mockMvc.get("/admin") {
@@ -104,7 +104,7 @@ class ExceptionHandlingDslTests {
 
     @EnableWebSecurity
     @EnableWebMvc
-    class AccessDeniedPageConfig : WebSecurityConfigurerAdapter() {
+    open class AccessDeniedPageConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 authorizeRequests {
@@ -119,7 +119,7 @@ class ExceptionHandlingDslTests {
     }
 
     @Test
-    fun exceptionHandlingWhenCustomAccessDeniedHandlerThenHandlerUsed() {
+    fun `exception handling when custom access denied handler then handler used`() {
         this.spring.register(AccessDeniedHandlerConfig::class.java).autowire()
 
         this.mockMvc.get("/admin") {
@@ -132,7 +132,7 @@ class ExceptionHandlingDslTests {
 
     @EnableWebSecurity
     @EnableWebMvc
-    class AccessDeniedHandlerConfig : WebSecurityConfigurerAdapter() {
+    open class AccessDeniedHandlerConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             val customAccessDeniedHandler = AccessDeniedHandlerImpl()
             customAccessDeniedHandler.setErrorPage("/access-denied")
@@ -149,7 +149,7 @@ class ExceptionHandlingDslTests {
     }
 
     @Test
-    fun exceptionHandlingWhenDefaultAccessDeniedHandlerForPageThenHandlersUsed() {
+    fun `exception handling when default access denied handler for page then handlers used`() {
         this.spring.register(AccessDeniedHandlerForConfig::class.java).autowire()
 
         this.mockMvc.get("/admin1") {
@@ -169,7 +169,7 @@ class ExceptionHandlingDslTests {
 
     @EnableWebSecurity
     @EnableWebMvc
-    class AccessDeniedHandlerForConfig : WebSecurityConfigurerAdapter() {
+    open class AccessDeniedHandlerForConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             val customAccessDeniedHandler1 = AccessDeniedHandlerImpl()
             customAccessDeniedHandler1.setErrorPage("/access-denied1")
@@ -190,7 +190,7 @@ class ExceptionHandlingDslTests {
     }
 
     @Test
-    fun exceptionHandlingWhenCustomAuthenticationEntryPointThenEntryPointUsed() {
+    fun `exception handling when custom authentication entry point then entry point used`() {
         this.spring.register(AuthenticationEntryPointConfig::class.java).autowire()
 
         this.mockMvc.get("/")
@@ -202,7 +202,7 @@ class ExceptionHandlingDslTests {
 
     @EnableWebSecurity
     @EnableWebMvc
-    class AuthenticationEntryPointConfig : WebSecurityConfigurerAdapter() {
+    open class AuthenticationEntryPointConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 authorizeRequests {
@@ -216,7 +216,7 @@ class ExceptionHandlingDslTests {
     }
 
     @Test
-    fun exceptionHandlingWhenAuthenticationEntryPointForPageThenEntryPointsUsed() {
+    fun `exception handling when authentication entry point for page then entry points used`() {
         this.spring.register(AuthenticationEntryPointForConfig::class.java).autowire()
 
         this.mockMvc.get("/secured1")
@@ -234,7 +234,7 @@ class ExceptionHandlingDslTests {
 
     @EnableWebSecurity
     @EnableWebMvc
-    class AuthenticationEntryPointForConfig : WebSecurityConfigurerAdapter() {
+    open class AuthenticationEntryPointForConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             val customAuthenticationEntryPoint1 = LoginUrlAuthenticationEntryPoint("/custom-login1")
             val customAuthenticationEntryPoint2 = LoginUrlAuthenticationEntryPoint("/custom-login2")

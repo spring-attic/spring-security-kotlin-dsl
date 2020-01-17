@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.oauth2.client.CommonOAuth2Provider
-import  org.springframework.security.dsl.config.builders.test.SpringTestRule
+import org.springframework.security.dsl.config.builders.test.SpringTestRule
 import org.springframework.security.oauth2.client.endpoint.OAuth2AccessTokenResponseClient
 import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequest
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository
@@ -55,12 +55,12 @@ class OAuth2ClientDslTests {
     lateinit var mockMvc: MockMvc
 
     @Test
-    fun oauth2ClientWhenCustomClientRegistrationRepositoryThenBeanIsNotRequired() {
+    fun `oauth2Client when custom client registration repository then bean is not required`() {
         this.spring.register(ClientRepoConfig::class.java).autowire()
     }
 
     @EnableWebSecurity
-    class ClientRepoConfig : WebSecurityConfigurerAdapter() {
+    open class ClientRepoConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 oauth2Client {
@@ -75,7 +75,7 @@ class OAuth2ClientDslTests {
     }
 
     @Test
-    fun oauth2ClientWhenCustomAuthorizedClientRepositoryThenRepositoryUsed() {
+    fun `oauth2Client when custom authorized client repository then repository used`() {
         this.spring.register(ClientRepositoryConfig::class.java, ClientConfig::class.java).autowire()
         val authorizationRequest = OAuth2AuthorizationRequest
                 .authorizationCode()
@@ -104,7 +104,7 @@ class OAuth2ClientDslTests {
     }
 
     @EnableWebSecurity
-    class ClientRepositoryConfig : WebSecurityConfigurerAdapter() {
+    open class ClientRepositoryConfig : WebSecurityConfigurerAdapter() {
         companion object {
             var REQUEST_REPOSITORY: AuthorizationRequestRepository<OAuth2AuthorizationRequest> = mock(AuthorizationRequestRepository::class.java) as AuthorizationRequestRepository<OAuth2AuthorizationRequest>
             var CLIENT: OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> = mock(OAuth2AccessTokenResponseClient::class.java) as OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest>
@@ -128,9 +128,9 @@ class OAuth2ClientDslTests {
     }
 
     @Configuration
-    class ClientConfig {
+    open class ClientConfig {
         @Bean
-        fun clientRegistrationRepository(): ClientRegistrationRepository {
+        open fun clientRegistrationRepository(): ClientRegistrationRepository {
             return InMemoryClientRegistrationRepository(
                     CommonOAuth2Provider.GOOGLE
                             .getBuilder("google")

@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ import java.util.*
  * code.
  *
  * @author Eleftheria Stein
- * @since 5.2
+ * @since 5.3
  * @property accessDeniedPage the URL to the access denied page
  * @property accessDeniedHandler the [AccessDeniedHandler] to use
  * @property authenticationEntryPoint the [AuthenticationEntryPoint] to use

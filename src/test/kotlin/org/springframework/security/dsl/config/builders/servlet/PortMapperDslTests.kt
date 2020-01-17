@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import  org.springframework.security.dsl.config.builders.test.SpringTestRule
+import org.springframework.security.dsl.config.builders.test.SpringTestRule
 import org.springframework.security.web.PortMapperImpl
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
@@ -42,7 +42,7 @@ class PortMapperDslTests  {
     lateinit var mockMvc: MockMvc
 
     @Test
-    fun portMapperWhenSpecifyingMapThenRedirectsToHttpsPort() {
+    fun `port mapper when specifying map then redirects to https port`() {
         this.spring.register(PortMapperMapConfig::class.java).autowire()
 
         this.mockMvc.get("http://localhost:543")
@@ -52,7 +52,7 @@ class PortMapperDslTests  {
     }
 
     @EnableWebSecurity
-    class PortMapperMapConfig : WebSecurityConfigurerAdapter() {
+    open class PortMapperMapConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 requiresChannel {
@@ -66,7 +66,7 @@ class PortMapperDslTests  {
     }
 
     @Test
-    fun portMapperWhenSpecifyingCustomMapperThenRedirectsToHttpsPort() {
+    fun `port mapper when specifying custom mapper then redirects to https port`() {
         this.spring.register(CustomPortMapperConfig::class.java).autowire()
 
         this.mockMvc.get("http://localhost:543")
@@ -76,7 +76,7 @@ class PortMapperDslTests  {
     }
 
     @EnableWebSecurity
-    class CustomPortMapperConfig : WebSecurityConfigurerAdapter() {
+    open class CustomPortMapperConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             val customPortMapper = PortMapperImpl()
             customPortMapper.setPortMappings(Collections.singletonMap("543", "123"))

@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.oauth2.client.CommonOAuth2Provider
-import  org.springframework.security.dsl.config.builders.test.SpringTestRule
+import org.springframework.security.dsl.config.builders.test.SpringTestRule
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository
 import org.springframework.test.web.servlet.MockMvc
@@ -47,12 +47,12 @@ class OAuth2LoginDslTests {
     lateinit var mockMvc: MockMvc
 
     @Test
-    fun oauth2LoginWhenCustomClientRegistrationRepositoryThenBeanIsNotRequired() {
+    fun `oauth2Login when custom client registration repository then bean is not required`() {
         this.spring.register(ClientRepoConfig::class.java).autowire()
     }
 
     @EnableWebSecurity
-    class ClientRepoConfig : WebSecurityConfigurerAdapter() {
+    open class ClientRepoConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 oauth2Login {
@@ -67,7 +67,7 @@ class OAuth2LoginDslTests {
     }
 
     @Test
-    fun loginPageWhenOAuth2LoginConfiguredThenDefaultLoginPageCreated() {
+    fun `login page when oAuth2Login configured then default login page created`() {
         this.spring.register(OAuth2LoginConfig::class.java, ClientConfig::class.java).autowire()
 
         this.mockMvc.get("/login")
@@ -77,7 +77,7 @@ class OAuth2LoginDslTests {
     }
 
     @EnableWebSecurity
-    class OAuth2LoginConfig : WebSecurityConfigurerAdapter() {
+    open class OAuth2LoginConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 oauth2Login { }
@@ -86,7 +86,7 @@ class OAuth2LoginDslTests {
     }
 
     @Test
-    fun loginPageWhenCustomLoginPageThenRedirectedToCustomPage() {
+    fun `login page when custom login page then redirected to custom page`() {
         this.spring.register(LoginPageConfig::class.java, ClientConfig::class.java).autowire()
 
         this.mockMvc.get("/custom-login")
@@ -96,7 +96,7 @@ class OAuth2LoginDslTests {
     }
 
     @EnableWebSecurity
-    class LoginPageConfig : WebSecurityConfigurerAdapter() {
+    open class LoginPageConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 oauth2Login {
@@ -113,9 +113,9 @@ class OAuth2LoginDslTests {
     }
 
     @Configuration
-    class ClientConfig {
+    open class ClientConfig {
         @Bean
-        fun clientRegistrationRepository(): ClientRegistrationRepository {
+        open fun clientRegistrationRepository(): ClientRegistrationRepository {
             return InMemoryClientRegistrationRepository(
                     CommonOAuth2Provider.GOOGLE
                             .getBuilder("google").clientId("clientId").clientSecret("clientSecret")

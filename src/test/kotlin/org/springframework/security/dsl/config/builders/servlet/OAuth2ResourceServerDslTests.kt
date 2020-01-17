@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import  org.springframework.security.dsl.config.builders.test.SpringTestRule
+import org.springframework.security.dsl.config.builders.test.SpringTestRule
 import org.springframework.security.oauth2.core.oidc.IdTokenClaimNames.SUB
 import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.security.oauth2.jwt.JwtDecoder
@@ -48,7 +48,7 @@ class OAuth2ResourceServerDslTests {
     lateinit var mockMvc: MockMvc
 
     @Test
-    fun oauth2ResourceServerWhenCustomEntryPointThenEntryPointUsed() {
+    fun `oauth2Resource server when custom entry point then entry point used`() {
         this.spring.register(EntryPointConfig::class.java).autowire()
 
         this.mockMvc.get("/")
@@ -57,7 +57,7 @@ class OAuth2ResourceServerDslTests {
     }
 
     @EnableWebSecurity
-    class EntryPointConfig : WebSecurityConfigurerAdapter() {
+    open class EntryPointConfig : WebSecurityConfigurerAdapter() {
         companion object {
             var ENTRY_POINT: AuthenticationEntryPoint = mock(AuthenticationEntryPoint::class.java)
         }
@@ -75,13 +75,13 @@ class OAuth2ResourceServerDslTests {
         }
 
         @Bean
-        fun jwtDecoder(): JwtDecoder {
+        open fun jwtDecoder(): JwtDecoder {
             return mock(JwtDecoder::class.java)
         }
     }
 
     @Test
-    fun oauth2ResourceServerWhenCustomBearerTokenResolverThenResolverUsed() {
+    fun `oauth2Resource server when custom bearer token resolver then resolver used`() {
         this.spring.register(BearerTokenResolverConfig::class.java).autowire()
 
         this.mockMvc.get("/")
@@ -90,7 +90,7 @@ class OAuth2ResourceServerDslTests {
     }
 
     @EnableWebSecurity
-    class BearerTokenResolverConfig : WebSecurityConfigurerAdapter() {
+    open class BearerTokenResolverConfig : WebSecurityConfigurerAdapter() {
         companion object {
             var RESOLVER: BearerTokenResolver = mock(BearerTokenResolver::class.java)
         }
@@ -108,13 +108,13 @@ class OAuth2ResourceServerDslTests {
         }
 
         @Bean
-        fun jwtDecoder(): JwtDecoder {
+        open fun jwtDecoder(): JwtDecoder {
             return mock(JwtDecoder::class.java)
         }
     }
 
     @Test
-    fun oauth2ResourceServerWhenCustomAccessDeniedHandlerThenHandlerUsed() {
+    fun `oauth2Resource server when custom access denied handler then handler used`() {
         this.spring.register(AccessDeniedHandlerConfig::class.java).autowire()
         `when`(AccessDeniedHandlerConfig.DECODER.decode(anyString())).thenReturn(
                 Jwt.withTokenValue("token")
@@ -130,7 +130,7 @@ class OAuth2ResourceServerDslTests {
     }
 
     @EnableWebSecurity
-    class AccessDeniedHandlerConfig : WebSecurityConfigurerAdapter() {
+    open class AccessDeniedHandlerConfig : WebSecurityConfigurerAdapter() {
         companion object {
             var DENIED_HANDLER: AccessDeniedHandler = mock(AccessDeniedHandler::class.java)
             var DECODER: JwtDecoder = mock(JwtDecoder::class.java)
@@ -149,7 +149,7 @@ class OAuth2ResourceServerDslTests {
         }
 
         @Bean
-        fun jwtDecoder(): JwtDecoder {
+        open fun jwtDecoder(): JwtDecoder {
             return DECODER
         }
     }

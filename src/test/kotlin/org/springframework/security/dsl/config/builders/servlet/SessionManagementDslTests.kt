@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.http.SessionCreationPolicy
-import  org.springframework.security.dsl.config.builders.test.SpringTestRule
+import org.springframework.security.dsl.config.builders.test.SpringTestRule
 import org.springframework.security.core.Authentication
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler
@@ -55,7 +55,7 @@ class SessionManagementDslTests {
     lateinit var mockMvc: MockMvc
 
     @Test
-    fun sessionManagementWhenInvalidSessionUrlThenRedirectedToUrl() {
+    fun `session management when invalid session url then redirected to url`() {
         this.spring.register(InvalidSessionUrlConfig::class.java).autowire()
 
         this.mockMvc.perform(get("/")
@@ -69,7 +69,7 @@ class SessionManagementDslTests {
     }
 
     @EnableWebSecurity
-    class InvalidSessionUrlConfig : WebSecurityConfigurerAdapter() {
+    open class InvalidSessionUrlConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 sessionManagement {
@@ -80,7 +80,7 @@ class SessionManagementDslTests {
     }
 
     @Test
-    fun sessionManagementWhenInvalidSessionStrategyThenStrategyUsed() {
+    fun `session management when invalid session strategy then strategy used`() {
         this.spring.register(InvalidSessionStrategyConfig::class.java).autowire()
 
         this.mockMvc.perform(get("/")
@@ -94,7 +94,7 @@ class SessionManagementDslTests {
     }
 
     @EnableWebSecurity
-    class InvalidSessionStrategyConfig : WebSecurityConfigurerAdapter() {
+    open class InvalidSessionStrategyConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 sessionManagement {
@@ -105,7 +105,7 @@ class SessionManagementDslTests {
     }
 
     @Test
-    fun sessionManagementWhenSessionAuthenticationErrorUrlThenRedirectedToUrl() {
+    fun `session management when session authentication error url then redirected to url`() {
         this.spring.register(SessionAuthenticationErrorUrlConfig::class.java).autowire()
         val session = mock(MockHttpSession::class.java)
         `when`(session.changeSessionId()).thenThrow(SessionAuthenticationException::class.java)
@@ -118,7 +118,7 @@ class SessionManagementDslTests {
     }
 
     @EnableWebSecurity
-    class SessionAuthenticationErrorUrlConfig : WebSecurityConfigurerAdapter() {
+    open class SessionAuthenticationErrorUrlConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 authorizeRequests {
@@ -132,7 +132,7 @@ class SessionManagementDslTests {
     }
 
     @Test
-    fun sessionManagementWhenSessionAuthenticationFailureHandlerThenHandlerUsed() {
+    fun `session management when session authentication failure handler then handler used`() {
         this.spring.register(SessionAuthenticationFailureHandlerConfig::class.java).autowire()
         val session = mock(MockHttpSession::class.java)
         `when`(session.changeSessionId()).thenThrow(SessionAuthenticationException::class.java)
@@ -145,7 +145,7 @@ class SessionManagementDslTests {
     }
 
     @EnableWebSecurity
-    class SessionAuthenticationFailureHandlerConfig : WebSecurityConfigurerAdapter() {
+    open class SessionAuthenticationFailureHandlerConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 authorizeRequests {
@@ -159,7 +159,7 @@ class SessionManagementDslTests {
     }
 
     @Test
-    fun sessionManagementWhenStatelessPolicyThenDoesNotStoreSession() {
+    fun `session management when stateless policy then does not store session`() {
         this.spring.register(StatelessSessionManagementConfig::class.java).autowire()
 
         val result = this.mockMvc.perform(get("/"))
@@ -169,7 +169,7 @@ class SessionManagementDslTests {
     }
 
     @EnableWebSecurity
-    class StatelessSessionManagementConfig : WebSecurityConfigurerAdapter() {
+    open class StatelessSessionManagementConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 authorizeRequests {
@@ -183,7 +183,7 @@ class SessionManagementDslTests {
     }
 
     @Test
-    fun sessionManagementWhenSessionAuthenticationStrategyThenStrategyUsed() {
+    fun `session management when session authentication strategy then strategy used`() {
         this.spring.register(SessionAuthenticationStrategyConfig::class.java).autowire()
 
         this.mockMvc.perform(get("/")
@@ -196,7 +196,7 @@ class SessionManagementDslTests {
     }
 
     @EnableWebSecurity
-    class SessionAuthenticationStrategyConfig : WebSecurityConfigurerAdapter() {
+    open class SessionAuthenticationStrategyConfig : WebSecurityConfigurerAdapter() {
         var mockSessionAuthenticationStrategy: SessionAuthenticationStrategy = mock(SessionAuthenticationStrategy::class.java)
 
         override fun configure(http: HttpSecurity) {
@@ -211,7 +211,7 @@ class SessionManagementDslTests {
         }
 
         @Bean
-        fun sessionAuthenticationStrategy(): SessionAuthenticationStrategy {
+        open fun sessionAuthenticationStrategy(): SessionAuthenticationStrategy {
             return this.mockSessionAuthenticationStrategy
         }
     }

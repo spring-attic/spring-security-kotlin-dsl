@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ import org.springframework.security.dsl.config.builders.servlet.invoke
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.oauth2.client.CommonOAuth2Provider
-import  org.springframework.security.dsl.config.builders.test.SpringTestRule
+import org.springframework.security.dsl.config.builders.test.SpringTestRule
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository
@@ -52,7 +52,7 @@ class AuthorizationEndpointDslTests {
     lateinit var mockMvc: MockMvc
 
     @Test
-    fun oauth2LoginWhenCustomClientRegistrationRepositoryThenRepositoryUsed() {
+    fun `oauth2Login when custom client registration repository then repository used`() {
         this.spring.register(ResolverConfig::class.java, ClientConfig::class.java).autowire()
 
         this.mockMvc.get("/oauth2/authorization/google")
@@ -61,7 +61,7 @@ class AuthorizationEndpointDslTests {
     }
 
     @EnableWebSecurity
-    class ResolverConfig : WebSecurityConfigurerAdapter() {
+    open class ResolverConfig : WebSecurityConfigurerAdapter() {
         companion object {
             var RESOLVER: OAuth2AuthorizationRequestResolver = Mockito.mock(OAuth2AuthorizationRequestResolver::class.java)
         }
@@ -78,7 +78,7 @@ class AuthorizationEndpointDslTests {
     }
 
     @Test
-    fun oauth2LoginWhenCustomAuthorizationRequestRepositoryThenRepositoryUsed() {
+    fun `oauth2Login when custom authorization request repository then repository used`() {
         this.spring.register(RequestRepoConfig::class.java, ClientConfig::class.java).autowire()
 
         this.mockMvc.get("/oauth2/authorization/google")
@@ -87,7 +87,7 @@ class AuthorizationEndpointDslTests {
     }
 
     @EnableWebSecurity
-    class RequestRepoConfig : WebSecurityConfigurerAdapter() {
+    open class RequestRepoConfig : WebSecurityConfigurerAdapter() {
         companion object {
             var REPOSITORY: AuthorizationRequestRepository<OAuth2AuthorizationRequest> = Mockito.mock(AuthorizationRequestRepository::class.java) as AuthorizationRequestRepository<OAuth2AuthorizationRequest>
         }
@@ -104,7 +104,7 @@ class AuthorizationEndpointDslTests {
     }
 
     @Test
-    fun oauth2LoginWhenCustomAuthorizationUriRepositoryThenUriUsed() {
+    fun `oauth2Login when custom authorization uri repository then uri used`() {
         this.spring.register(AuthorizationUriConfig::class.java, ClientConfig::class.java).autowire()
 
         this.mockMvc.get("/connect/google")
@@ -113,7 +113,7 @@ class AuthorizationEndpointDslTests {
     }
 
     @EnableWebSecurity
-    class AuthorizationUriConfig : WebSecurityConfigurerAdapter() {
+    open class AuthorizationUriConfig : WebSecurityConfigurerAdapter() {
         companion object {
             var REPOSITORY: AuthorizationRequestRepository<OAuth2AuthorizationRequest> = Mockito.mock(AuthorizationRequestRepository::class.java) as AuthorizationRequestRepository<OAuth2AuthorizationRequest>
         }
@@ -131,9 +131,9 @@ class AuthorizationEndpointDslTests {
     }
 
     @Configuration
-    class ClientConfig {
+    open class ClientConfig {
         @Bean
-        fun clientRegistrationRepository(): ClientRegistrationRepository {
+        open fun clientRegistrationRepository(): ClientRegistrationRepository {
             return InMemoryClientRegistrationRepository(
                     CommonOAuth2Provider.GOOGLE
                             .getBuilder("google").clientId("clientId").clientSecret("clientSecret")

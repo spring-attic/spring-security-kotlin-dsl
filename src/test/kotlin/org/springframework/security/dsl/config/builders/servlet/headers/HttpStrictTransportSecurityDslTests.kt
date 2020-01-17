@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,7 +44,7 @@ class HttpStrictTransportSecurityDslTests {
     lateinit var mockMvc: MockMvc
 
     @Test
-    fun headersWhenHstsConfiguredThenHeadersInResponse() {
+    fun `headers when hsts configured then headers in response`() {
         this.spring.register(HstsConfig::class.java).autowire()
 
         this.mockMvc.get("/") {
@@ -55,7 +55,7 @@ class HttpStrictTransportSecurityDslTests {
     }
 
     @EnableWebSecurity
-    class HstsConfig : WebSecurityConfigurerAdapter() {
+    open class HstsConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 headers {
@@ -67,7 +67,7 @@ class HttpStrictTransportSecurityDslTests {
     }
 
     @Test
-    fun headersWhenHstsConfiguredWithPreloadThenPreloadInHeader() {
+    fun `headers when hsts configured with preload then preload in header`() {
         this.spring.register(HstsPreloadConfig::class.java).autowire()
 
         this.mockMvc.get("/") {
@@ -78,7 +78,7 @@ class HttpStrictTransportSecurityDslTests {
     }
 
     @EnableWebSecurity
-    class HstsPreloadConfig : WebSecurityConfigurerAdapter() {
+    open class HstsPreloadConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 headers {
@@ -92,7 +92,7 @@ class HttpStrictTransportSecurityDslTests {
     }
 
     @Test
-    fun headersWhenHstsConfiguredWithMaxAgeThenMaxAgeInHeader() {
+    fun `headers when hsts configured with max age then max age in header`() {
         this.spring.register(HstsMaxAgeConfig::class.java).autowire()
 
         this.mockMvc.get("/") {
@@ -103,7 +103,7 @@ class HttpStrictTransportSecurityDslTests {
     }
 
     @EnableWebSecurity
-    class HstsMaxAgeConfig : WebSecurityConfigurerAdapter() {
+    open class HstsMaxAgeConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 headers {
@@ -117,7 +117,7 @@ class HttpStrictTransportSecurityDslTests {
     }
 
     @Test
-    fun headersWhenHstsConfiguredAndDoesNotMatchThenHstsHeaderNotInResponse() {
+    fun `headers when hsts configured and does not match then hsts header not in response`() {
         this.spring.register(HstsCustomMatcherConfig::class.java).autowire()
 
         val result = this.mockMvc.get("/") {
@@ -128,13 +128,37 @@ class HttpStrictTransportSecurityDslTests {
     }
 
     @EnableWebSecurity
-    class HstsCustomMatcherConfig : WebSecurityConfigurerAdapter() {
+    open class HstsCustomMatcherConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 headers {
                     defaultsDisabled = true
                     httpStrictTransportSecurity {
                         requestMatcher = AntPathRequestMatcher("/secure/**")
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `request when hsts disabled then hsts header not in response`() {
+        this.spring.register(HstsDisabledConfig::class.java).autowire()
+
+        this.mockMvc.get("/") {
+            secure = true
+        }.andExpect {
+            header { doesNotExist(StrictTransportSecurityServerHttpHeadersWriter.STRICT_TRANSPORT_SECURITY) }
+        }
+    }
+
+    @EnableWebSecurity
+    open class HstsDisabledConfig : WebSecurityConfigurerAdapter() {
+        override fun configure(http: HttpSecurity) {
+            http {
+                headers {
+                    httpStrictTransportSecurity {
+                        disable()
                     }
                 }
             }

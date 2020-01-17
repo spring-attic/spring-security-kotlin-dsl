@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,9 +28,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.oauth2.client.CommonOAuth2Provider
+import org.springframework.security.dsl.config.builders.test.SpringTestRule
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.dsl.config.builders.servlet.invoke
-import org.springframework.security.dsl.config.builders.test.SpringTestRule
 import org.springframework.security.oauth2.client.endpoint.OAuth2AccessTokenResponseClient
 import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequest
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository
@@ -62,7 +62,7 @@ class RedirectionEndpointDslTests {
     lateinit var mockMvc: MockMvc
 
     @Test
-    fun oauth2LoginWhenCustomUserServiceThenUserServiceUsed() {
+    fun `oauth2Login when redirection endpoint configured then custom redirection endpoing used`() {
         this.spring.register(UserServiceConfig::class.java, ClientConfig::class.java).autowire()
 
         val registrationId = "registrationId"
@@ -95,7 +95,7 @@ class RedirectionEndpointDslTests {
     }
 
     @EnableWebSecurity
-    class UserServiceConfig : WebSecurityConfigurerAdapter() {
+    open class UserServiceConfig : WebSecurityConfigurerAdapter() {
         companion object {
             var USER_SERVICE: OAuth2UserService<OAuth2UserRequest, OAuth2User> = mock(OAuth2UserService::class.java) as OAuth2UserService<OAuth2UserRequest, OAuth2User>
             var CLIENT: OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> = mock(OAuth2AccessTokenResponseClient::class.java) as OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest>
@@ -126,9 +126,9 @@ class RedirectionEndpointDslTests {
     }
 
     @Configuration
-    class ClientConfig {
+    open class ClientConfig {
         @Bean
-        fun clientRegistrationRepository(): ClientRegistrationRepository {
+        open fun clientRegistrationRepository(): ClientRegistrationRepository {
             return InMemoryClientRegistrationRepository(
                     CommonOAuth2Provider.GOOGLE
                             .getBuilder("google")

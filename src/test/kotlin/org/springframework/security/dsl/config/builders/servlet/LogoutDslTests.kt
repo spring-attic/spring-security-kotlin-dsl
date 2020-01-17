@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ import org.springframework.security.authentication.TestingAuthenticationToken
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import  org.springframework.security.dsl.config.builders.test.SpringTestRule
+import org.springframework.security.dsl.config.builders.test.SpringTestRule
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf
 import org.springframework.security.web.authentication.logout.LogoutHandler
@@ -52,7 +52,7 @@ class LogoutDslTests {
     lateinit var mockMvc: MockMvc
 
     @Test
-    fun logoutWhenCustomLogoutUrlThenCustomUrlUsed() {
+    fun `logout when custom logout url then custom url used`() {
         this.spring.register(CustomLogoutUrlConfig::class.java).autowire()
 
         this.mockMvc.post("/custom/logout") {
@@ -64,7 +64,7 @@ class LogoutDslTests {
     }
 
     @EnableWebSecurity
-    class CustomLogoutUrlConfig : WebSecurityConfigurerAdapter() {
+    open class CustomLogoutUrlConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 logout {
@@ -75,7 +75,7 @@ class LogoutDslTests {
     }
 
     @Test
-    fun logoutWhenCustomLogoutRequestMatcherThenCustomRequestMatcherUsed() {
+    fun `logout when custom logout request matcher then custom request matcher used`() {
         this.spring.register(CustomLogoutRequestMatcherConfig::class.java).autowire()
 
         this.mockMvc.post("/custom/logout") {
@@ -87,7 +87,7 @@ class LogoutDslTests {
     }
 
     @EnableWebSecurity
-    class CustomLogoutRequestMatcherConfig : WebSecurityConfigurerAdapter() {
+    open class CustomLogoutRequestMatcherConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 logout {
@@ -98,7 +98,7 @@ class LogoutDslTests {
     }
 
     @Test
-    fun logoutWhenCustomSuccessUrlThenRedirectsToSuccessUrl() {
+    fun `logout when custom success url then redirects to success url`() {
         this.spring.register(SuccessUrlConfig::class.java).autowire()
 
         this.mockMvc.post("/logout") {
@@ -110,7 +110,7 @@ class LogoutDslTests {
     }
 
     @EnableWebSecurity
-    class SuccessUrlConfig : WebSecurityConfigurerAdapter() {
+    open class SuccessUrlConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 logout {
@@ -121,7 +121,7 @@ class LogoutDslTests {
     }
 
     @Test
-    fun logoutWhenCustomSuccessHandlerThenRedirectsToSuccessUrl() {
+    fun `logout when custom success handler then redirects to success url`() {
         this.spring.register(SuccessHandlerConfig::class.java).autowire()
 
         this.mockMvc.post("/logout") {
@@ -133,7 +133,7 @@ class LogoutDslTests {
     }
 
     @EnableWebSecurity
-    class SuccessHandlerConfig : WebSecurityConfigurerAdapter() {
+    open class SuccessHandlerConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 logout {
@@ -144,7 +144,7 @@ class LogoutDslTests {
     }
 
     @Test
-    fun logoutWhenPermitAllThenLogoutAllowed() {
+    fun `logout when permit all then logout allowed`() {
         this.spring.register(PermitAllConfig::class.java).autowire()
 
         this.mockMvc.post("/custom/logout") {
@@ -156,7 +156,7 @@ class LogoutDslTests {
     }
 
     @EnableWebSecurity
-    class PermitAllConfig : WebSecurityConfigurerAdapter() {
+    open class PermitAllConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 authorizeRequests {
@@ -171,7 +171,7 @@ class LogoutDslTests {
     }
 
     @Test
-    fun logoutWhenClearAuthenticationFalseThenAuthenticationNotCleared() {
+    fun `logout when clear authentication false then authentication not cleared`() {
         this.spring.register(ClearAuthenticationFalseConfig::class.java).autowire()
         val currentContext = SecurityContextHolder.createEmptyContext()
         currentContext.authentication = TestingAuthenticationToken("user", "password", "ROLE_USER")
@@ -190,7 +190,7 @@ class LogoutDslTests {
     }
 
     @EnableWebSecurity
-    class ClearAuthenticationFalseConfig : WebSecurityConfigurerAdapter() {
+    open class ClearAuthenticationFalseConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 logout {
@@ -201,7 +201,7 @@ class LogoutDslTests {
     }
 
     @Test
-    fun logoutWhenInvalidateHttpSessionFalseThenSessionNotInvalidated() {
+    fun `logout when invalidate http session false then session not invalidated`() {
         this.spring.register(InvalidateHttpSessionFalseConfig::class.java).autowire()
         val currentSession = MockHttpSession()
 
@@ -217,7 +217,7 @@ class LogoutDslTests {
     }
 
     @EnableWebSecurity
-    class InvalidateHttpSessionFalseConfig : WebSecurityConfigurerAdapter() {
+    open class InvalidateHttpSessionFalseConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 logout {
@@ -228,7 +228,7 @@ class LogoutDslTests {
     }
 
     @Test
-    fun logoutWhenDeleteCookiesThenCookiesAreCleared() {
+    fun `logout when delete cookies then cookies are cleared`() {
         this.spring.register(DeleteCookiesConfig::class.java).autowire()
 
         this.mockMvc.post("/logout") {
@@ -241,7 +241,7 @@ class LogoutDslTests {
     }
 
     @EnableWebSecurity
-    class DeleteCookiesConfig : WebSecurityConfigurerAdapter() {
+    open class DeleteCookiesConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 logout {
@@ -252,7 +252,7 @@ class LogoutDslTests {
     }
 
     @Test
-    fun logoutWhenDefaultLogoutSuccessHandlerForRequestThenCustomHandlerUsed() {
+    fun `logout when default logout success handler for request then custom handler used`() {
         this.spring.register(DefaultLogoutSuccessHandlerForConfig::class.java).autowire()
 
         this.mockMvc.post("/logout/default") {
@@ -271,7 +271,7 @@ class LogoutDslTests {
     }
 
     @EnableWebSecurity
-    class DefaultLogoutSuccessHandlerForConfig : WebSecurityConfigurerAdapter() {
+    open class DefaultLogoutSuccessHandlerForConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 logout {
@@ -283,7 +283,7 @@ class LogoutDslTests {
     }
 
     @Test
-    fun logoutWhenCustomLogoutHandlerThenCustomHandlerUsed() {
+    fun `logout when custom logout handler then custom handler used`() {
         this.spring.register(CustomLogoutHandlerConfig::class.java).autowire()
 
         this.mockMvc.post("/logout") {
@@ -294,7 +294,7 @@ class LogoutDslTests {
     }
 
     @EnableWebSecurity
-    class CustomLogoutHandlerConfig : WebSecurityConfigurerAdapter() {
+    open class CustomLogoutHandlerConfig : WebSecurityConfigurerAdapter() {
         companion object {
             var HANDLER: LogoutHandler = mock(LogoutHandler::class.java)
         }

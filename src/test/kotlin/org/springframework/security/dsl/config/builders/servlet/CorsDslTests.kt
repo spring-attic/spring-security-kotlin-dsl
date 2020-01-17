@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import org.springframework.http.HttpHeaders
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import  org.springframework.security.dsl.config.builders.test.SpringTestRule
+import org.springframework.security.dsl.config.builders.test.SpringTestRule
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 import org.springframework.web.bind.annotation.RequestMethod
@@ -49,7 +49,7 @@ class CorsDslTests {
     lateinit var mockMvc: MockMvc
 
     @Test
-    fun corsWhenNoMvcThenException() {
+    fun `CORS when no MVC then exception`() {
         assertThatThrownBy { this.spring.register(DefaultCorsConfig::class.java).autowire() }
                 .isInstanceOf(BeanCreationException::class.java)
                 .hasMessageContaining("Please ensure Spring Security & Spring MVC are configured in a shared ApplicationContext")
@@ -57,7 +57,7 @@ class CorsDslTests {
     }
 
     @EnableWebSecurity
-    class DefaultCorsConfig : WebSecurityConfigurerAdapter() {
+    open class DefaultCorsConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 cors { }
@@ -66,7 +66,7 @@ class CorsDslTests {
     }
 
     @Test
-    fun corsWhenCorsConfigurationSourceBeanThenRespondsWithCorsHeader() {
+    fun `CORS when CORS configuration source bean then responds with CORS header`() {
         this.spring.register(CorsCrossOriginConfig::class.java).autowire()
 
         this.mockMvc.get("/")
@@ -79,7 +79,7 @@ class CorsDslTests {
 
     @EnableWebMvc
     @EnableWebSecurity
-    class CorsCrossOriginConfig : WebSecurityConfigurerAdapter() {
+    open class CorsCrossOriginConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 cors { }
@@ -87,7 +87,7 @@ class CorsDslTests {
         }
 
         @Bean
-        fun corsConfigurationSource(): CorsConfigurationSource {
+        open fun corsConfigurationSource(): CorsConfigurationSource {
             val source = UrlBasedCorsConfigurationSource()
             val corsConfiguration = CorsConfiguration()
             corsConfiguration.allowedOrigins = listOf("*")
@@ -100,7 +100,7 @@ class CorsDslTests {
     }
 
     @Test
-    fun corsWhenDisabledThenResponseDoesNotIncludeCorsHeader() {
+    fun `CORS when disabled then response does not include CORS header`() {
         this.spring.register(CorsDisabledConfig::class.java).autowire()
 
         this.mockMvc.get("/")
@@ -113,7 +113,7 @@ class CorsDslTests {
 
     @EnableWebMvc
     @EnableWebSecurity
-    class CorsDisabledConfig : WebSecurityConfigurerAdapter() {
+    open class CorsDisabledConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http.cors()
             http {
@@ -124,7 +124,7 @@ class CorsDslTests {
         }
 
         @Bean
-        fun corsConfigurationSource(): CorsConfigurationSource {
+        open fun corsConfigurationSource(): CorsConfigurationSource {
             val source = UrlBasedCorsConfigurationSource()
             val corsConfiguration = CorsConfiguration()
             corsConfiguration.allowedOrigins = listOf("*")

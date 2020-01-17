@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ import org.springframework.core.io.ClassPathResource
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import  org.springframework.security.dsl.config.builders.test.SpringTestRule
+import org.springframework.security.dsl.config.builders.test.SpringTestRule
 import org.springframework.security.saml2.credentials.Saml2X509Credential
 import org.springframework.security.saml2.credentials.Saml2X509Credential.Saml2X509CredentialType.VERIFICATION
 import org.springframework.security.saml2.provider.service.registration.InMemoryRelyingPartyRegistrationRepository
@@ -50,7 +50,7 @@ class Saml2DslTests {
     lateinit var mockMvc: MockMvc
 
     @Test
-    fun saml2LoginWhenNoRelyingPartyRegistrationRepositoryThenException() {
+    fun `saml2Login when no relying party registration repository then exception`() {
         Assertions.assertThatThrownBy { this.spring.register(Saml2LoginNoRelyingPArtyRegistrationRepoConfig::class.java).autowire() }
                 .isInstanceOf(BeanCreationException::class.java)
                 .hasMessageContaining("relyingPartyRegistrationRepository cannot be null")
@@ -58,7 +58,7 @@ class Saml2DslTests {
     }
 
     @EnableWebSecurity
-    class Saml2LoginNoRelyingPArtyRegistrationRepoConfig : WebSecurityConfigurerAdapter() {
+    open class Saml2LoginNoRelyingPArtyRegistrationRepoConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 saml2Login { }
@@ -67,7 +67,7 @@ class Saml2DslTests {
     }
 
     @Test
-    fun loginPageWhenSaml2ConfiguredThenDefaultLoginPageCreated() {
+    fun `login page when saml2Configured then default login page created`() {
         this.spring.register(Saml2LoginConfig::class.java).autowire()
 
         this.mockMvc.get("/login")
@@ -77,7 +77,7 @@ class Saml2DslTests {
     }
 
     @EnableWebSecurity
-    class Saml2LoginConfig : WebSecurityConfigurerAdapter() {
+    open class Saml2LoginConfig : WebSecurityConfigurerAdapter() {
 
         override fun configure(http: HttpSecurity) {
             http {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ class ContentSecurityPolicyDslTests {
     lateinit var mockMvc: MockMvc
 
     @Test
-    fun headersWhenContentSecurityPolicyConfiguredThenHeaderInResponse() {
+    fun `headers when content security policy configured then header in response`() {
         this.spring.register(ContentSecurityPolicyConfig::class.java).autowire()
 
         this.mockMvc.get("/") {
@@ -53,7 +53,7 @@ class ContentSecurityPolicyDslTests {
     }
 
     @EnableWebSecurity
-    class ContentSecurityPolicyConfig : WebSecurityConfigurerAdapter() {
+    open class ContentSecurityPolicyConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 headers {
@@ -65,7 +65,7 @@ class ContentSecurityPolicyDslTests {
     }
 
     @Test
-    fun headersWhenContentSecurityPolicyConfiguredWithCustomPolicyDirectivesThenCustomDirectivesInHeader() {
+    fun `headers when content security policy configured with custom policy directives then custom directives in header`() {
         this.spring.register(CustomPolicyDirectivesConfig::class.java).autowire()
 
         this.mockMvc.get("/") {
@@ -76,7 +76,7 @@ class ContentSecurityPolicyDslTests {
     }
 
     @EnableWebSecurity
-    class CustomPolicyDirectivesConfig : WebSecurityConfigurerAdapter() {
+    open class CustomPolicyDirectivesConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 headers {
@@ -90,7 +90,7 @@ class ContentSecurityPolicyDslTests {
     }
 
     @Test
-    fun headersWhenReportOnlyContentSecurityPolicyReportOnlyHeaderInResponse() {
+    fun `headers when report only content security policy report only header in response`() {
         this.spring.register(ReportOnlyConfig::class.java).autowire()
 
         this.mockMvc.get("/") {
@@ -101,7 +101,7 @@ class ContentSecurityPolicyDslTests {
     }
 
     @EnableWebSecurity
-    class ReportOnlyConfig : WebSecurityConfigurerAdapter() {
+    open class ReportOnlyConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 headers {

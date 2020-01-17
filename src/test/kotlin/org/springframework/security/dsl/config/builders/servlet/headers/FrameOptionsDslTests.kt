@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,7 +43,7 @@ class FrameOptionsDslTests {
     lateinit var mockMvc: MockMvc
 
     @Test
-    fun headersWhenFrameOptionsConfiguredThenFrameOptionsDenyHeader() {
+    fun `headers when frame options configured then frame options deny header`() {
         this.spring.register(FrameOptionsConfig::class.java).autowire()
 
         this.mockMvc.get("/") {
@@ -54,7 +54,7 @@ class FrameOptionsDslTests {
     }
 
     @EnableWebSecurity
-    class FrameOptionsConfig : WebSecurityConfigurerAdapter() {
+    open class FrameOptionsConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 headers {
@@ -66,7 +66,7 @@ class FrameOptionsDslTests {
     }
 
     @Test
-    fun headersWhenFrameOptionsDenyConfiguredThenFrameOptionsDenyHeader() {
+    fun `headers when frame options deny configured then frame options deny header`() {
         this.spring.register(FrameOptionsDenyConfig::class.java).autowire()
 
         this.mockMvc.get("/") {
@@ -77,7 +77,7 @@ class FrameOptionsDslTests {
     }
 
     @EnableWebSecurity
-    class FrameOptionsDenyConfig : WebSecurityConfigurerAdapter() {
+    open class FrameOptionsDenyConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 headers {
@@ -91,7 +91,7 @@ class FrameOptionsDslTests {
     }
 
     @Test
-    fun headersWhenFrameOptionsSameOriginConfiguredThenFrameOptionsSameOriginHeader() {
+    fun `headers when frame options same origin configured then frame options same origin header`() {
         this.spring.register(FrameOptionsSameOriginConfig::class.java).autowire()
 
         this.mockMvc.get("/") {
@@ -102,7 +102,7 @@ class FrameOptionsDslTests {
     }
 
     @EnableWebSecurity
-    class FrameOptionsSameOriginConfig : WebSecurityConfigurerAdapter() {
+    open class FrameOptionsSameOriginConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 headers {
@@ -116,7 +116,7 @@ class FrameOptionsDslTests {
     }
 
     @Test
-    fun headersWhenFrameOptionsSameOriginAndDenyConfiguredThenFrameOptionsDenyHeader() {
+    fun `headers when frame options same origin and deny configured then frame options deny header`() {
         this.spring.register(FrameOptionsSameOriginAndDenyConfig::class.java).autowire()
 
         this.mockMvc.get("/") {
@@ -127,7 +127,7 @@ class FrameOptionsDslTests {
     }
 
     @EnableWebSecurity
-    class FrameOptionsSameOriginAndDenyConfig : WebSecurityConfigurerAdapter() {
+    open class FrameOptionsSameOriginAndDenyConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 headers {
@@ -135,6 +135,30 @@ class FrameOptionsDslTests {
                     frameOptions {
                         sameOrigin = true
                         deny = true
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `headers when frame options disabled then no frame options header in response`() {
+        this.spring.register(FrameOptionsDisabledConfig::class.java).autowire()
+
+        this.mockMvc.get("/") {
+            secure = true
+        }.andExpect {
+            header { doesNotExist(XFrameOptionsServerHttpHeadersWriter.X_FRAME_OPTIONS) }
+        }
+    }
+
+    @EnableWebSecurity
+    open class FrameOptionsDisabledConfig : WebSecurityConfigurerAdapter() {
+        override fun configure(http: HttpSecurity) {
+            http {
+                headers {
+                    frameOptions {
+                        disable()
                     }
                 }
             }

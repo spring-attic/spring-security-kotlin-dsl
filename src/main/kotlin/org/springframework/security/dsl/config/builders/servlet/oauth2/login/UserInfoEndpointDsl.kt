@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User
  * idiomatic Kotlin code.
  *
  * @author Eleftheria Stein
- * @since 5.2
+ * @since 5.3
  * @property userService the OAuth 2.0 service used for obtaining the user attributes of the End-User
  * from the UserInfo Endpoint.
  * @property oidcUserService the OpenID Connect 1.0 service used for obtaining the user attributes of the

@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import  org.springframework.security.dsl.config.builders.test.SpringTestRule
+import org.springframework.security.dsl.config.builders.test.SpringTestRule
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler
@@ -50,7 +50,7 @@ class FormLoginDslTests {
     lateinit var mockMvc: MockMvc
 
     @Test
-    fun loginPageWhenFormLoginConfiguredThenDefaultLoginPageCreated() {
+    fun `login page when form login configured then default login page created`() {
         this.spring.register(FormLoginConfig::class.java, UserConfig::class.java).autowire()
 
         this.mockMvc.get("/login")
@@ -60,7 +60,7 @@ class FormLoginDslTests {
     }
 
     @Test
-    fun loginWhenSuccessThenRedirectsToHome() {
+    fun `login when success then redirects to home`() {
         this.spring.register(FormLoginConfig::class.java, UserConfig::class.java).autowire()
 
         this.mockMvc.perform(formLogin())
@@ -71,7 +71,7 @@ class FormLoginDslTests {
     }
 
     @Test
-    fun loginWhenFailureThenRedirectsToLoginPageWithError() {
+    fun `login when failure then redirects to login page with error`() {
         this.spring.register(FormLoginConfig::class.java, UserConfig::class.java).autowire()
 
         this.mockMvc.perform(formLogin().password("invalid"))
@@ -82,7 +82,7 @@ class FormLoginDslTests {
     }
 
     @EnableWebSecurity
-    class FormLoginConfig : WebSecurityConfigurerAdapter() {
+    open class FormLoginConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 formLogin {}
@@ -91,7 +91,7 @@ class FormLoginDslTests {
     }
 
     @Test
-    fun requestWhenSecureThenRedirectsToDefaultLoginPage() {
+    fun `request when secure then redirects to default login page`() {
         this.spring.register(AllSecuredConfig::class.java, UserConfig::class.java).autowire()
 
         this.mockMvc.get("/")
@@ -102,7 +102,7 @@ class FormLoginDslTests {
     }
 
     @EnableWebSecurity
-    class AllSecuredConfig : WebSecurityConfigurerAdapter() {
+    open class AllSecuredConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 formLogin {}
@@ -114,7 +114,7 @@ class FormLoginDslTests {
     }
 
     @Test
-    fun requestWhenSecureAndCustomLoginPageThenRedirectsToCustomLoginPage() {
+    fun `request when secure and custom login page then redirects to custom login page`() {
         this.spring.register(LoginPageConfig::class.java, UserConfig::class.java).autowire()
 
         this.mockMvc.get("/")
@@ -125,7 +125,7 @@ class FormLoginDslTests {
     }
 
     @EnableWebSecurity
-    class LoginPageConfig : WebSecurityConfigurerAdapter() {
+    open class LoginPageConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 formLogin {
@@ -139,7 +139,7 @@ class FormLoginDslTests {
     }
 
     @Test
-    fun loginWhenCustomSuccessHandlerThenUsed() {
+    fun `login when custom success handler then used`() {
         this.spring.register(SuccessHandlerConfig::class.java, UserConfig::class.java).autowire()
 
         this.mockMvc.perform(formLogin())
@@ -150,7 +150,7 @@ class FormLoginDslTests {
     }
 
     @EnableWebSecurity
-    class SuccessHandlerConfig : WebSecurityConfigurerAdapter() {
+    open class SuccessHandlerConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 formLogin {
@@ -161,7 +161,7 @@ class FormLoginDslTests {
     }
 
     @Test
-    fun loginWhenCustomFailureHandlerThenUsed() {
+    fun `login when custom failure handler then used`() {
         this.spring.register(FailureHandlerConfig::class.java, UserConfig::class.java).autowire()
 
         this.mockMvc.perform(formLogin().password("invalid"))
@@ -172,7 +172,7 @@ class FormLoginDslTests {
     }
 
     @EnableWebSecurity
-    class FailureHandlerConfig : WebSecurityConfigurerAdapter() {
+    open class FailureHandlerConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 formLogin {
@@ -183,7 +183,7 @@ class FormLoginDslTests {
     }
 
     @Test
-    fun loginWhenCustomFailureUrlThenUsed() {
+    fun `login when custom failure url then used`() {
         this.spring.register(FailureHandlerConfig::class.java, UserConfig::class.java).autowire()
 
         this.mockMvc.perform(formLogin().password("invalid"))
@@ -194,7 +194,7 @@ class FormLoginDslTests {
     }
 
     @EnableWebSecurity
-    class FailureUrlConfig : WebSecurityConfigurerAdapter() {
+    open class FailureUrlConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 formLogin {
@@ -205,7 +205,7 @@ class FormLoginDslTests {
     }
 
     @Test
-    fun loginWhenCustomLoginProcessingUrlThenUsed() {
+    fun `login when custom login processing url then used`() {
         this.spring.register(LoginProcessingUrlConfig::class.java, UserConfig::class.java).autowire()
 
         this.mockMvc.perform(formLogin("/custom"))
@@ -216,7 +216,7 @@ class FormLoginDslTests {
     }
 
     @EnableWebSecurity
-    class LoginProcessingUrlConfig : WebSecurityConfigurerAdapter() {
+    open class LoginProcessingUrlConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 formLogin {
@@ -227,7 +227,7 @@ class FormLoginDslTests {
     }
 
     @Test
-    fun loginWhenDefaultSuccessUrlThenRedirectedToUrl() {
+    fun `login when default success url then redirected to url`() {
         this.spring.register(DefaultSuccessUrlConfig::class.java, UserConfig::class.java).autowire()
 
         this.mockMvc.perform(formLogin())
@@ -238,7 +238,7 @@ class FormLoginDslTests {
     }
 
     @EnableWebSecurity
-    class DefaultSuccessUrlConfig : WebSecurityConfigurerAdapter() {
+    open class DefaultSuccessUrlConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 formLogin {
@@ -249,7 +249,7 @@ class FormLoginDslTests {
     }
 
     @Test
-    fun loginWhenPermitAllThenLoginPageNotProtected() {
+    fun `login when permit all then login page not protected`() {
         this.spring.register(PermitAllConfig::class.java, UserConfig::class.java).autowire()
 
         this.mockMvc.get("/custom/login")
@@ -259,7 +259,7 @@ class FormLoginDslTests {
     }
 
     @EnableWebSecurity
-    class PermitAllConfig : WebSecurityConfigurerAdapter() {
+    open class PermitAllConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 authorizeRequests {
@@ -280,7 +280,7 @@ class FormLoginDslTests {
     }
 
     @Configuration
-    class UserConfig {
+    open class UserConfig {
         @Autowired
         fun configureGlobal(auth: AuthenticationManagerBuilder) {
             auth

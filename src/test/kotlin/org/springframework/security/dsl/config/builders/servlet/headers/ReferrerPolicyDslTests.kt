@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ class ReferrerPolicyDslTests {
     lateinit var mockMvc: MockMvc
 
     @Test
-    fun headersWhenReferrerPolicyConfiguredThenHeaderInResponse() {
+    fun `headers when referrer policy configured then header in response`() {
         this.spring.register(ReferrerPolicyConfig::class.java).autowire()
 
         this.mockMvc.get("/")
@@ -52,7 +52,7 @@ class ReferrerPolicyDslTests {
     }
 
     @EnableWebSecurity
-    class ReferrerPolicyConfig : WebSecurityConfigurerAdapter() {
+    open class ReferrerPolicyConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 headers {
@@ -64,7 +64,7 @@ class ReferrerPolicyDslTests {
     }
 
     @Test
-    fun headersWhenReferrerPolicyConfiguredWithCustomPolicyThenCustomPolicyInHeader() {
+    fun `headers when referrer policy configured with custom policy then custom policy in header`() {
         this.spring.register(ReferrerPolicyCustomPolicyConfig::class.java).autowire()
 
         this.mockMvc.get("/")
@@ -74,7 +74,7 @@ class ReferrerPolicyDslTests {
     }
 
     @EnableWebSecurity
-    class ReferrerPolicyCustomPolicyConfig : WebSecurityConfigurerAdapter() {
+    open class ReferrerPolicyCustomPolicyConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 headers {

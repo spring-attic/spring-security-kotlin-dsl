@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.dsl.config.builders.servlet.invoke
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import  org.springframework.security.dsl.config.builders.test.SpringTestRule
+import org.springframework.security.dsl.config.builders.test.SpringTestRule
 import org.springframework.security.oauth2.core.oidc.IdTokenClaimNames
 import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.security.oauth2.jwt.JwtDecoder
@@ -49,12 +49,12 @@ class JwtDslTests {
     lateinit var mockMvc: MockMvc
 
     @Test
-    fun jwtWhenCustomJwtDecoderThenBeanNotRequired() {
+    fun `JWT when custom JWT decoder then bean not required`() {
         this.spring.register(CustomJwtDecoderConfig::class.java).autowire()
     }
 
     @EnableWebSecurity
-    class CustomJwtDecoderConfig : WebSecurityConfigurerAdapter() {
+    open class CustomJwtDecoderConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 oauth2ResourceServer {
@@ -67,12 +67,12 @@ class JwtDslTests {
     }
 
     @Test
-    fun jwtWhenCustomJwkSetUriThenBeanNotRequired() {
+    fun `JWT when custom jwkSetUri then bean not required`() {
         this.spring.register(CustomJwkSetUriConfig::class.java).autowire()
     }
 
     @EnableWebSecurity
-    class CustomJwkSetUriConfig : WebSecurityConfigurerAdapter() {
+    open class CustomJwkSetUriConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 oauth2ResourceServer {
@@ -85,7 +85,7 @@ class JwtDslTests {
     }
 
     @Test
-    fun opaqueTokenWhenCustomJwtAuthenticationConverterThenConverterUsed() {
+    fun `opaque token when custom JWT authentication converter then converter used`() {
         this.spring.register(CustomJwtAuthenticationConverterConfig::class.java).autowire()
         `when`(CustomJwtAuthenticationConverterConfig.DECODER.decode(anyString())).thenReturn(
                 Jwt.withTokenValue("token")
@@ -102,7 +102,7 @@ class JwtDslTests {
     }
 
     @EnableWebSecurity
-    class CustomJwtAuthenticationConverterConfig : WebSecurityConfigurerAdapter() {
+    open class CustomJwtAuthenticationConverterConfig : WebSecurityConfigurerAdapter() {
         companion object {
             var CONVERTER: Converter<Jwt, out AbstractAuthenticationToken> = mock(Converter::class.java) as Converter<Jwt, out AbstractAuthenticationToken>
             var DECODER: JwtDecoder = mock(JwtDecoder::class.java)
@@ -122,7 +122,7 @@ class JwtDslTests {
         }
 
         @Bean
-        fun jwtDecoder(): JwtDecoder {
+        open fun jwtDecoder(): JwtDecoder {
             return DECODER
         }
     }

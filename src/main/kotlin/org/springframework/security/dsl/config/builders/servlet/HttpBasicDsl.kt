@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletRequest
  * A Kotlin DSL to configure [HttpSecurity] basic authentication using idiomatic Kotlin code.
  *
  * @author Eleftheria Stein
- * @since 5.2
+ * @since 5.3
  * @property realmName the HTTP Basic realm to use. If [authenticationEntryPoint]
  * has been invoked, invoking this method will result in an error.
  * @property authenticationEntryPoint the [AuthenticationEntryPoint] to be populated on

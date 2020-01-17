@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.dsl.config.builders.servlet.invoke
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import  org.springframework.security.dsl.config.builders.test.SpringTestRule
+import org.springframework.security.dsl.config.builders.test.SpringTestRule
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.oauth2.core.DefaultOAuth2AuthenticatedPrincipal
@@ -56,7 +56,7 @@ class OpaqueTokenDslTests {
     lateinit var mockMvc: MockMvc
 
     @Test
-    fun opaqueTokenWhenDefaultsThenUsesIntrospection() {
+    fun `opaque token when defaults then uses introspection`() {
         this.spring.register(DefaultOpaqueConfig::class.java, AuthenticationController::class.java).autowire()
         val headers = HttpHeaders()
         headers.contentType = MediaType.APPLICATION_JSON
@@ -78,7 +78,7 @@ class OpaqueTokenDslTests {
     }
 
     @EnableWebSecurity
-    class DefaultOpaqueConfig : WebSecurityConfigurerAdapter() {
+    open class DefaultOpaqueConfig : WebSecurityConfigurerAdapter() {
         companion object {
             var REST: RestOperations = mock(RestOperations::class.java)
         }
@@ -95,18 +95,18 @@ class OpaqueTokenDslTests {
         }
 
         @Bean
-        fun rest(): RestOperations {
+        open fun rest(): RestOperations {
             return REST
         }
 
         @Bean
-        fun tokenIntrospectionClient(): NimbusOpaqueTokenIntrospector {
+        open fun tokenIntrospectionClient(): NimbusOpaqueTokenIntrospector {
             return NimbusOpaqueTokenIntrospector("https://example.org/introspect", REST)
         }
     }
 
     @Test
-    fun opaqueTokenWhenCustomIntrospectorSetThenIntrospectorUsed() {
+    fun `opaque token when custom introspector set then introspector used`() {
         this.spring.register(CustomIntrospectorConfig::class.java, AuthenticationController::class.java).autowire()
         `when`(CustomIntrospectorConfig.INTROSPECTOR.introspect(ArgumentMatchers.anyString()))
                 .thenReturn(DefaultOAuth2AuthenticatedPrincipal(mapOf(Pair(JwtClaimNames.SUB, "mock-subject")), emptyList()))
@@ -119,7 +119,7 @@ class OpaqueTokenDslTests {
     }
 
     @EnableWebSecurity
-    class CustomIntrospectorConfig : WebSecurityConfigurerAdapter() {
+    open class CustomIntrospectorConfig : WebSecurityConfigurerAdapter() {
         companion object {
             var INTROSPECTOR: OpaqueTokenIntrospector = mock(OpaqueTokenIntrospector::class.java)
         }

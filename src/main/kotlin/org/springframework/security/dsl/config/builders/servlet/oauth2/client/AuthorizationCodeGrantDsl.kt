@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequ
  * A Kotlin DSL to configure OAuth 2.0 Authorization Code Grant.
  *
  * @author Eleftheria Stein
- * @since 5.2
+ * @since 5.3
  * @property authorizationRequestResolver the resolver used for resolving [OAuth2AuthorizationRequest]'s.
  * @property authorizationRequestRepository the repository used for storing [OAuth2AuthorizationRequest]'s.
  * @property accessTokenResponseClient the client used for requesting the access token credential

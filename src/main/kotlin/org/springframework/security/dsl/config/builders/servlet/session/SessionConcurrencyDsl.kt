@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import org.springframework.security.web.session.SessionInformationExpiredStrateg
  * Kotlin code.
  *
  * @author Eleftheria Stein
- * @since 5.2
+ * @since 5.3
  * @property maximumSessions controls the maximum number of sessions for a user.
  * @property expiredUrl the URL to redirect to if a user tries to access a resource and
  * their session has been expired due to too many sessions for the current user.

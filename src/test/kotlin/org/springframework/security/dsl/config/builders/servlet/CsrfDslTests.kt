@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import  org.springframework.security.dsl.config.builders.test.SpringTestRule
+import org.springframework.security.dsl.config.builders.test.SpringTestRule
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetailsService
@@ -57,7 +57,7 @@ class CsrfDslTests {
     lateinit var mockMvc: MockMvc
 
     @Test
-    fun postWhenCsrfEnabledAndNoCsrfTokenThenForbidden() {
+    fun `POST when CSRF enabled and no CSRF token then forbidden`() {
         this.spring.register(DefaultCsrfConfig::class.java).autowire()
 
         this.mockMvc.post("/test1")
@@ -67,7 +67,7 @@ class CsrfDslTests {
     }
 
     @Test
-    fun postWhenCsrfEnabledAndCsrfTokenThenStatusOk() {
+    fun `POST when CSRF enabled and CSRF token then status OK`() {
         this.spring.register(DefaultCsrfConfig::class.java, BasicController::class.java).autowire()
 
         this.mockMvc.post("/test1") {
@@ -79,7 +79,7 @@ class CsrfDslTests {
     }
 
     @EnableWebSecurity
-    class DefaultCsrfConfig : WebSecurityConfigurerAdapter() {
+    open class DefaultCsrfConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 csrf { }
@@ -88,7 +88,7 @@ class CsrfDslTests {
     }
 
     @Test
-    fun postWhenCsrfDisabledAndNoCsrfTokenThenStatusOk() {
+    fun `POST when CSRF disabled and no CSRF token then status OK`() {
         this.spring.register(CsrfDisabledConfig::class.java, BasicController::class.java).autowire()
 
         this.mockMvc.post("/test1")
@@ -98,7 +98,7 @@ class CsrfDslTests {
     }
 
     @EnableWebSecurity
-    class CsrfDisabledConfig : WebSecurityConfigurerAdapter() {
+    open class CsrfDisabledConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 csrf {
@@ -109,7 +109,7 @@ class CsrfDslTests {
     }
 
     @Test
-    fun csrfWhenCustomCsrfTokenRepositoryThenRepoUsed() {
+    fun `CSRF when custom CSRF token repository then repo used`() {
         `when`(CustomRepositoryConfig.REPO.loadToken(any<HttpServletRequest>()))
                 .thenReturn(DefaultCsrfToken("X-CSRF-TOKEN", "_csrf", "token"))
 
@@ -121,7 +121,7 @@ class CsrfDslTests {
     }
 
     @EnableWebSecurity
-    class CustomRepositoryConfig : WebSecurityConfigurerAdapter() {
+    open class CustomRepositoryConfig : WebSecurityConfigurerAdapter() {
         companion object {
             var REPO: CsrfTokenRepository = mock(CsrfTokenRepository::class.java)
         }
@@ -136,7 +136,7 @@ class CsrfDslTests {
     }
 
     @Test
-    fun csrfWhenRequireCsrfProtectionMatcherThenCsrfProtectionOnMatchingRequests() {
+    fun `CSRF when require CSRF protection matcher then CSRF protection on matching requests`() {
         this.spring.register(RequireCsrfProtectionMatcherConfig::class.java, BasicController::class.java).autowire()
 
         this.mockMvc.post("/test1")
@@ -151,7 +151,7 @@ class CsrfDslTests {
     }
 
     @EnableWebSecurity
-    class RequireCsrfProtectionMatcherConfig : WebSecurityConfigurerAdapter() {
+    open class RequireCsrfProtectionMatcherConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 csrf {
@@ -162,7 +162,7 @@ class CsrfDslTests {
     }
 
     @Test
-    fun csrfWhenCustomSessionAuthenticationStrategyThenStrategyUsed() {
+    fun `CSRF when custom session authentication strategy then strategy used`() {
         this.spring.register(CustomStrategyConfig::class.java).autowire()
 
         this.mockMvc.perform(formLogin())
@@ -173,7 +173,7 @@ class CsrfDslTests {
     }
 
     @EnableWebSecurity
-    class CustomStrategyConfig : WebSecurityConfigurerAdapter() {
+    open class CustomStrategyConfig : WebSecurityConfigurerAdapter() {
         companion object {
             var STRATEGY: SessionAuthenticationStrategy = mock(SessionAuthenticationStrategy::class.java)
         }
@@ -199,7 +199,7 @@ class CsrfDslTests {
     }
 
     @Test
-    fun csrfWhenIgnoringRequestMatchersThenCsrfDisabledOnMatchingRequests() {
+    fun `CSRF when ignoring request matchers then CSRF disabled on matching requests`() {
         this.spring.register(IgnoringRequestMatchersConfig::class.java, BasicController::class.java).autowire()
 
         this.mockMvc.post("/test1")
@@ -214,7 +214,7 @@ class CsrfDslTests {
     }
 
     @EnableWebSecurity
-    class IgnoringRequestMatchersConfig : WebSecurityConfigurerAdapter() {
+    open class IgnoringRequestMatchersConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 csrf {
@@ -226,7 +226,7 @@ class CsrfDslTests {
     }
 
     @Test
-    fun csrfWhenIgnoringAntMatchersThenCsrfDisabledOnMatchingRequests() {
+    fun `CSRF when ignoring ant matchers then CSRF disabled on matching requests`() {
         this.spring.register(IgnoringAntMatchersConfig::class.java, BasicController::class.java).autowire()
 
         this.mockMvc.post("/test1")
@@ -241,7 +241,7 @@ class CsrfDslTests {
     }
 
     @EnableWebSecurity
-    class IgnoringAntMatchersConfig : WebSecurityConfigurerAdapter() {
+    open class IgnoringAntMatchersConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 csrf {

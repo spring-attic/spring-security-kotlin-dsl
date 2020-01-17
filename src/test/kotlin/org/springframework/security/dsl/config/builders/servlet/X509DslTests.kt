@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ import org.springframework.core.io.ClassPathResource
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import  org.springframework.security.dsl.config.builders.test.SpringTestRule
+import org.springframework.security.dsl.config.builders.test.SpringTestRule
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper
 import org.springframework.security.core.userdetails.UserDetailsService
@@ -54,7 +54,7 @@ class X509DslTests {
     lateinit var mockMvc: MockMvc
 
     @Test
-    fun x509WhenConfiguredWithDefaultsThenUserAuthenticated() {
+    fun `x509 when configured with defaults then user authenticated`() {
         this.spring.register(X509Config::class.java).autowire()
         val certificate = loadCert<X509Certificate>("rod.cer")
 
@@ -64,7 +64,7 @@ class X509DslTests {
     }
 
     @EnableWebSecurity
-    class X509Config : WebSecurityConfigurerAdapter() {
+    open class X509Config : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 x509 { }
@@ -83,7 +83,7 @@ class X509DslTests {
     }
 
     @Test
-    fun x509WhenConfiguredWithRegexThenUserAuthenticated() {
+    fun `x509 when configured with regex then user authenticated`() {
         this.spring.register(X509RegexConfig::class.java).autowire()
         val certificate = loadCert<X509Certificate>("rodatexampledotcom.cer")
 
@@ -93,7 +93,7 @@ class X509DslTests {
     }
 
     @EnableWebSecurity
-    class X509RegexConfig : WebSecurityConfigurerAdapter() {
+    open class X509RegexConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 x509 {
@@ -114,7 +114,7 @@ class X509DslTests {
     }
 
     @Test
-    fun x509WhenUserDetailsServiceConfiguredThenUserDetailsServiceUsed() {
+    fun `x509 when user details service configured then user details service used`() {
         this.spring.register(UserDetailsServiceConfig::class.java).autowire()
         val certificate = loadCert<X509Certificate>("rod.cer")
 
@@ -124,7 +124,7 @@ class X509DslTests {
     }
 
     @EnableWebSecurity
-    class UserDetailsServiceConfig : WebSecurityConfigurerAdapter() {
+    open class UserDetailsServiceConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             val userDetails = User.withDefaultPasswordEncoder()
                     .username("rod")
@@ -146,7 +146,7 @@ class X509DslTests {
     }
 
     @Test
-    fun x509WhenAuthenticationUserDetailsServiceConfiguredThenAuthenticationUserDetailsServiceUsed() {
+    fun `x509 when authentication user details service configured then custom user details service used`() {
         this.spring.register(AuthenticationUserDetailsServiceConfig::class.java).autowire()
         val certificate = loadCert<X509Certificate>("rod.cer")
 
@@ -156,7 +156,7 @@ class X509DslTests {
     }
 
     @EnableWebSecurity
-    class AuthenticationUserDetailsServiceConfig : WebSecurityConfigurerAdapter() {
+    open class AuthenticationUserDetailsServiceConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             val userDetails = User.withDefaultPasswordEncoder()
                     .username("rod")
@@ -180,7 +180,7 @@ class X509DslTests {
     }
 
     @Test
-    fun x509WhenConfiguredWithPrincipalExtractorThenPrincipalExtractorUsed() {
+    fun `x509 when configured with principal extractor then principal extractor used`() {
         this.spring.register(X509PrincipalExtractorConfig::class.java).autowire()
         val certificate = loadCert<X509Certificate>("rodatexampledotcom.cer")
 
@@ -190,7 +190,7 @@ class X509DslTests {
     }
 
     @EnableWebSecurity
-    class X509PrincipalExtractorConfig : WebSecurityConfigurerAdapter() {
+    open class X509PrincipalExtractorConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             val principalExtractor = SubjectDnX509PrincipalExtractor()
             principalExtractor.setSubjectDnRegex("CN=(.*?)@example.com(?:,|$)")

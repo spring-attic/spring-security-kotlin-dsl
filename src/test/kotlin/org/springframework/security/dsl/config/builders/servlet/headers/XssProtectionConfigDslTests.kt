@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ class XssProtectionConfigDslTests {
     lateinit var mockMvc: MockMvc
 
     @Test
-    fun headersWhenXssProtectionConfiguredThenHeaderInResponse() {
+    fun `headers when XSS protection configured then header in response`() {
         this.spring.register(XssProtectionConfig::class.java).autowire()
 
         this.mockMvc.get("/") {
@@ -53,7 +53,7 @@ class XssProtectionConfigDslTests {
     }
 
     @EnableWebSecurity
-    class XssProtectionConfig : WebSecurityConfigurerAdapter() {
+    open class XssProtectionConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 headers {
@@ -65,7 +65,7 @@ class XssProtectionConfigDslTests {
     }
 
     @Test
-    fun headersWhenXssProtectionWithBlockFalseThenModeIsNotBlockInHeader() {
+    fun `headers when XSS protection with block false then mode is not block in header`() {
         this.spring.register(XssProtectionBlockFalseConfig::class.java).autowire()
 
         this.mockMvc.get("/") {
@@ -76,7 +76,7 @@ class XssProtectionConfigDslTests {
     }
 
     @EnableWebSecurity
-    class XssProtectionBlockFalseConfig : WebSecurityConfigurerAdapter() {
+    open class XssProtectionBlockFalseConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 headers {
@@ -90,7 +90,7 @@ class XssProtectionConfigDslTests {
     }
 
     @Test
-    fun headersWhenXssProtectionDisabledThenHeaderValue0() {
+    fun `headers when XSS protection disabled then X-XSS-Protection header is 0`() {
         this.spring.register(XssProtectionDisabledConfig::class.java).autowire()
 
         this.mockMvc.get("/") {
@@ -101,13 +101,37 @@ class XssProtectionConfigDslTests {
     }
 
     @EnableWebSecurity
-    class XssProtectionDisabledConfig : WebSecurityConfigurerAdapter() {
+    open class XssProtectionDisabledConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 headers {
                     defaultsDisabled = true
                     xssProtection {
                         xssProtectionEnabled = false
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `headers when XSS protection disabled then X-XSS-Protection header not in response`() {
+        this.spring.register(XssProtectionDisabledFunctionConfig::class.java).autowire()
+
+        this.mockMvc.get("/") {
+            secure = true
+        }.andExpect {
+            header { doesNotExist(XXssProtectionServerHttpHeadersWriter.X_XSS_PROTECTION) }
+        }
+    }
+
+    @EnableWebSecurity
+    open class XssProtectionDisabledFunctionConfig : WebSecurityConfigurerAdapter() {
+        override fun configure(http: HttpSecurity) {
+            http {
+                headers {
+                    xssProtection {
+                        disable()
                     }
                 }
             }

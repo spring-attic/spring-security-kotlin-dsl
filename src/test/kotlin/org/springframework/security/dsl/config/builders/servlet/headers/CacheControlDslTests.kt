@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ class CacheControlDslTests {
     lateinit var mockMvc: MockMvc
 
     @Test
-    fun headersWhenCacheControlConfiguredThenHeadersInResponse() {
+    fun `headers when cache control configured then cache control headers in response`() {
         this.spring.register(CacheControlConfig::class.java).autowire()
 
         this.mockMvc.get("/")
@@ -54,12 +54,37 @@ class CacheControlDslTests {
     }
 
     @EnableWebSecurity
-    class CacheControlConfig : WebSecurityConfigurerAdapter() {
+    open class CacheControlConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 headers {
                     defaultsDisabled = true
                     cacheControl { }
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `headers when cache control disabled then no cache control headers in response`() {
+        this.spring.register(CacheControlDisabledConfig::class.java).autowire()
+
+        this.mockMvc.get("/")
+                .andExpect {
+                    header { doesNotExist(HttpHeaders.CACHE_CONTROL) }
+                    header { doesNotExist(HttpHeaders.EXPIRES) }
+                    header { doesNotExist(HttpHeaders.PRAGMA) }
+                }
+    }
+
+    @EnableWebSecurity
+    open class CacheControlDisabledConfig : WebSecurityConfigurerAdapter() {
+        override fun configure(http: HttpSecurity) {
+            http {
+                headers {
+                    cacheControl {
+                        disable()
+                    }
                 }
             }
         }

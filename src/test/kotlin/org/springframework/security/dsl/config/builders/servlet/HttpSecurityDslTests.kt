@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ import org.springframework.http.HttpHeaders
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import  org.springframework.security.dsl.config.builders.test.SpringTestRule
+import org.springframework.security.dsl.config.builders.test.SpringTestRule
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.provisioning.InMemoryUserDetailsManager
@@ -95,15 +95,15 @@ class HttpSecurityDslTests {
     }
 
     @EnableWebSecurity
-    class DefaultSecurityConfig : WebSecurityConfigurerAdapter() {
+    open class DefaultSecurityConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {}
         }
 
         @Configuration
-        class UserConfig {
+        open class UserConfig {
             @Bean
-            fun userDetailsService(): UserDetailsService {
+            open fun userDetailsService(): UserDetailsService {
                 val userDetails = User.withDefaultPasswordEncoder()
                         .username("user")
                         .password("password")
@@ -135,7 +135,7 @@ class HttpSecurityDslTests {
     }
 
     @EnableWebSecurity
-    class SecurityRequestMatcherConfig : WebSecurityConfigurerAdapter() {
+    open class SecurityRequestMatcherConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 securityMatcher(RegexRequestMatcher("/path", null))
@@ -168,7 +168,7 @@ class HttpSecurityDslTests {
 
     @EnableWebSecurity
     @EnableWebMvc
-    class SecurityPatternMatcherConfig : WebSecurityConfigurerAdapter() {
+    open class SecurityPatternMatcherConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 securityMatcher("/path")
@@ -201,7 +201,7 @@ class HttpSecurityDslTests {
 
     @EnableWebSecurity
     @EnableWebMvc
-    class MultiMatcherConfig : WebSecurityConfigurerAdapter() {
+    open class MultiMatcherConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 securityMatcher("/path1")

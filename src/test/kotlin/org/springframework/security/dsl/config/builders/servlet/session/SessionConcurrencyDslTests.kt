@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,12 +26,12 @@ import org.springframework.mock.web.MockHttpSession
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+import org.springframework.security.dsl.config.builders.test.SpringTestRule
 import org.springframework.security.core.session.SessionInformation
 import org.springframework.security.core.session.SessionRegistry
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.dsl.config.builders.servlet.invoke
-import org.springframework.security.dsl.config.builders.test.SpringTestRule
 import org.springframework.security.provisioning.InMemoryUserDetailsManager
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf
 import org.springframework.security.web.session.SimpleRedirectSessionInformationExpiredStrategy
@@ -56,7 +56,7 @@ class SessionConcurrencyDslTests {
     lateinit var mockMvc: MockMvc
 
     @Test
-    fun sessionConcurrencyWhenMaximumSessionsThenNoMoreSessionsAllowed() {
+    fun `session concurrency when maximum sessions then no more sessions allowed`() {
         this.spring.register(MaximumSessionsConfig::class.java, UserDetailsConfig::class.java).autowire()
 
         this.mockMvc.perform(post("/login")
@@ -73,7 +73,7 @@ class SessionConcurrencyDslTests {
     }
 
     @EnableWebSecurity
-    class MaximumSessionsConfig : WebSecurityConfigurerAdapter() {
+    open class MaximumSessionsConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 sessionManagement {
@@ -88,7 +88,7 @@ class SessionConcurrencyDslTests {
     }
 
     @Test
-    fun sessionConcurrencyWhenExpiredUrlThenRedirectsToUrl() {
+    fun `session concurrency when expired url then redirects to url`() {
         this.spring.register(ExpiredUrlConfig::class.java).autowire()
 
         val session = MockHttpSession()
@@ -101,7 +101,7 @@ class SessionConcurrencyDslTests {
     }
 
     @EnableWebSecurity
-    class ExpiredUrlConfig : WebSecurityConfigurerAdapter() {
+    open class ExpiredUrlConfig : WebSecurityConfigurerAdapter() {
         companion object {
             val sessionRegistry: SessionRegistry = mock(SessionRegistry::class.java)
         }
@@ -119,13 +119,13 @@ class SessionConcurrencyDslTests {
         }
 
         @Bean
-        fun sessionRegistry(): SessionRegistry {
+        open fun sessionRegistry(): SessionRegistry {
             return sessionRegistry
         }
     }
 
     @Test
-    fun sessionConcurrencyWhenExpiredSessionStrategyThenStrategyUsed() {
+    fun `session concurrency when expired session strategy then strategy used`() {
         this.spring.register(ExpiredSessionStrategyConfig::class.java).autowire()
 
         val session = MockHttpSession()
@@ -138,7 +138,7 @@ class SessionConcurrencyDslTests {
     }
 
     @EnableWebSecurity
-    class ExpiredSessionStrategyConfig : WebSecurityConfigurerAdapter() {
+    open class ExpiredSessionStrategyConfig : WebSecurityConfigurerAdapter() {
         companion object {
             val sessionRegistry: SessionRegistry = mock(SessionRegistry::class.java)
         }
@@ -156,15 +156,15 @@ class SessionConcurrencyDslTests {
         }
 
         @Bean
-        fun sessionRegistry(): SessionRegistry {
+        open fun sessionRegistry(): SessionRegistry {
             return sessionRegistry
         }
     }
 
     @Configuration
-    class UserDetailsConfig {
+    open class UserDetailsConfig {
         @Bean
-        fun userDetailsService(): UserDetailsService {
+        open fun userDetailsService(): UserDetailsService {
             val userDetails = User.withDefaultPasswordEncoder()
                     .username("user")
                     .password("password")

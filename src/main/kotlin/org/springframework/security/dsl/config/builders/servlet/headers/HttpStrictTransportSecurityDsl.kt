@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher
  * idiomatic Kotlin code.
  *
  * @author Eleftheria Stein
- * @since 5.2
+ * @since 5.3
  * @property maxAgeInSeconds the value (in seconds) for the max-age directive of the
  * Strict-Transport-Security header.
  * @property requestMatcher the [RequestMatcher] used to determine if the
@@ -40,12 +40,24 @@ class HttpStrictTransportSecurityDsl {
     var includeSubDomains: Boolean? = null
     var preload: Boolean? = null
 
+    private var disabled = false
+
+    /**
+     * Disable the HTTP Strict Transport Security header.
+     */
+    fun disable() {
+        disabled = true
+    }
+
     internal fun get(): (HeadersConfigurer<HttpSecurity>.HstsConfig) -> Unit {
         return { hsts ->
             maxAgeInSeconds?.also { hsts.maxAgeInSeconds(maxAgeInSeconds!!) }
             requestMatcher?.also { hsts.requestMatcher(requestMatcher) }
             includeSubDomains?.also { hsts.includeSubDomains(includeSubDomains!!) }
             preload?.also { hsts.preload(preload!!) }
+            if (disabled) {
+                hsts.disable()
+            }
         }
     }
 }

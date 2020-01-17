@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,8 +23,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import org.springframework.security.dsl.config.builders.servlet.invoke
 import org.springframework.security.dsl.config.builders.test.SpringTestRule
+import org.springframework.security.dsl.config.builders.servlet.invoke
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 
@@ -45,7 +45,7 @@ class HttpPublicKeyPinningDslTests {
     private val HPKP_HEADER_NAME = "Public-Key-Pins"
 
     @Test
-    fun headersWhenHpkpConfiguredAndNoPinThenNoHeadersInResponse() {
+    fun `headers when HPKP configured and no pin then no headers in response`() {
         this.spring.register(HpkpNoPinConfig::class.java).autowire()
 
         val result = this.mockMvc.get("/") {
@@ -56,7 +56,7 @@ class HttpPublicKeyPinningDslTests {
     }
 
     @EnableWebSecurity
-    class HpkpNoPinConfig : WebSecurityConfigurerAdapter() {
+    open class HpkpNoPinConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 headers {
@@ -68,7 +68,7 @@ class HttpPublicKeyPinningDslTests {
     }
 
     @Test
-    fun headersWhenHpkpConfiguredWithPinThenHeaderInResponse() {
+    fun `headers when HPKP configured with pin then header in response`() {
         this.spring.register(HpkpPinConfig::class.java).autowire()
 
         this.mockMvc.get("/") {
@@ -79,7 +79,7 @@ class HttpPublicKeyPinningDslTests {
     }
 
     @EnableWebSecurity
-    class HpkpPinConfig : WebSecurityConfigurerAdapter() {
+    open class HpkpPinConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 headers {
@@ -93,7 +93,7 @@ class HttpPublicKeyPinningDslTests {
     }
 
     @Test
-    fun headersWhenHpkpConfiguredWithMaximumAgeThenMaximumAgeInHeader() {
+    fun `headers when HPKP configured with maximum age then maximum age in header`() {
         this.spring.register(HpkpMaxAgeConfig::class.java).autowire()
 
         this.mockMvc.get("/") {
@@ -104,7 +104,7 @@ class HttpPublicKeyPinningDslTests {
     }
 
     @EnableWebSecurity
-    class HpkpMaxAgeConfig : WebSecurityConfigurerAdapter() {
+    open class HpkpMaxAgeConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 headers {
@@ -119,7 +119,7 @@ class HttpPublicKeyPinningDslTests {
     }
 
     @Test
-    fun headersWhenHpkpConfiguredWithReportOnlyFalseThenPublicKeyPinsHeaderInResponse() {
+    fun `headers when HPKP configured with report only false then public key pins header in response`() {
         this.spring.register(HpkpReportOnlyFalseConfig::class.java).autowire()
 
         this.mockMvc.get("/") {
@@ -130,7 +130,7 @@ class HttpPublicKeyPinningDslTests {
     }
 
     @EnableWebSecurity
-    class HpkpReportOnlyFalseConfig : WebSecurityConfigurerAdapter() {
+    open class HpkpReportOnlyFalseConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 headers {
@@ -145,19 +145,21 @@ class HttpPublicKeyPinningDslTests {
     }
 
     @Test
-    fun headersWhenHpkpConfiguredWithIncludeSubdomainsThenIncludeSubdomainsInHeader() {
+    fun `headers when HPKP configured with include subdomains then include subdomains in header`() {
         this.spring.register(HpkpIncludeSubdomainsConfig::class.java).autowire()
 
         this.mockMvc.get("/") {
             secure = true
         }.andExpect {
-            header { string(HPKP_RO_HEADER_NAME,
-                    "max-age=5184000 ; pin-sha256=\"d6qzRu9zOECb90Uez27xWltNsj0e1Md7GkYYkVoZWmM=\" ; includeSubDomains") }
+            header {
+                string(HPKP_RO_HEADER_NAME,
+                        "max-age=5184000 ; pin-sha256=\"d6qzRu9zOECb90Uez27xWltNsj0e1Md7GkYYkVoZWmM=\" ; includeSubDomains")
+            }
         }
     }
 
     @EnableWebSecurity
-    class HpkpIncludeSubdomainsConfig : WebSecurityConfigurerAdapter() {
+    open class HpkpIncludeSubdomainsConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 headers {
@@ -172,19 +174,21 @@ class HttpPublicKeyPinningDslTests {
     }
 
     @Test
-    fun headersWhenHpkpConfiguredWithReportUriThenReportUriInHeader() {
+    fun `headers when HPKP configured with report uri then report uri in header`() {
         this.spring.register(HpkpReportUriConfig::class.java).autowire()
 
         this.mockMvc.get("/") {
             secure = true
         }.andExpect {
-            header { string(HPKP_RO_HEADER_NAME,
-                    "max-age=5184000 ; pin-sha256=\"d6qzRu9zOECb90Uez27xWltNsj0e1Md7GkYYkVoZWmM=\" ; report-uri=\"https://example.com\"") }
+            header {
+                string(HPKP_RO_HEADER_NAME,
+                        "max-age=5184000 ; pin-sha256=\"d6qzRu9zOECb90Uez27xWltNsj0e1Md7GkYYkVoZWmM=\" ; report-uri=\"https://example.com\"")
+            }
         }
     }
 
     @EnableWebSecurity
-    class HpkpReportUriConfig : WebSecurityConfigurerAdapter() {
+    open class HpkpReportUriConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 headers {
@@ -192,6 +196,32 @@ class HttpPublicKeyPinningDslTests {
                     httpPublicKeyPinning {
                         pins = mapOf(Pair("d6qzRu9zOECb90Uez27xWltNsj0e1Md7GkYYkVoZWmM=", "sha256"))
                         reportUri = "https://example.com"
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `headers when HPKP disabled then no HPKP header in response`() {
+        this.spring.register(HpkpDisabledConfig::class.java).autowire()
+
+        this.mockMvc.get("/") {
+            secure = true
+        }.andExpect {
+            header {
+                doesNotExist(HPKP_RO_HEADER_NAME)
+            }
+        }
+    }
+
+    @EnableWebSecurity
+    open class HpkpDisabledConfig : WebSecurityConfigurerAdapter() {
+        override fun configure(http: HttpSecurity) {
+            http {
+                headers {
+                    httpPublicKeyPinning {
+                        disable()
                     }
                 }
             }

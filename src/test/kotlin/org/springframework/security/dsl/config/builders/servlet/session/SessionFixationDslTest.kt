@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,7 +49,7 @@ class SessionFixationDslTest {
     lateinit var mockMvc: MockMvc
 
     @Test
-    fun sessionFixationWhenStrategyIsNewSessionThenNewSessionCreatedAndAttributesAreNotPreserved() {
+    fun `session fixation when strategy is new session then new session created and attributes are not preserved`() {
         this.spring.register(NewSessionConfig::class.java, UserDetailsConfig::class.java).autowire()
         val givenSession = MockHttpSession()
         val givenSessionId = givenSession.id
@@ -68,7 +68,7 @@ class SessionFixationDslTest {
     }
 
     @EnableWebSecurity
-    class NewSessionConfig : WebSecurityConfigurerAdapter() {
+    open class NewSessionConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 sessionManagement {
@@ -82,7 +82,7 @@ class SessionFixationDslTest {
     }
 
     @Test
-    fun sessionFixationWhenStrategyIsMigrateSessionThenNewSessionCreatedAndAttributesArePreserved() {
+    fun `session fixation when strategy is migrate session then new session created and attributes are preserved`() {
         this.spring.register(MigrateSessionConfig::class.java, UserDetailsConfig::class.java).autowire()
         val givenSession = MockHttpSession()
         val givenSessionId = givenSession.id
@@ -101,7 +101,7 @@ class SessionFixationDslTest {
     }
 
     @EnableWebSecurity
-    class MigrateSessionConfig : WebSecurityConfigurerAdapter() {
+    open class MigrateSessionConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 sessionManagement {
@@ -115,7 +115,7 @@ class SessionFixationDslTest {
     }
 
     @Test
-    fun sessionFixationWhenStrategyIsChangeSessionIdThenSessionIdChangesAndAttributesPreserved() {
+    fun `session fixation when strategy is change session id then session id changes and attributes preserved`() {
         this.spring.register(ChangeSessionIdConfig::class.java, UserDetailsConfig::class.java).autowire()
         val givenSession = MockHttpSession()
         val givenSessionId = givenSession.id
@@ -134,7 +134,7 @@ class SessionFixationDslTest {
     }
 
     @EnableWebSecurity
-    class ChangeSessionIdConfig : WebSecurityConfigurerAdapter() {
+    open class ChangeSessionIdConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 sessionManagement {
@@ -148,7 +148,7 @@ class SessionFixationDslTest {
     }
 
     @Test
-    fun sessionFixationWhenStrategyIsNoneThenSessionDoesNotChange() {
+    fun `session fixation when strategy is none then session does not change`() {
         this.spring.register(NoneConfig::class.java, UserDetailsConfig::class.java).autowire()
         val givenSession = MockHttpSession()
         val givenSessionId = givenSession.id
@@ -167,7 +167,7 @@ class SessionFixationDslTest {
     }
 
     @EnableWebSecurity
-    class NoneConfig : WebSecurityConfigurerAdapter() {
+    open class NoneConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 sessionManagement {
@@ -181,9 +181,9 @@ class SessionFixationDslTest {
     }
 
     @Configuration
-    class UserDetailsConfig {
+    open class UserDetailsConfig {
         @Bean
-        fun userDetailsService(): UserDetailsService {
+        open fun userDetailsService(): UserDetailsService {
             val userDetails = User.withDefaultPasswordEncoder()
                     .username("user")
                     .password("password")

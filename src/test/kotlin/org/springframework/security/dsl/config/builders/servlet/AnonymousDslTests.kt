@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import  org.springframework.security.dsl.config.builders.test.SpringTestRule
+import org.springframework.security.dsl.config.builders.test.SpringTestRule
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
@@ -48,7 +48,7 @@ class AnonymousDslTests {
     lateinit var mockMvc: MockMvc
 
     @Test
-    fun anonymousWhenCustomPrincipalThenCustomPrincipalUsed() {
+    fun `anonymous when custom principal then custom principal used`() {
         this.spring.register(PrincipalConfig::class.java, PrincipalController::class.java).autowire()
 
         this.mockMvc.get("/principal")
@@ -59,7 +59,7 @@ class AnonymousDslTests {
 
     @EnableWebSecurity
     @EnableWebMvc
-    class PrincipalConfig : WebSecurityConfigurerAdapter() {
+    open class PrincipalConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 anonymous {
@@ -70,7 +70,7 @@ class AnonymousDslTests {
     }
 
     @Test
-    fun anonymousWhenCustomKeyThenCustomKeyUsed() {
+    fun `anonymous when custom key then custom key used`() {
         this.spring.register(KeyConfig::class.java, PrincipalController::class.java).autowire()
 
         this.mockMvc.get("/key")
@@ -81,7 +81,7 @@ class AnonymousDslTests {
 
     @EnableWebSecurity
     @EnableWebMvc
-    class KeyConfig : WebSecurityConfigurerAdapter() {
+    open class KeyConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 anonymous {
@@ -92,7 +92,7 @@ class AnonymousDslTests {
     }
 
     @Test
-    fun anonymousWhenDisabledThenRespondsWithForbidden() {
+    fun `anonymous when disabled then responds with forbidden`() {
         this.spring.register(AnonymousDisabledConfig::class.java, PrincipalController::class.java).autowire()
 
         this.mockMvc.get("/principal")
@@ -103,7 +103,7 @@ class AnonymousDslTests {
 
     @EnableWebSecurity
     @EnableWebMvc
-    class AnonymousDisabledConfig : WebSecurityConfigurerAdapter() {
+    open class AnonymousDisabledConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 anonymous {
@@ -114,7 +114,7 @@ class AnonymousDslTests {
     }
 
     @Test
-    fun anonymousWhenCustomAuthoritiesThenAuthoritiesUsed() {
+    fun `anonymous when custom authorities then authorities used`() {
         this.spring.register(AnonymousAuthoritiesConfig::class.java, PrincipalController::class.java).autowire()
 
         this.mockMvc.get("/principal")
@@ -125,7 +125,7 @@ class AnonymousDslTests {
 
     @EnableWebSecurity
     @EnableWebMvc
-    class AnonymousAuthoritiesConfig : WebSecurityConfigurerAdapter() {
+    open class AnonymousAuthoritiesConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 anonymous {

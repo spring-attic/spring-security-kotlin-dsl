@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import org.springframework.http.HttpHeaders
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import  org.springframework.security.dsl.config.builders.test.SpringTestRule
+import org.springframework.security.dsl.config.builders.test.SpringTestRule
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter
 import org.springframework.security.web.server.header.ContentTypeOptionsServerHttpHeadersWriter
 import org.springframework.security.web.server.header.StrictTransportSecurityServerHttpHeadersWriter
@@ -46,7 +46,7 @@ class HeadersDslTests {
     lateinit var mockMvc: MockMvc
 
     @Test
-    fun headersWhenDefaultsEnabledThenDefaultHeadersInResponse() {
+    fun `headers when defaults enabled then default headers in response`() {
         this.spring.register(DefaultHeadersConfig::class.java).autowire()
 
         this.mockMvc.get("/") {
@@ -63,7 +63,7 @@ class HeadersDslTests {
     }
 
     @EnableWebSecurity
-    class DefaultHeadersConfig : WebSecurityConfigurerAdapter() {
+    open class DefaultHeadersConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 headers { }
@@ -72,7 +72,7 @@ class HeadersDslTests {
     }
 
     @Test
-    fun headersWhenFeaturePolicyConfiguredThenHeaderInResponse() {
+    fun `headers when feature policy configured then header in response`() {
         this.spring.register(FeaturePolicyConfig::class.java).autowire()
 
         this.mockMvc.get("/")
@@ -82,7 +82,7 @@ class HeadersDslTests {
     }
 
     @EnableWebSecurity
-    class FeaturePolicyConfig : WebSecurityConfigurerAdapter() {
+    open class FeaturePolicyConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 headers {

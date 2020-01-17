@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,11 +26,11 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import org.springframework.security.dsl.config.builders.servlet.invoke
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.oauth2.client.CommonOAuth2Provider
-import  org.springframework.security.dsl.config.builders.test.SpringTestRule
+import org.springframework.security.dsl.config.builders.test.SpringTestRule
+import org.springframework.security.dsl.config.builders.servlet.invoke
 import org.springframework.security.oauth2.client.endpoint.OAuth2AccessTokenResponseClient
 import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequest
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository
@@ -58,7 +58,7 @@ class TokenEndpointDslTests {
     lateinit var mockMvc: MockMvc
 
     @Test
-    fun oauth2LoginWhenCustomAccessTokenResponseClientThenClientUsed() {
+    fun `oauth2Login when custom access token response client then client used`() {
         this.spring.register(TokenConfig::class.java, ClientConfig::class.java).autowire()
 
         val registrationId = "registrationId"
@@ -88,7 +88,7 @@ class TokenEndpointDslTests {
     }
 
     @EnableWebSecurity
-    class TokenConfig : WebSecurityConfigurerAdapter() {
+    open class TokenConfig : WebSecurityConfigurerAdapter() {
         companion object {
             var CLIENT: OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> = mock(OAuth2AccessTokenResponseClient::class.java) as OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest>
             var REPOSITORY: AuthorizationRequestRepository<OAuth2AuthorizationRequest> = mock(AuthorizationRequestRepository::class.java) as AuthorizationRequestRepository<OAuth2AuthorizationRequest>
@@ -112,9 +112,9 @@ class TokenEndpointDslTests {
     }
 
     @Configuration
-    class ClientConfig {
+    open class ClientConfig {
         @Bean
-        fun clientRegistrationRepository(): ClientRegistrationRepository {
+        open fun clientRegistrationRepository(): ClientRegistrationRepository {
             return InMemoryClientRegistrationRepository(
                     CommonOAuth2Provider.GOOGLE
                             .getBuilder("google")

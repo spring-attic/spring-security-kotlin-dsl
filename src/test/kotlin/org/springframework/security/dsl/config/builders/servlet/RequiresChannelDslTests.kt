@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import  org.springframework.security.dsl.config.builders.test.SpringTestRule
+import org.springframework.security.dsl.config.builders.test.SpringTestRule
 import org.springframework.security.web.access.channel.ChannelProcessor
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
@@ -49,7 +49,7 @@ class RequiresChannelDslTests {
     lateinit var mockMvc: MockMvc
 
     @Test
-    fun requiresChannelWhenRequiresSecureThenRedirectsToHttps() {
+    fun `requires channel when requires secure then redirects to https`() {
         this.spring.register(RequiresSecureConfig::class.java).autowire()
 
         this.mockMvc.get("/")
@@ -59,7 +59,7 @@ class RequiresChannelDslTests {
     }
 
     @EnableWebSecurity
-    class RequiresSecureConfig : WebSecurityConfigurerAdapter() {
+    open class RequiresSecureConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 requiresChannel {
@@ -70,7 +70,7 @@ class RequiresChannelDslTests {
     }
 
     @Test
-    fun requestWhenChannelMatchesMvcWithServletPathThenRedirectsBasedOnServletPath() {
+    fun `request when channel matches mvc with servlet path then redirects based on servlet path`() {
         this.spring.register(MvcMatcherServletPathConfig::class.java).autowire()
 
         this.mockMvc.perform(MockMvcRequestBuilders.get("/spring/path")
@@ -91,7 +91,7 @@ class RequiresChannelDslTests {
 
     @EnableWebSecurity
     @EnableWebMvc
-    class MvcMatcherServletPathConfig : WebSecurityConfigurerAdapter() {
+    open class MvcMatcherServletPathConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 requiresChannel {
@@ -111,7 +111,7 @@ class RequiresChannelDslTests {
     }
 
     @Test
-    fun requiresChannelWhenChannelProcessorsConfiguredThenChannelProcessorsUsed() {
+    fun `requires channel when channel processors configured then channel processors used`() {
         `when`(ChannelProcessorsConfig.CHANNEL_PROCESSOR.supports(any())).thenReturn(true)
         this.spring.register(ChannelProcessorsConfig::class.java).autowire()
 
@@ -121,7 +121,7 @@ class RequiresChannelDslTests {
     }
 
     @EnableWebSecurity
-    class ChannelProcessorsConfig : WebSecurityConfigurerAdapter() {
+    open class ChannelProcessorsConfig : WebSecurityConfigurerAdapter() {
         companion object {
             var CHANNEL_PROCESSOR: ChannelProcessor = mock(ChannelProcessor::class.java)
         }

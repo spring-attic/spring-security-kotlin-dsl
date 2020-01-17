@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ import org.springframework.security.authentication.AuthenticationDetailsSource
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import  org.springframework.security.dsl.config.builders.test.SpringTestRule
+import org.springframework.security.dsl.config.builders.test.SpringTestRule
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetailsService
@@ -56,7 +56,7 @@ class HttpBasicDslTests {
     lateinit var mockMvc: MockMvc
 
     @Test
-    fun httpBasicWhenConfiguredThenInsecureRequestCannotAccess() {
+    fun `http basic when configured then insecure request cannot access`() {
         this.spring.register(HttpBasicConfig::class.java).autowire()
 
         this.mockMvc.get("/")
@@ -66,7 +66,7 @@ class HttpBasicDslTests {
     }
 
     @Test
-    fun httpBasicWhenConfiguredThenResponseIncludesBasicChallenge() {
+    fun `http basic when configured then response includes basic challenge`() {
         this.spring.register(HttpBasicConfig::class.java).autowire()
 
         this.mockMvc.get("/")
@@ -76,7 +76,7 @@ class HttpBasicDslTests {
     }
 
     @Test
-    fun httpBasicWhenValidUserThenPermitted() {
+    fun `http basic when valid user then permitted`() {
         this.spring.register(HttpBasicConfig::class.java, UserConfig::class.java, MainController::class.java).autowire()
 
         this.mockMvc.get("/") {
@@ -87,7 +87,7 @@ class HttpBasicDslTests {
     }
 
     @EnableWebSecurity
-    class HttpBasicConfig : WebSecurityConfigurerAdapter() {
+    open class HttpBasicConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 httpBasic {}
@@ -109,7 +109,7 @@ class HttpBasicDslTests {
     }
 
     @EnableWebSecurity
-    class CustomRealmConfig : WebSecurityConfigurerAdapter() {
+    open class CustomRealmConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 httpBasic {
@@ -123,7 +123,7 @@ class HttpBasicDslTests {
     }
 
     @Test
-    fun httpBasicWhenCustomAuthenticationEntryPointThenUsed() {
+    fun `http basic when custom authentication entry point then used`() {
         this.spring.register(CustomAuthenticationEntryPointConfig::class.java).autowire()
 
         this.mockMvc.get("/")
@@ -135,7 +135,7 @@ class HttpBasicDslTests {
     }
 
     @EnableWebSecurity
-    class CustomAuthenticationEntryPointConfig : WebSecurityConfigurerAdapter() {
+    open class CustomAuthenticationEntryPointConfig : WebSecurityConfigurerAdapter() {
         companion object {
             var ENTRY_POINT: AuthenticationEntryPoint = mock(AuthenticationEntryPoint::class.java)
         }
@@ -153,7 +153,7 @@ class HttpBasicDslTests {
     }
 
     @Test
-    fun httpBasicWhenCustomAuthenticationDetailsSourceThenUsed() {
+    fun `http basic when custom authentication details source then used`() {
         this.spring.register(CustomAuthenticationDetailsSourceConfig::class.java,
                 UserConfig::class.java, MainController::class.java).autowire()
 
@@ -166,7 +166,7 @@ class HttpBasicDslTests {
     }
 
     @EnableWebSecurity
-    class CustomAuthenticationDetailsSourceConfig : WebSecurityConfigurerAdapter() {
+    open class CustomAuthenticationDetailsSourceConfig : WebSecurityConfigurerAdapter() {
         companion object {
             var AUTHENTICATION_DETAILS_SOURCE = mock(AuthenticationDetailsSource::class.java) as AuthenticationDetailsSource<HttpServletRequest, *>
         }
@@ -184,9 +184,9 @@ class HttpBasicDslTests {
     }
 
     @Configuration
-    class UserConfig {
+    open class UserConfig {
         @Bean
-        fun userDetailsService(): UserDetailsService {
+        open fun userDetailsService(): UserDetailsService {
             val userDetails = User.withDefaultPasswordEncoder()
                     .username("user")
                     .password("password")

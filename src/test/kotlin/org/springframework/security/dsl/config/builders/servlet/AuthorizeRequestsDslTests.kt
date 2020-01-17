@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import  org.springframework.security.dsl.config.builders.test.SpringTestRule
+import org.springframework.security.dsl.config.builders.test.SpringTestRule
 import org.springframework.security.web.util.matcher.RegexRequestMatcher
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
@@ -47,7 +47,7 @@ class AuthorizeRequestsDslTests {
     lateinit var mockMvc: MockMvc
 
     @Test
-    fun requestWhenSecuredByRegexMatcherThenRespondsWithForbidden() {
+    fun `request when secured by regex matcher then responds with forbidden`() {
         this.spring.register(AuthorizeRequestsByRegexConfig::class.java).autowire()
 
         this.mockMvc.get("/private")
@@ -57,7 +57,7 @@ class AuthorizeRequestsDslTests {
     }
 
     @Test
-    fun requestWhenAllowedByRegexMatcherThenRespondsWithOk() {
+    fun `request when allowed by regex matcher then responds with ok`() {
         this.spring.register(AuthorizeRequestsByRegexConfig::class.java).autowire()
 
         this.mockMvc.get("/path")
@@ -67,7 +67,7 @@ class AuthorizeRequestsDslTests {
     }
 
     @EnableWebSecurity
-    class AuthorizeRequestsByRegexConfig : WebSecurityConfigurerAdapter() {
+    open class AuthorizeRequestsByRegexConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 authorizeRequests {
@@ -86,7 +86,7 @@ class AuthorizeRequestsDslTests {
     }
 
     @Test
-    fun requestWhenSecuredByMvcThenRespondsWithForbidden() {
+    fun `request when secured by mvc then responds with forbidden`() {
         this.spring.register(AuthorizeRequestsByMvcConfig::class.java).autowire()
 
         this.mockMvc.get("/private")
@@ -96,7 +96,7 @@ class AuthorizeRequestsDslTests {
     }
 
     @Test
-    fun requestWhenAllowedByMvcThenRespondsWithOk() {
+    fun `request when allowed by mvc then responds with OK`() {
         this.spring.register(AuthorizeRequestsByMvcConfig::class.java).autowire()
 
         this.mockMvc.get("/path")
@@ -117,7 +117,7 @@ class AuthorizeRequestsDslTests {
 
     @EnableWebSecurity
     @EnableWebMvc
-    class AuthorizeRequestsByMvcConfig : WebSecurityConfigurerAdapter() {
+    open class AuthorizeRequestsByMvcConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 authorizeRequests {
@@ -136,7 +136,7 @@ class AuthorizeRequestsDslTests {
     }
 
     @Test
-    fun requestWhenSecuredByMvcPathVariablesThenRespondsBasedOnPathVariableValue() {
+    fun `request when secured by mvc path variables then responds based on path variable value`() {
         this.spring.register(MvcMatcherPathVariablesConfig::class.java).autowire()
 
         this.mockMvc.get("/user/user")
@@ -152,7 +152,7 @@ class AuthorizeRequestsDslTests {
 
     @EnableWebSecurity
     @EnableWebMvc
-    class MvcMatcherPathVariablesConfig : WebSecurityConfigurerAdapter() {
+    open class MvcMatcherPathVariablesConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 authorizeRequests {
@@ -170,7 +170,7 @@ class AuthorizeRequestsDslTests {
     }
 
     @Test
-    fun requestWhenSecuredByMvcWithServletPathThenRespondsBasedOnServletPath() {
+    fun `request when secured by mvc with servlet path then responds based on servlet path`() {
         this.spring.register(MvcMatcherServletPathConfig::class.java).autowire()
 
         this.mockMvc.perform(MockMvcRequestBuilders.get("/spring/path")
@@ -190,7 +190,7 @@ class AuthorizeRequestsDslTests {
 
     @EnableWebSecurity
     @EnableWebMvc
-    class MvcMatcherServletPathConfig : WebSecurityConfigurerAdapter() {
+    open class MvcMatcherServletPathConfig : WebSecurityConfigurerAdapter() {
         override fun configure(http: HttpSecurity) {
             http {
                 authorizeRequests {

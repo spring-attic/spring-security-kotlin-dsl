@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
  * idiomatic Kotlin code.
  *
  * @author Eleftheria Stein
- * @since 5.2
+ * @since 5.3
  * @property pins the value for the pin- directive of the Public-Key-Pins header.
  * @property maxAgeInSeconds the value (in seconds) for the max-age directive of the
  * Public-Key-Pins header.
@@ -40,6 +40,15 @@ class HttpPublicKeyPinningDsl {
     var includeSubDomains: Boolean? = null
     var reportOnly: Boolean? = null
     var reportUri: String? = null
+
+    private var disabled = false
+
+    /**
+     * Disable the HTTP Public Key Pinning header.
+     */
+    fun disable() {
+        disabled = true
+    }
 
     internal fun get(): (HeadersConfigurer<HttpSecurity>.HpkpConfig) -> Unit {
         return { hpkp ->
@@ -57,6 +66,9 @@ class HttpPublicKeyPinningDsl {
             }
             reportUri?.also {
                 hpkp.reportUri(reportUri)
+            }
+            if (disabled) {
+                hpkp.disable()
             }
         }
     }
