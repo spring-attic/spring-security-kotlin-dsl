@@ -1,5 +1,9 @@
 = Spring Security Kotlin DSL
 
+**Note**: The native Kotlin DSL for servlet based applications has been integrated into https://github.com/spring-projects/spring-security[Spring Security] as of version https://spring.io/blog/2020/01/08/spring-security-5-3-0-m1-released[5.3.0.M1].
+Servlet based applications no longer need to add this project as an additional dependency.
+Reactive applications should continue to use this project for a native Kotlin DSL.
+
 == Code of Conduct
 This project adheres to the Contributor Covenant link:CODE_OF_CONDUCT.adoc[code of conduct].
 By participating, you  are expected to uphold this code. Please report unacceptable behavior to spring-code-of-conduct@pivotal.io.
