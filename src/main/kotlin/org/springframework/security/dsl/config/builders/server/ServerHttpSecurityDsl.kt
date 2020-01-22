@@ -2,6 +2,7 @@ package org.springframework.security.dsl.config.builders.server
 
 import org.springframework.security.config.web.server.ServerHttpSecurity
 import org.springframework.security.dsl.config.builders.servlet.AnonymousDsl
+import org.springframework.security.oauth2.client.registration.ReactiveClientRegistrationRepository
 import org.springframework.security.web.server.SecurityWebFilterChain
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatcher
 import org.springframework.web.server.ServerWebExchange
@@ -360,6 +361,36 @@ class ServerHttpSecurityDsl(private val http: ServerHttpSecurity, private val in
     fun anonymous(anonymousConfiguration: ServerAnonymousDsl.() -> Unit) {
         val anonymousCustomizer = ServerAnonymousDsl().apply(anonymousConfiguration).get()
         this.http.anonymous(anonymousCustomizer)
+    }
+
+    /**
+     * Configures authentication support using an OAuth 2.0 and/or OpenID Connect 1.0 Provider.
+     * A [ReactiveClientRegistrationRepository] is required and must be registered as a Bean or
+     * configured via [ServerOAuth2LoginDsl.clientRegistrationRepository].
+     *
+     * Example:
+     *
+     * ```
+     * @EnableWebFluxSecurity
+     * class SecurityConfig {
+     *
+     *  @Bean
+     *  fun springWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
+     *      return http {
+     *          oauth2Login {
+     *              clientRegistrationRepository = getClientRegistrationRepository()
+     *          }
+     *       }
+     *   }
+     * }
+     * ```
+     *
+     * @param oauth2LoginConfiguration custom configuration to configure the OAuth 2.0 Login
+     * @see [ServerOAuth2LoginDsl]
+     */
+    fun oauth2Login(oauth2LoginConfiguration: ServerOAuth2LoginDsl.() -> Unit) {
+        val oauth2LoginCustomizer = ServerOAuth2LoginDsl().apply(oauth2LoginConfiguration).get()
+        this.http.oauth2Login(oauth2LoginCustomizer)
     }
 
     /**

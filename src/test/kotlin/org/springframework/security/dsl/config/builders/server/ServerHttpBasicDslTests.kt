@@ -3,7 +3,6 @@ package org.springframework.security.dsl.config.builders.server
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.BDDMockito.given
-import org.mockito.Mockito
 import org.mockito.Mockito.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationContext

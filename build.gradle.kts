@@ -63,7 +63,7 @@ dependencies {
 	testImplementation("org.mockito:mockito-core")
 	testImplementation("org.springframework.security:spring-security-test")
 	testImplementation("org.springframework:spring-test")
-
+	testImplementation("io.projectreactor.netty:reactor-netty:0.9.4.RELEASE")
 }
 
 tasks.withType<Test> {
