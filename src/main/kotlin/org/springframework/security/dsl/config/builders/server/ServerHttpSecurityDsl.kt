@@ -410,6 +410,34 @@ class ServerHttpSecurityDsl(private val http: ServerHttpSecurity, private val in
     }
 
     /**
+     * Configures OAuth2 client support.
+     *
+     * Example:
+     *
+     * ```
+     * @EnableWebFluxSecurity
+     * class SecurityConfig {
+     *
+     *  @Bean
+     *  fun springWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
+     *      return http {
+     *          oauth2Client {
+     *              clientRegistrationRepository = getClientRegistrationRepository()
+     *          }
+     *       }
+     *   }
+     * }
+     * ```
+     *
+     * @param oauth2ClientConfiguration custom configuration to configure the OAuth 2.0 client
+     * @see [ServerOAuth2ClientDsl]
+     */
+    fun oauth2Client(oauth2ClientConfiguration: ServerOAuth2ClientDsl.() -> Unit) {
+        val oauth2ClientCustomizer = ServerOAuth2ClientDsl().apply(oauth2ClientConfiguration).get()
+        this.http.oauth2Client(oauth2ClientCustomizer)
+    }
+
+    /**
      * Apply all configurations to the provided [ServerHttpSecurity]
      */
     internal fun build(): SecurityWebFilterChain {
