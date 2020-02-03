@@ -64,6 +64,8 @@ dependencies {
 	testImplementation("org.springframework.security:spring-security-test")
 	testImplementation("org.springframework:spring-test")
 	testImplementation("io.projectreactor.netty:reactor-netty:0.9.4.RELEASE")
+	testImplementation("com.squareup.okhttp3:mockwebserver:3.14.6")
+	testImplementation("javax.annotation:jsr250-api:1.0")
 }
 
 tasks.withType<Test> {

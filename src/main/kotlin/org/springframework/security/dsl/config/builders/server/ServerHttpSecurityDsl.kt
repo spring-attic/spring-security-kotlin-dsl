@@ -438,6 +438,34 @@ class ServerHttpSecurityDsl(private val http: ServerHttpSecurity, private val in
     }
 
     /**
+     * Configures OAuth2 resource server support.
+     *
+     * Example:
+     *
+     * ```
+     * @EnableWebFluxSecurity
+     * class SecurityConfig {
+     *
+     *  @Bean
+     *  fun springWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
+     *      return http {
+     *          oauth2ResourceServer {
+     *              jwt { }
+     *          }
+     *       }
+     *   }
+     * }
+     * ```
+     *
+     * @param oauth2ResourceServerConfiguration custom configuration to configure the OAuth 2.0 resource server
+     * @see [ServerOAuth2ClientDsl]
+     */
+    fun oauth2ResourceServer(oauth2ResourceServerConfiguration: ServerOAuth2ResourceServerDsl.() -> Unit) {
+        val oauth2ResourceServerCustomizer = ServerOAuth2ResourceServerDsl().apply(oauth2ResourceServerConfiguration).get()
+        this.http.oauth2ResourceServer(oauth2ResourceServerCustomizer)
+    }
+
+    /**
      * Apply all configurations to the provided [ServerHttpSecurity]
      */
     internal fun build(): SecurityWebFilterChain {
