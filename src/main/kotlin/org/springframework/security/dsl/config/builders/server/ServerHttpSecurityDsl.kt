@@ -298,6 +298,33 @@ class ServerHttpSecurityDsl(private val http: ServerHttpSecurity, private val in
     }
 
     /**
+     * Allows configuring request cache which is used when a flow is interrupted (i.e. due to requesting credentials)
+     * so that the request can be replayed after authentication.
+     *
+     * Example:
+     *
+     * ```
+     * @EnableWebFluxSecurity
+     * class SecurityConfig {
+     *
+     *  @Bean
+     *  fun springWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
+     *      return http {
+     *          requestCache { }
+     *       }
+     *   }
+     * }
+     * ```
+     *
+     * @param requestCacheConfiguration custom configuration to apply to the request cache
+     * @see [ServerRequestCacheDsl]
+     */
+    fun requestCache(requestCacheConfiguration: ServerRequestCacheDsl.() -> Unit) {
+        val requestCacheCustomizer = ServerRequestCacheDsl().apply(requestCacheConfiguration).get()
+        this.http.requestCache(requestCacheCustomizer)
+    }
+
+    /**
      * Enables CSRF protection.
      *
      * Example:
