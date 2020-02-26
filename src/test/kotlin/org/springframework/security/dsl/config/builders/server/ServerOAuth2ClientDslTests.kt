@@ -91,7 +91,12 @@ internal class ServerOAuth2ClientDslTests {
         this.spring.register(AuthorizationRequestRepositoryConfig::class.java, ClientConfig::class.java).autowire()
 
         this.client.get()
-                .uri("/")
+                .uri {
+                    it.path("/")
+                            .queryParam(OAuth2ParameterNames.CODE, "code")
+                            .queryParam(OAuth2ParameterNames.STATE, "state")
+                            .build()
+                }
                 .exchange()
 
         verify(AuthorizationRequestRepositoryConfig.AUTHORIZATION_REQUEST_REPOSITORY).loadAuthorizationRequest(any())
