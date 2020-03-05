@@ -1,6 +1,6 @@
 = Spring Security Kotlin DSL
 
-**Note**: The native Kotlin Domain Specific Language (DSL) for servlet based applications has been integrated into https://github.com/spring-projects/spring-security[Spring Security] as of version https://spring.io/blog/2020/01/08/spring-security-5-3-0-m1-released[5.3.0.M1].
+**Note**: The native Kotlin Domain Specific Language (DSL) for servlet based applications has been integrated into https://github.com/spring-projects/spring-security[Spring Security] as of version https://spring.io/blog/2020/03/05/spring-security-5-3-goes-ga[5.3].
 Servlet based applications no longer need to add this project as an additional dependency.
 Reactive applications should continue to use this project for a native Kotlin DSL.
 
