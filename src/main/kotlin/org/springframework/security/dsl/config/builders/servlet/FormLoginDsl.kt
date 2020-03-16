@@ -26,7 +26,6 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
  * A Kotlin DSL to configure [HttpSecurity] form login using idiomatic Kotlin code.
  *
  * @author Eleftheria Stein
- * @since 5.3
  * @property loginPage the login page to redirect to if authentication is required (i.e.
  * "/login")
  * @property authenticationSuccessHandler the [AuthenticationSuccessHandler] used after

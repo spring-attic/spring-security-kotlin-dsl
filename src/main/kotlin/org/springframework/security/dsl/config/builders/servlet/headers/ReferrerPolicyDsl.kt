@@ -25,7 +25,6 @@ import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWrite
  * idiomatic Kotlin code.
  *
  * @author Eleftheria Stein
- * @since 5.3
  * @property policy the policy to be used in the response header.
  */
 class ReferrerPolicyDsl {

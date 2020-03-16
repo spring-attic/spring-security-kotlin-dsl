@@ -27,7 +27,6 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
  * A Kotlin DSL to configure [HttpSecurity] SAML2 login using idiomatic Kotlin code.
  *
  * @author Eleftheria Stein
- * @since 5.3
  * @property relyingPartyRegistrationRepository the [RelyingPartyRegistrationRepository] of relying parties,
  * each party representing a service provider, SP and this host, and identity provider, IDP pair that
  * communicate with each other.

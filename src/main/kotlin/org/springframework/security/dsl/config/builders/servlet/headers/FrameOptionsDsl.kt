@@ -24,7 +24,6 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
  * idiomatic Kotlin code.
  *
  * @author Eleftheria Stein
- * @since 5.3
  * @property sameOrigin allow any request that comes from the same origin to frame this
  * application.
  * @property deny deny framing any content from this application.

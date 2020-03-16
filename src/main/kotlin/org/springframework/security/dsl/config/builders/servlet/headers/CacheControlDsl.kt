@@ -24,7 +24,6 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
  * Kotlin code.
  *
  * @author Eleftheria Stein
- * @since 5.3
  */
 class CacheControlDsl {
     private var disabled = false

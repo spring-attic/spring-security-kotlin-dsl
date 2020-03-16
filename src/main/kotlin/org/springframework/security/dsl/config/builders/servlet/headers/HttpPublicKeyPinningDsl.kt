@@ -24,7 +24,6 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
  * idiomatic Kotlin code.
  *
  * @author Eleftheria Stein
- * @since 5.3
  * @property pins the value for the pin- directive of the Public-Key-Pins header.
  * @property maxAgeInSeconds the value (in seconds) for the max-age directive of the
  * Public-Key-Pins header.

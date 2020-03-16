@@ -28,7 +28,6 @@ import org.springframework.security.web.authentication.AnonymousAuthenticationFi
  * Kotlin code.
  *
  * @author Eleftheria Stein
- * @since 5.3
  * @property key the key to identify tokens created for anonymous authentication
  * @property principal the principal for [Authentication] objects of anonymous users
  * @property authorities the [Authentication.getAuthorities] for anonymous users

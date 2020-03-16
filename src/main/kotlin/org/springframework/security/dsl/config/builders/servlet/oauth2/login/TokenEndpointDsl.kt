@@ -26,7 +26,6 @@ import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCo
  * idiomatic Kotlin code.
  *
  * @author Eleftheria Stein
- * @since 5.3
  * @property accessTokenResponseClient the client used for requesting the access token credential
  * from the Token Endpoint.
  */

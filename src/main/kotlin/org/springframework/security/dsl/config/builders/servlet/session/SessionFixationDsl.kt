@@ -26,7 +26,6 @@ import javax.servlet.http.HttpSession
  * Kotlin code.
  *
  * @author Eleftheria Stein
- * @since 5.3
  */
 class SessionFixationDsl {
     private var strategy: SessionFixationStrategy? = null

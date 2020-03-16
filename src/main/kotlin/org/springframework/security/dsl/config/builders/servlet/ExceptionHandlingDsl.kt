@@ -28,7 +28,6 @@ import java.util.*
  * code.
  *
  * @author Eleftheria Stein
- * @since 5.3
  * @property accessDeniedPage the URL to the access denied page
  * @property accessDeniedHandler the [AccessDeniedHandler] to use
  * @property authenticationEntryPoint the [AuthenticationEntryPoint] to use

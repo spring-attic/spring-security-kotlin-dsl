@@ -33,7 +33,6 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
  * A Kotlin DSL to configure [HttpSecurity] OAuth 2.0 login using idiomatic Kotlin code.
  *
  * @author Eleftheria Stein
- * @since 5.3
  * @property clientRegistrationRepository the repository of client registrations.
  * @property authorizedClientRepository the repository for authorized client(s).
  * @property authorizedClientService the service for authorized client(s).

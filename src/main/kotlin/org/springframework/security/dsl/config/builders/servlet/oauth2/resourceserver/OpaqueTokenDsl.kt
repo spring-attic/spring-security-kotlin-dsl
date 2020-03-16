@@ -24,7 +24,6 @@ import org.springframework.security.oauth2.server.resource.introspection.OpaqueT
  * A Kotlin DSL to configure JWT Resource Server Support using idiomatic Kotlin code.
  *
  * @author Eleftheria Stein
- * @since 5.3
  * @property introspectionUri the URI of the Introspection endpoint.
  * @property introspector the [OpaqueTokenIntrospector] to use.
  */

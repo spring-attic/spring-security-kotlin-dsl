@@ -26,7 +26,6 @@ import org.springframework.util.ClassUtils
  * A Kotlin DSL to configure [HttpSecurity] request authorization using idiomatic Kotlin code.
  *
  * @author Eleftheria Stein
- * @since 5.3
  */
 class AuthorizeRequestsDsl : AbstractRequestMatcherDsl() {
     private val authorizationRules = mutableListOf<AuthorizationRule>()

@@ -27,7 +27,6 @@ import org.springframework.security.oauth2.jwt.JwtDecoder
  * A Kotlin DSL to configure JWT Resource Server Support using idiomatic Kotlin code.
  *
  * @author Eleftheria Stein
- * @since 5.3
  * @property jwtAuthenticationConverter the [Converter] to use for converting a [Jwt] into
  * an [AbstractAuthenticationToken].
  * @property jwtDecoder the [JwtDecoder] to use.

@@ -27,7 +27,6 @@ import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequ
  * idiomatic Kotlin code.
  *
  * @author Eleftheria Stein
- * @since 5.3
  * @property baseUri the base URI used for authorization requests.
  * @property authorizationRequestResolver the resolver used for resolving [OAuth2AuthorizationRequest]'s.
  * @property authorizationRequestRepository the repository used for storing [OAuth2AuthorizationRequest]'s.

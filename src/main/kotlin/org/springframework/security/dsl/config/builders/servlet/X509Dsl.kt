@@ -33,7 +33,6 @@ import javax.servlet.http.HttpServletRequest
  * using idiomatic Kotlin code.
  *
  * @author Eleftheria Stein
- * @since 5.3
  * @property x509AuthenticationFilter the entire [X509AuthenticationFilter]. If
  * this is specified, the properties on [X509Configurer] will not be populated
  * on the {@link X509AuthenticationFilter}.

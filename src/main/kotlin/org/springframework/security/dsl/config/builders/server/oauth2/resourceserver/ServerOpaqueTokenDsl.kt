@@ -23,7 +23,6 @@ import org.springframework.security.oauth2.server.resource.introspection.Reactiv
  * A Kotlin DSL to configure [ServerHttpSecurity] Opaque Token Resource Server support using idiomatic Kotlin code.
  *
  * @author Eleftheria Stein
- * @since 5.3
  * @property introspectionUri the URI of the Introspection endpoint.
  * @property introspector the [ReactiveOpaqueTokenIntrospector] to use.
  */

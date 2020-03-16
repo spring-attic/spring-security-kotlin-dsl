@@ -24,7 +24,6 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
  * idiomatic Kotlin code.
  *
  * @author Eleftheria Stein
- * @since 5.3
  * @property block whether to specify the mode as blocked
  * @property xssProtectionEnabled if true, the header value will contain a value of 1.
  * If false, will explicitly disable specify that X-XSS-Protection is disabled.

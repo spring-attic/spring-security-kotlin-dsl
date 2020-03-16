@@ -26,7 +26,6 @@ import org.springframework.security.web.header.writers.frameoptions.XFrameOption
  * A Kotlin DSL to configure [HttpSecurity] headers using idiomatic Kotlin code.
  *
  * @author Eleftheria Stein
- * @since 5.3
  * @property defaultsDisabled whether all of the default headers should be included in the response
  */
 class HeadersDsl {

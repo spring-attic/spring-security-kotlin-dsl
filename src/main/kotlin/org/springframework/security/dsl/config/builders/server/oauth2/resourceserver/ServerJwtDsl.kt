@@ -30,7 +30,6 @@ import java.security.interfaces.RSAPublicKey
  * A Kotlin DSL to configure [ServerHttpSecurity] JWT Resource Server support using idiomatic Kotlin code.
  *
  * @author Eleftheria Stein
- * @since 5.3
  * @property authenticationManager the [ReactiveAuthenticationManager] used to determine if the provided
  * [Authentication] can be authenticated.
  * @property jwtAuthenticationConverter the [Converter] to use for converting a [Jwt] into an

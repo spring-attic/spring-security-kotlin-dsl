@@ -45,7 +45,6 @@ import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepo
  * Kotlin code.
  *
  * @author Eleftheria Stein
- * @since 5.3
  * @property clientRegistrationRepository the repository of client registrations.
  * @property authorizedClientRepository the repository for authorized client(s).
  * @property authorizedClientService the service for authorized client(s).

@@ -28,7 +28,6 @@ import javax.servlet.http.HttpServletRequest
  * using idiomatic Kotlin code.
  *
  * @author Eleftheria Stein
- * @since 5.3
  * @property csrfTokenRepository the [CsrfTokenRepository] to use.
  * @property requireCsrfProtectionMatcher specify the [RequestMatcher] to use for
  * determining when CSRF should be applied.

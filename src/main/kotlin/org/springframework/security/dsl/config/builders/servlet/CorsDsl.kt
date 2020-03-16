@@ -23,7 +23,6 @@ import org.springframework.security.config.annotation.web.configurers.CorsConfig
  * A Kotlin DSL to configure [HttpSecurity] CORS using idiomatic Kotlin code.
  *
  * @author Eleftheria Stein
- * @since 5.3
  */
 class CorsDsl {
     private var disabled = false

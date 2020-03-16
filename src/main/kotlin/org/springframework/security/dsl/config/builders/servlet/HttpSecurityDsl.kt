@@ -48,7 +48,6 @@ import javax.servlet.http.HttpServletRequest
  * ```
  *
  * @author Eleftheria Stein
- * @since 5.3
  * @param httpConfiguration the configurations to apply to [HttpSecurity]
  */
 operator fun HttpSecurity.invoke(httpConfiguration: HttpSecurityDsl.() -> Unit) =
@@ -59,7 +58,6 @@ operator fun HttpSecurity.invoke(httpConfiguration: HttpSecurityDsl.() -> Unit) 
  * in order to configure [HttpSecurity] using idiomatic Kotlin code.
  *
  * @author Eleftheria Stein
- * @since 5.3
  * @param http the [HttpSecurity] which all configurations will be applied to
  * @param init the configurations to apply to the provided [HttpSecurity]
  */

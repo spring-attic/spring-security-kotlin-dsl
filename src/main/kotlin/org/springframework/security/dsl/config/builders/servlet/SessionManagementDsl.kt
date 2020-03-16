@@ -30,7 +30,6 @@ import org.springframework.security.web.session.InvalidSessionStrategy
  * Kotlin code.
  *
  * @author Eleftheria Stein
- * @since 5.3
  */
 class SessionManagementDsl {
     var invalidSessionUrl: String? = null

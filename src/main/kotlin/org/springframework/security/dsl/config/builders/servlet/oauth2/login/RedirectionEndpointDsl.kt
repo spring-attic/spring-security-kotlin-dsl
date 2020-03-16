@@ -24,7 +24,6 @@ import org.springframework.security.config.annotation.web.configurers.oauth2.cli
  * idiomatic Kotlin code.
  *
  * @author Eleftheria Stein
- * @since 5.3
  * @property baseUri the URI where the authorization response will be processed.
  */
 class RedirectionEndpointDsl {

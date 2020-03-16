@@ -30,7 +30,6 @@ import org.springframework.web.server.ServerWebExchange
  * A Kotlin DSL to configure [ServerHttpSecurity] OAuth 2.0 resource server using idiomatic Kotlin code.
  *
  * @author Eleftheria Stein
- * @since 5.3
  * @property accessDeniedHandler the [ServerAccessDeniedHandler] to use for requests authenticating with
  * Bearer Tokens.
  * @property authenticationEntryPoint the [ServerAuthenticationEntryPoint] to use for requests authenticating with

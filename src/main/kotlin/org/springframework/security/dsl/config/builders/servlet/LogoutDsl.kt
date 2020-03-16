@@ -32,7 +32,6 @@ import javax.servlet.http.HttpSession
  * using idiomatic Kotlin code.
  *
  * @author Eleftheria Stein
- * @since 5.3
  * @property clearAuthentication whether the [SecurityContextLogoutHandler] should clear
  * the [Authentication] at the time of logout.
  * @property clearAuthentication whether to invalidate the [HttpSession] at the time of logout.

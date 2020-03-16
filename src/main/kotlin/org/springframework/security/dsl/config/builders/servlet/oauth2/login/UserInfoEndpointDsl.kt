@@ -31,7 +31,6 @@ import org.springframework.security.oauth2.core.user.OAuth2User
  * idiomatic Kotlin code.
  *
  * @author Eleftheria Stein
- * @since 5.3
  * @property userService the OAuth 2.0 service used for obtaining the user attributes of the End-User
  * from the UserInfo Endpoint.
  * @property oidcUserService the OpenID Connect 1.0 service used for obtaining the user attributes of the

@@ -25,7 +25,6 @@ import org.springframework.security.web.util.matcher.RequestMatcher
  * idiomatic Kotlin code.
  *
  * @author Eleftheria Stein
- * @since 5.3
  * @property maxAgeInSeconds the value (in seconds) for the max-age directive of the
  * Strict-Transport-Security header.
  * @property requestMatcher the [RequestMatcher] used to determine if the

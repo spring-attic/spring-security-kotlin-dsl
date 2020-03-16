@@ -29,7 +29,6 @@ import org.springframework.util.ClassUtils
  * Kotlin code.
  *
  * @author Eleftheria Stein
- * @since 5.3
  * @property channelProcessors the [ChannelProcessor] instances to use in
  * [ChannelDecisionManagerImpl]
  */

@@ -25,7 +25,6 @@ import org.springframework.security.web.PortMapper
  * Kotlin code.
  *
  * @author Eleftheria Stein
- * @since 5.3
  * @property portMapper allows specifying the [PortMapper] instance.
  */
 class PortMapperDsl {

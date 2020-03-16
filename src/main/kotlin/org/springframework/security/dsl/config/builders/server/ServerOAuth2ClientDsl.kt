@@ -30,7 +30,6 @@ import org.springframework.web.server.ServerWebExchange
  * A Kotlin DSL to configure the [ServerHttpSecurity] OAuth 2.0 client using idiomatic Kotlin code.
  *
  * @author Eleftheria Stein
- * @since 5.3
  * @property authenticationManager the [ReactiveAuthenticationManager] used to determine if the provided
  * [Authentication] can be authenticated.
  * @property authenticationConverter the [ServerAuthenticationConverter] used for converting from a [ServerWebExchange]
