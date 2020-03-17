@@ -37,6 +37,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User
  * End-User from the UserInfo Endpoint.
  * @property userAuthoritiesMapper the [GrantedAuthoritiesMapper] used for mapping [OAuth2User.getAuthorities]
  */
+@Deprecated("Use Spring Security 5.3 for a native servlet Kotlin DSL.")
 class UserInfoEndpointDsl {
     var userService: OAuth2UserService<OAuth2UserRequest, OAuth2User>? = null
     var oidcUserService: OAuth2UserService<OidcUserRequest, OidcUser>? = null

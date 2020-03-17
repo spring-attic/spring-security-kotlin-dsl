@@ -27,6 +27,7 @@ import org.springframework.security.web.PortMapper
  * @author Eleftheria Stein
  * @property portMapper allows specifying the [PortMapper] instance.
  */
+@Deprecated("Use Spring Security 5.3 for a native servlet Kotlin DSL.")
 class PortMapperDsl {
     private val mappings = mutableListOf<Pair<Int, Int>>()
 

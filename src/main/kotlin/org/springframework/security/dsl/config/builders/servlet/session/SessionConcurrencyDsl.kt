@@ -37,6 +37,7 @@ import org.springframework.security.web.session.SessionInformationExpiredStrateg
  * @property sessionRegistry the [SessionRegistry] implementation used.
  *
  */
+@Deprecated("Use Spring Security 5.3 for a native servlet Kotlin DSL.")
 class SessionConcurrencyDsl {
     var maximumSessions: Int? = null
     var expiredUrl: String? = null

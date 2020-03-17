@@ -33,6 +33,7 @@ import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequ
  * @property accessTokenResponseClient the client used for requesting the access token credential
  * from the Token Endpoint.
  */
+@Deprecated("Use Spring Security 5.3 for a native servlet Kotlin DSL.")
 class AuthorizationCodeGrantDsl {
     var authorizationRequestResolver: OAuth2AuthorizationRequestResolver? = null
     var authorizationRequestRepository: AuthorizationRequestRepository<OAuth2AuthorizationRequest>? = null

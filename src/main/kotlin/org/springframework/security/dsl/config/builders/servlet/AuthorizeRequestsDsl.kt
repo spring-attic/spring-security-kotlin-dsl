@@ -27,6 +27,7 @@ import org.springframework.util.ClassUtils
  *
  * @author Eleftheria Stein
  */
+@Deprecated("Use Spring Security 5.3 for a native servlet Kotlin DSL.")
 class AuthorizeRequestsDsl : AbstractRequestMatcherDsl() {
     private val authorizationRules = mutableListOf<AuthorizationRule>()
 

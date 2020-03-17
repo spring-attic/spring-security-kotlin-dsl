@@ -26,6 +26,7 @@ import org.springframework.security.config.annotation.web.configurers.oauth2.cli
  * @author Eleftheria Stein
  * @property baseUri the URI where the authorization response will be processed.
  */
+@Deprecated("Use Spring Security 5.3 for a native servlet Kotlin DSL.")
 class RedirectionEndpointDsl {
     var baseUri: String? = null
 

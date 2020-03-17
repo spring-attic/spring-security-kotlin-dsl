@@ -34,6 +34,7 @@ import javax.servlet.http.HttpServletRequest
  * @property authenticationDetailsSource the custom [AuthenticationDetailsSource] to use for
  * basic authentication.
  */
+@Deprecated("Use Spring Security 5.3 for a native servlet Kotlin DSL.")
 class HttpBasicDsl {
     var realmName: String? = null
     var authenticationEntryPoint: AuthenticationEntryPoint? = null

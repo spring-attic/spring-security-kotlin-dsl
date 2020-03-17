@@ -33,6 +33,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher
  * @property includeSubDomains if true, subdomains should be considered HSTS Hosts too.
  * @property preload if true, preload will be included in HSTS Header.
  */
+@Deprecated("Use Spring Security 5.3 for a native servlet Kotlin DSL.")
 class HttpStrictTransportSecurityDsl {
     var maxAgeInSeconds: Long? = null
     var requestMatcher: RequestMatcher? = null

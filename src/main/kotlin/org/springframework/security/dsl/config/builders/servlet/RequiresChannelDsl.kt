@@ -32,6 +32,7 @@ import org.springframework.util.ClassUtils
  * @property channelProcessors the [ChannelProcessor] instances to use in
  * [ChannelDecisionManagerImpl]
  */
+@Deprecated("Use Spring Security 5.3 for a native servlet Kotlin DSL.")
 class RequiresChannelDsl : AbstractRequestMatcherDsl() {
     private val channelSecurityRules = mutableListOf<AuthorizationRule>()
 

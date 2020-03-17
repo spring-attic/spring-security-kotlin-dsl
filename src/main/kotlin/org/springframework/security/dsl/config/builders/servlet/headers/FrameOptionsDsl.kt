@@ -28,6 +28,7 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
  * application.
  * @property deny deny framing any content from this application.
  */
+@Deprecated("Use Spring Security 5.3 for a native servlet Kotlin DSL.")
 class FrameOptionsDsl {
     var sameOrigin: Boolean? = null
     var deny: Boolean? = null

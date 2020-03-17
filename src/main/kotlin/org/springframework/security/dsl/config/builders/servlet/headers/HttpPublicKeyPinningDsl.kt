@@ -33,6 +33,7 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
  * the server.
  * @property reportUri the URI to which the browser should report pin validation failures.
  */
+@Deprecated("Use Spring Security 5.3 for a native servlet Kotlin DSL.")
 class HttpPublicKeyPinningDsl {
     var pins: Map<String, String>? = null
     var maxAgeInSeconds: Long? = null

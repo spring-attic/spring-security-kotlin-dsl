@@ -33,6 +33,7 @@ import javax.servlet.http.HttpServletRequest
  * determining when CSRF should be applied.
  * @property sessionAuthenticationStrategy the [SessionAuthenticationStrategy] to use.
  */
+@Deprecated("Use Spring Security 5.3 for a native servlet Kotlin DSL.")
 class CsrfDsl {
     var csrfTokenRepository: CsrfTokenRepository? = null
     var requireCsrfProtectionMatcher: RequestMatcher? = null

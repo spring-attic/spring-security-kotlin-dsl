@@ -33,6 +33,7 @@ import org.springframework.security.oauth2.jwt.JwtDecoder
  * @property jwkSetUri configures a [JwtDecoder] using a
  * <a target="_blank" href="https://tools.ietf.org/html/rfc7517">JSON Web Key (JWK)</a> URL
  */
+@Deprecated("Use Spring Security 5.3 for a native servlet Kotlin DSL.")
 class JwtDsl {
     var jwtAuthenticationConverter: Converter<Jwt, out AbstractAuthenticationToken>? = null
     var jwtDecoder: JwtDecoder? = null

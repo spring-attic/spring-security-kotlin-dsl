@@ -36,6 +36,7 @@ import org.springframework.security.web.authentication.AnonymousAuthenticationFi
  * @property authenticationFilter the [AnonymousAuthenticationFilter] used to populate
  * an anonymous user.
  */
+@Deprecated("Use Spring Security 5.3 for a native servlet Kotlin DSL.")
 class AnonymousDsl {
     var key: String? = null
     var principal: Any? = null

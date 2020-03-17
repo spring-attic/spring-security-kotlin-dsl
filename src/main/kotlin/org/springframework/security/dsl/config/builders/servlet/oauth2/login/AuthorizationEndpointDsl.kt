@@ -31,6 +31,7 @@ import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequ
  * @property authorizationRequestResolver the resolver used for resolving [OAuth2AuthorizationRequest]'s.
  * @property authorizationRequestRepository the repository used for storing [OAuth2AuthorizationRequest]'s.
  */
+@Deprecated("Use Spring Security 5.3 for a native servlet Kotlin DSL.")
 class AuthorizationEndpointDsl {
     var baseUri: String? = null
     var authorizationRequestResolver: OAuth2AuthorizationRequestResolver? = null

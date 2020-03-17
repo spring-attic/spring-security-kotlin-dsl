@@ -27,6 +27,7 @@ import javax.servlet.http.HttpSession
  *
  * @author Eleftheria Stein
  */
+@Deprecated("Use Spring Security 5.3 for a native servlet Kotlin DSL.")
 class SessionFixationDsl {
     private var strategy: SessionFixationStrategy? = null
 

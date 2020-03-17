@@ -27,6 +27,7 @@ import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWrite
  * @author Eleftheria Stein
  * @property policy the policy to be used in the response header.
  */
+@Deprecated("Use Spring Security 5.3 for a native servlet Kotlin DSL.")
 class ReferrerPolicyDsl {
     var policy: ReferrerPolicyHeaderWriter.ReferrerPolicy? = null
 

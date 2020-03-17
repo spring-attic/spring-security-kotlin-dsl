@@ -41,6 +41,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
  * @property permitAll whether to grant access to the urls for [failureUrl] as well as
  * for the [HttpSecurityBuilder], the [loginPage] and [loginProcessingUrl] for every user
  */
+@Deprecated("Use Spring Security 5.3 for a native servlet Kotlin DSL.")
 class Saml2Dsl {
     var relyingPartyRegistrationRepository: RelyingPartyRegistrationRepository? = null
     var loginPage: String? = null

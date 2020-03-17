@@ -50,6 +50,7 @@ import javax.servlet.http.HttpServletRequest
  * @author Eleftheria Stein
  * @param httpConfiguration the configurations to apply to [HttpSecurity]
  */
+@Deprecated("Use Spring Security 5.3 for a native servlet Kotlin DSL.")
 operator fun HttpSecurity.invoke(httpConfiguration: HttpSecurityDsl.() -> Unit) =
         HttpSecurityDsl(this, httpConfiguration).build()
 
@@ -61,6 +62,7 @@ operator fun HttpSecurity.invoke(httpConfiguration: HttpSecurityDsl.() -> Unit) 
  * @param http the [HttpSecurity] which all configurations will be applied to
  * @param init the configurations to apply to the provided [HttpSecurity]
  */
+@Deprecated("Use Spring Security 5.3 for a native servlet Kotlin DSL.")
 class HttpSecurityDsl(private val http: HttpSecurity, private val init: HttpSecurityDsl.() -> Unit) {
     private val HANDLER_MAPPING_INTROSPECTOR = "org.springframework.web.servlet.handler.HandlerMappingIntrospector"
 

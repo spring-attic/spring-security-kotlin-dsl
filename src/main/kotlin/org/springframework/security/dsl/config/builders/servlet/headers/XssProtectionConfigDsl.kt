@@ -28,6 +28,7 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
  * @property xssProtectionEnabled if true, the header value will contain a value of 1.
  * If false, will explicitly disable specify that X-XSS-Protection is disabled.
  */
+@Deprecated("Use Spring Security 5.3 for a native servlet Kotlin DSL.")
 class XssProtectionConfigDsl {
     var block: Boolean? = null
     var xssProtectionEnabled: Boolean? = null

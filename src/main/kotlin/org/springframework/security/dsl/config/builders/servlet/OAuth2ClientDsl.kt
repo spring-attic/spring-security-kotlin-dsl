@@ -49,6 +49,7 @@ import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepo
  * @property authorizedClientRepository the repository for authorized client(s).
  * @property authorizedClientService the service for authorized client(s).
  */
+@Deprecated("Use Spring Security 5.3 for a native servlet Kotlin DSL.")
 class OAuth2ClientDsl {
     var clientRegistrationRepository: ClientRegistrationRepository? = null
     var authorizedClientRepository: OAuth2AuthorizedClientRepository? = null

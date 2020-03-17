@@ -27,6 +27,7 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
  * @property policyDirectives the security policy directive(s) to be used in the response header.
  * @property reportOnly includes the Content-Security-Policy-Report-Only header in the response.
  */
+@Deprecated("Use Spring Security 5.3 for a native servlet Kotlin DSL.")
 class ContentSecurityPolicyDsl {
     var policyDirectives: String? = null
     var reportOnly: Boolean? = null

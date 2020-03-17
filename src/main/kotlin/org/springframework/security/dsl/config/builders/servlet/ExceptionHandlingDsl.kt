@@ -32,6 +32,7 @@ import java.util.*
  * @property accessDeniedHandler the [AccessDeniedHandler] to use
  * @property authenticationEntryPoint the [AuthenticationEntryPoint] to use
  */
+@Deprecated("Use Spring Security 5.3 for a native servlet Kotlin DSL.")
 class ExceptionHandlingDsl {
     var accessDeniedPage: String? = null
     var accessDeniedHandler: AccessDeniedHandler? = null

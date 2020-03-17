@@ -31,6 +31,7 @@ import org.springframework.security.web.session.InvalidSessionStrategy
  *
  * @author Eleftheria Stein
  */
+@Deprecated("Use Spring Security 5.3 for a native servlet Kotlin DSL.")
 class SessionManagementDsl {
     var invalidSessionUrl: String? = null
     var invalidSessionStrategy: InvalidSessionStrategy? = null

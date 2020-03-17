@@ -19,6 +19,7 @@ package org.springframework.security.dsl.config.builders.servlet
 import org.springframework.security.web.util.matcher.AnyRequestMatcher
 import org.springframework.security.web.util.matcher.RequestMatcher
 
+@Deprecated("Use Spring Security 5.3 for a native servlet Kotlin DSL.")
 abstract class AbstractRequestMatcherDsl {
 
     /**
