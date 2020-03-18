@@ -17,6 +17,7 @@
 package org.springframework.security.dsl.config.builders.server
 
 import org.springframework.security.config.web.server.ServerHttpSecurity
+import org.springframework.security.config.web.servlet.X509Dsl
 import org.springframework.security.dsl.config.builders.servlet.AnonymousDsl
 import org.springframework.security.oauth2.client.registration.ReactiveClientRegistrationRepository
 import org.springframework.security.web.server.SecurityWebFilterChain
@@ -295,6 +296,32 @@ class ServerHttpSecurityDsl(private val http: ServerHttpSecurity, private val in
     fun exceptionHandling(exceptionHandlingConfiguration: ServerExceptionHandlingDsl.() -> Unit) {
         val exceptionHandlingCustomizer = ServerExceptionHandlingDsl().apply(exceptionHandlingConfiguration).get()
         this.http.exceptionHandling(exceptionHandlingCustomizer)
+    }
+
+    /**
+     * Adds X509 based pre authentication to an application using a certificate provided by a client.
+     *
+     * Example:
+     *
+     * ```
+     * @EnableWebFluxSecurity
+     * class SecurityConfig {
+     *
+     *  @Bean
+     *  fun springWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
+     *      return http {
+     *          x509 { }
+     *       }
+     *   }
+     * }
+     * ```
+     *
+     * @param x509Configuration custom configuration to apply to the X509 based pre authentication
+     * @see [ServerX509Dsl]
+     */
+    fun x509(x509Configuration: ServerX509Dsl.() -> Unit) {
+        val x509Customizer = ServerX509Dsl().apply(x509Configuration).get()
+        this.http.x509(x509Customizer)
     }
 
     /**
