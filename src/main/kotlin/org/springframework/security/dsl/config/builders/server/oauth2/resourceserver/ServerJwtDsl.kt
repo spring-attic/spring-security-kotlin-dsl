@@ -39,6 +39,7 @@ import java.security.interfaces.RSAPublicKey
  * @property jwkSetUri configures a [ReactiveJwtDecoder] using a
  * <a target="_blank" href="https://tools.ietf.org/html/rfc7517">JSON Web Key (JWK)</a> URL
  */
+@Deprecated("Use Spring Security 5.4 or greater for a native Kotlin DSL.")
 class ServerJwtDsl {
     private var _jwtDecoder: ReactiveJwtDecoder? = null
     private var _publicKey: RSAPublicKey? = null

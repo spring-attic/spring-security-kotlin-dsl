@@ -28,6 +28,7 @@ import org.springframework.web.server.ServerWebExchange
  * @author Eleftheria Stein
  * @property portMapper the [PortMapper] that specifies a custom HTTPS port to redirect to.
  */
+@Deprecated("Use Spring Security 5.4 or greater for a native Kotlin DSL.")
 class ServerHttpsRedirectDsl {
     var portMapper: PortMapper? = null
 

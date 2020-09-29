@@ -25,6 +25,7 @@ import org.springframework.security.web.server.savedrequest.ServerRequestCache
  * @author Eleftheria Stein
  * @property requestCache allows explicit configuration of the [ServerRequestCache] to be used.
  */
+@Deprecated("Use Spring Security 5.4 or greater for a native Kotlin DSL.")
 class ServerRequestCacheDsl {
     var requestCache: ServerRequestCache? = null
 

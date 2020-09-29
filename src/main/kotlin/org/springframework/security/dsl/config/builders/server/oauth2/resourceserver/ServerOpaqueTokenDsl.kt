@@ -26,6 +26,7 @@ import org.springframework.security.oauth2.server.resource.introspection.Reactiv
  * @property introspectionUri the URI of the Introspection endpoint.
  * @property introspector the [ReactiveOpaqueTokenIntrospector] to use.
  */
+@Deprecated("Use Spring Security 5.4 or greater for a native Kotlin DSL.")
 class ServerOpaqueTokenDsl {
     private var _introspectionUri: String? = null
     private var _introspector: ReactiveOpaqueTokenIntrospector? = null

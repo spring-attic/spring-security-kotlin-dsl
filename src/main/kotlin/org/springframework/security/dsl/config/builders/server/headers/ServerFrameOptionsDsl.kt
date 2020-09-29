@@ -26,6 +26,7 @@ import org.springframework.security.web.server.header.XFrameOptionsServerHttpHea
  * @author Eleftheria Stein
  * @property mode the X-Frame-Options mode to set in the response header.
  */
+@Deprecated("Use Spring Security 5.4 or greater for a native Kotlin DSL.")
 class ServerFrameOptionsDsl {
     var mode: XFrameOptionsServerHttpHeadersWriter.Mode? = null
 

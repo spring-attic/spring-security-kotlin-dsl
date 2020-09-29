@@ -48,6 +48,7 @@ import org.springframework.web.server.ServerWebExchange
  * @author Eleftheria Stein
  * @param httpConfiguration the configurations to apply to [ServerHttpSecurity]
  */
+@Deprecated("Use Spring Security 5.4 or greater for a native Kotlin DSL.")
 operator fun ServerHttpSecurity.invoke(httpConfiguration: ServerHttpSecurityDsl.() -> Unit): SecurityWebFilterChain =
         ServerHttpSecurityDsl(this, httpConfiguration).build()
 
@@ -58,6 +59,7 @@ operator fun ServerHttpSecurity.invoke(httpConfiguration: ServerHttpSecurityDsl.
  * @author Eleftheria Stein
  * @param init the configurations to apply to the provided [ServerHttpSecurity]
  */
+@Deprecated("Use Spring Security 5.4 or greater for a native Kotlin DSL.")
 class ServerHttpSecurityDsl(private val http: ServerHttpSecurity, private val init: ServerHttpSecurityDsl.() -> Unit) {
 
     /**

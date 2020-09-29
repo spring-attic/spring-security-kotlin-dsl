@@ -26,6 +26,7 @@ import org.springframework.web.cors.reactive.CorsConfigurationSource
  * @author Eleftheria Stein
  * @property configurationSource the [CorsConfigurationSource] to use.
  */
+@Deprecated("Use Spring Security 5.4 or greater for a native Kotlin DSL.")
 class ServerCorsDsl {
     var configurationSource: CorsConfigurationSource? = null
 

@@ -1,42 +1,13 @@
 = Spring Security Kotlin DSL
 
-**Note**: The native Kotlin Domain Specific Language (DSL) for servlet based applications has been integrated into https://github.com/spring-projects/spring-security[Spring Security] as of version https://spring.io/blog/2020/03/05/spring-security-5-3-goes-ga[5.3].
-Servlet based applications no longer need to add this project as an additional dependency.
-Reactive applications should continue to use this project for a native Kotlin DSL.
+== Deprecation Notice
+The Spring Security Kotlin DSL Experimental project is deprecated.
+The native Kotlin Domain Specific Language (DSL) is fully integrated into https://github.com/spring-projects/spring-security[Spring Security] as of version https://spring.io/blog/2020/09/10/spring-security-5-4-goes-ga[5.4].
+Applications should no longer add this project as an additional dependency, and instead should use Spring Security.
 
 == Code of Conduct
 This project adheres to the Contributor Covenant link:CODE_OF_CONDUCT.adoc[code of conduct].
 By participating, you  are expected to uphold this code. Please report unacceptable behavior to spring-code-of-conduct@pivotal.io.
-
-== Dependencies
-Spring Cloud Kotlin DSL is an additional dependency you can add to your Spring project.
-It is an extension to Spring Security, and does not replace it.
-
-```kotlin
-implementation("org.springframework.security.dsl:spring-security-kotlin-dsl:0.0.1.BUILD-SNAPSHOT")
-
-implementation("org.springframework.boot:spring-boot-starter-web")
-implementation("org.springframework.boot:spring-boot-starter-security")
-```
-
-== Sample Configuration
-This is a sample configuration, that enables form login for all endpoints and uses the login page `"/log-in"`.
-
-```kotlin
-@Configuration
-class SecurityConfig: WebSecurityConfigurerAdapter() {
-    override fun configure(http: HttpSecurity?) {
-        http {
-            authorizeRequests {
-                authorize(anyRequest, authenticated)
-            }
-            formLogin {
-                loginPage = "/log-in"
-            }
-        }
-    }
-}
-```
 
 == License
 Spring Security is Open Source software released under the

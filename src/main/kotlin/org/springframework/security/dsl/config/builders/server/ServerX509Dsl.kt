@@ -29,6 +29,7 @@ import org.springframework.security.web.authentication.preauth.x509.X509Principa
  * @property authenticationManager the [ReactiveAuthenticationManager] used to determine if the provided
  * [Authentication] can be authenticated.
  */
+@Deprecated("Use Spring Security 5.4 or greater for a native Kotlin DSL.")
 class ServerX509Dsl {
     var principalExtractor: X509PrincipalExtractor? = null
     var authenticationManager: ReactiveAuthenticationManager? = null

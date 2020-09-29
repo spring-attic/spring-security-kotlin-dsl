@@ -32,6 +32,7 @@ import org.springframework.security.web.server.util.matcher.ServerWebExchangeMat
  * @property logoutSuccessHandler the [ServerLogoutSuccessHandler] to use after logout has
  * occurred.
  */
+@Deprecated("Use Spring Security 5.4 or greater for a native Kotlin DSL.")
 class ServerLogoutDsl {
     var logoutHandler: ServerLogoutHandler? = null
     var logoutUrl: String? = null

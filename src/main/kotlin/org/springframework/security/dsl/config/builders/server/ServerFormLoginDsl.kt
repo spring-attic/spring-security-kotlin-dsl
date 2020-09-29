@@ -50,6 +50,7 @@ import org.springframework.security.web.server.util.matcher.ServerWebExchangeMat
  * [ReactorContextWebFilter] must be configured to be able to load the value (they are not
  * implicitly linked).
  */
+@Deprecated("Use Spring Security 5.4 or greater for a native Kotlin DSL.")
 class ServerFormLoginDsl {
     var authenticationManager: ReactiveAuthenticationManager? = null
     var loginPage: String? = null

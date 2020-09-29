@@ -27,6 +27,7 @@ import org.springframework.security.web.server.header.XFrameOptionsServerHttpHea
  * @author Eleftheria Stein
  * @property policy the policy to be used in the response header.
  */
+@Deprecated("Use Spring Security 5.4 or greater for a native Kotlin DSL.")
 class ServerReferrerPolicyDsl {
     var policy: ReferrerPolicyServerHttpHeadersWriter.ReferrerPolicy? = null
 

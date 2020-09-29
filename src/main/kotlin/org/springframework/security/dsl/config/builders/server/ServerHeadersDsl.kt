@@ -25,6 +25,7 @@ import org.springframework.security.web.server.header.*
  *
  * @author Eleftheria Stein
  */
+@Deprecated("Use Spring Security 5.4 or greater for a native Kotlin DSL.")
 class ServerHeadersDsl {
     private var contentTypeOptions: ((ServerHttpSecurity.HeaderSpec.ContentTypeOptionsSpec) -> Unit)? = null
     private var xssProtection: ((ServerHttpSecurity.HeaderSpec.XssProtectionSpec) -> Unit)? = null

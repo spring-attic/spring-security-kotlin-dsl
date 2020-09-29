@@ -30,6 +30,7 @@ import java.time.Duration
  * @property includeSubdomains if true, subdomains should be considered HSTS Hosts too.
  * @property preload if true, preload will be included in HSTS Header.
  */
+@Deprecated("Use Spring Security 5.4 or greater for a native Kotlin DSL.")
 class ServerHttpStrictTransportSecurityDsl {
     var maxAge: Duration? = null
     var includeSubdomains: Boolean? = null

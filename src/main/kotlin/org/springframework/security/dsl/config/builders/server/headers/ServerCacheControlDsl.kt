@@ -24,6 +24,7 @@ import org.springframework.security.config.web.server.ServerHttpSecurity
  *
  * @author Eleftheria Stein
  */
+@Deprecated("Use Spring Security 5.4 or greater for a native Kotlin DSL.")
 class ServerCacheControlDsl {
     private var disabled = false
 

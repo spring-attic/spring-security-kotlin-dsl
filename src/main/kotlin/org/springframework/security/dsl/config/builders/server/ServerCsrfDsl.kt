@@ -31,6 +31,7 @@ import org.springframework.security.web.server.util.matcher.ServerWebExchangeMat
  * @property requireCsrfProtectionMatcher the [ServerWebExchangeMatcher] used to determine when CSRF protection
  * is enabled.
  */
+@Deprecated("Use Spring Security 5.4 or greater for a native Kotlin DSL.")
 class ServerCsrfDsl {
     var accessDeniedHandler: ServerAccessDeniedHandler? = null
     var csrfTokenRepository: ServerCsrfTokenRepository? = null

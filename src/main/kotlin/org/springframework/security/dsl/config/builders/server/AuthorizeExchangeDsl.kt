@@ -34,6 +34,7 @@ import reactor.core.publisher.Mono
  *
  * @author Eleftheria Stein
  */
+@Deprecated("Use Spring Security 5.4 or greater for a native Kotlin DSL.")
 class AuthorizeExchangeDsl {
     private val authorizationRules = mutableListOf<ExchangeAuthorizationRule>()
 
